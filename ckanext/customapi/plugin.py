@@ -27,9 +27,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         """
         Method untuk mendaftarkan Blueprint.
         """
-        blueprint = Blueprint('customapi', __name__)
+        blueprint_customapi = Blueprint('customapi', __name__)
 
-        @blueprint.route('/welcome_api', methods=['GET'])
+        @blueprint_customapi.route('/welcome_api', methods=['GET'])
         def welcome_ckan():
             """
             Route untuk /welcome_api
