@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IActions)
-    # plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.IBlueprint)
 
     # IConfigurer
     def update_config(self, config_):
@@ -21,6 +21,23 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         return {
             'hello_api': hello_api_action
         }
+
+    # IBlueprint
+    def get_blueprint(self):
+        """
+        Method untuk mendaftarkan Blueprint.
+        """
+        blueprint = Blueprint('customapi', __name__)
+
+        @blueprint.route('/welcome_api', methods=['GET'])
+        def welcome_ckan():
+            """
+            Route untuk /welcome_api
+            """
+            return jsonify({
+                "message": "Welcome to API!",
+                "success": True
+            })
 
 def hello_api_action(context, data_dict):
     """
