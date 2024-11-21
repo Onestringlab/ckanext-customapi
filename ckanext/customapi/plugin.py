@@ -23,21 +23,21 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         }
 
     # IBlueprint
-    # def get_blueprint(self):
-    #     """
-    #     Method untuk mendaftarkan Blueprint.
-    #     """
-    #     blueprint_customapi = Blueprint('customapi', __name__)
+    def get_blueprint(self):
+        """
+        Method untuk mendaftarkan Blueprint.
+        """
+        blueprint_customapi = Blueprint('customapi', __name__)
 
-    #     @blueprint_customapi.route('/welcome_api', methods=['GET'])
-    #     def welcome_ckan():
-    #         """
-    #         Route untuk /welcome_api
-    #         """
-    #         return jsonify({
-    #             "message": "Welcome to API!",
-    #             "success": True
-    #         })
+        @blueprint_customapi.route('/welcome_api', methods=['GET'])
+        def welcome_ckan():
+            """
+            Route untuk /welcome_api
+            """
+            return jsonify({
+                "message": "Welcome to API!",
+                "success": True
+            })
 
 def hello_api_action(context, data_dict):
     """
