@@ -1,0 +1,14 @@
+# customapi-js:
+#   filter: rjsmin
+#   output: ckanext-customapi/%(version)s-customapi.js
+#   contents:
+#     - js/customapi.js
+#   extra:
+#     preload:
+#       - base/main
+
+# customapi-css:
+#   filter: cssrewrite
+#   output: ckanext-customapi/%(version)s-customapi.css
+#   contents:
+#     - css/customapi.css
