@@ -38,6 +38,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "message": "Welcome to API!",
                 "success": True
             })
+        
+        return blueprint_customapi
+
 
 def hello_api_action(context, data_dict):
     """
