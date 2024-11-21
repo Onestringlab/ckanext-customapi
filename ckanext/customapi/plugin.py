@@ -30,7 +30,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         blueprint_customapi = Blueprint('customapi', __name__)
 
         @blueprint_customapi.route('/welcome_api', methods=['GET'])
-        def welcome_ckan():
+        def welcome_api():
             """
             Route untuk /welcome_api
             """
