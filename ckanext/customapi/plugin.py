@@ -46,7 +46,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 query = request.args.get('q', '*:*')  # Query default: semua data
                 # Tambahkan bidang default jika query tanpa spesifikasi
                 if ':' not in query:
-                    query = f'_text_:{query}'  # Default pencarian di _text_
+                    query = f'text:{query}'  # Default pencarian di _text_
                 params = {
                     'q': query,
                     'wt': 'json',  # Format hasil JSON
