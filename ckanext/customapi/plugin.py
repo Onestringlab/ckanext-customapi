@@ -41,7 +41,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
-            solr_url = "http://localhost:8983/solr/ckan/select"
+            solr_url = "http://192.168.1.6:8983/solr/ckan/select"
             query = request.args.get('q', '*:*')  # Query default: semua data
             params = {
                 'q': query,
