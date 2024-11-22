@@ -44,13 +44,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
                 query = request.args.get('q', '*:*')  # Query default: semua data
+                # Tambahkan bidang default jika query tanpa spesifikasi
+                if ':' not in query:
+                    query = f'_text_:{query}'  # Default pencarian di _text_
                 params = {
                     'q': query,
                     'wt': 'json',  # Format hasil JSON
                     'rows': 10     # Batas hasil
                 }
                 response = requests.get(solr_url, params=params)
-                response.raise_for_status()  # Naikkan error jika respons bukan 2xx
+                response.raise_for_status()
                 return jsonify(response.json())
             except requests.exceptions.RequestException as e:
                 return jsonify({"error": str(e)}), 500
