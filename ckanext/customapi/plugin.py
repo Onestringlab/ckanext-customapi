@@ -54,11 +54,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify(response.json())
             except requests.exceptions.RequestException as e:
                 return jsonify({"error": str(e)}), 500
-
-            return jsonify({
-                "message": "Welcome to SOLR!",
-                "success": True
-            })
                 
         return blueprint_customapi
     
