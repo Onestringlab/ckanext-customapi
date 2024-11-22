@@ -41,19 +41,24 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
-            solr_url = "http://solr:8983/solr/ckan/select"
-            query = request.args.get('q', '*:*')  # Query default: semua data
-            params = {
-                'q': query,
-                'wt': 'json',  # Format hasil JSON
-                'rows': 10     # Batas hasil
-            }
-            try:
-                response = requests.get(solr_url, params=params)
-                response.raise_for_status()  # Naikkan error jika respons bukan 2xx
-                return jsonify(response.json())
-            except requests.exceptions.RequestException as e:
-                return jsonify({"error": str(e)}), 500
+            # solr_url = "http://solr:8983/solr/ckan/select"
+            # query = request.args.get('q', '*:*')  # Query default: semua data
+            # params = {
+            #     'q': query,
+            #     'wt': 'json',  # Format hasil JSON
+            #     'rows': 10     # Batas hasil
+            # }
+            # try:
+            #     response = requests.get(solr_url, params=params)
+            #     response.raise_for_status()  # Naikkan error jika respons bukan 2xx
+            #     return jsonify(response.json())
+            # except requests.exceptions.RequestException as e:
+            #     return jsonify({"error": str(e)}), 500
+
+            return jsonify({
+                "message": "Welcome to SOLR!",
+                "success": True
+            })
                 
         return blueprint_customapi
     
