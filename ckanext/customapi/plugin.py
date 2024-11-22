@@ -52,6 +52,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             return jsonify(response.json())
                 
         return blueprint_customapi
+    
+    def create_blueprint():
+        app.register_blueprint(blueprint_customapi, url_prefix="/api/custom")
 
 
 def hello_api_action(context, data_dict):
