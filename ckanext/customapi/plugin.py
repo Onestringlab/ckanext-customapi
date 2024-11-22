@@ -3,7 +3,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.model import Package
 from ckan.model.meta import Session
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
