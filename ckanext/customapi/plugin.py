@@ -54,16 +54,30 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Ambil parameter opsional dengan nilai default
                 rows = int(request.args.get('rows', 10))  # Default 10 hasil
                 start = int(request.args.get('start', 0)) # Default mulai dari 0
-                sort = request.args.get('sort', 'prioritas desc')  # Default sorting by relevance (score)
+                sort = request.args.get('sort', 'prioritas_tahun desc')  # Default sorting by relevance (score)
+                include_private = request.args.get('include_private', 'true').lower() == 'true'  # Include private default true
+
+                # Facet fields
+                facet_fields = request.args.get(
+                    'facet.field',
+                    '["organization", "kategori", "prioritas_tahun", "tags", "res_format"]'
+                )
+                facet_fields = ','.join(eval(facet_fields))  # Convert list string to comma-separated string
+                facet_limit = int(request.args.get('facet.limit', 500))  # Default facet limit 
+
+                # Parameter Solr
                 params = {
                     'q': query,
                     'wt': 'json',  # Format hasil JSON
                     'rows': rows,
                     'start': start,
                     'sort': sort,
-                    'facet.field': ','.join(["organization", "kategori", "prioritas_tahun", "tags", "res_format"]),
-                    'facet.limit': 500
+                    'facet': 'true',  # Aktifkan faceting
+                    'facet.field': facet_fields,
+                    'facet.limit': facet_limit,
+                    'fq': 'private:true' if include_private else '-private:true'  # Filter berdasarkan private
                 }
+                
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
                 return jsonify(response.json())
