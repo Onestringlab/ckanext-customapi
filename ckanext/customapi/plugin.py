@@ -78,7 +78,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization','kategori'],  # Field untuk faceting
                     'facet.limit': facet_limit,
-                    # 'fq': 'private:true' if include_private else '*:*'
+                    'fq': 'private:true'
                 }
 
                 # Kirim query ke Solr
