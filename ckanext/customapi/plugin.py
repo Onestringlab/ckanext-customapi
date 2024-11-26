@@ -79,6 +79,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
 
+                # Debug URL
+                print("Query URL:", response.url)
+
                 return jsonify(response.json())
 
             except requests.exceptions.RequestException as e:
