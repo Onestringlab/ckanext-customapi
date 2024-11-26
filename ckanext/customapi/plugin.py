@@ -50,7 +50,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {
                     'q': query,
                     'wt': 'json',  # Format hasil JSON
-                    'rows': 10     # Batas hasil
+                    'rows': 5,     # Batas hasil
+                    'star':0
                 }
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
