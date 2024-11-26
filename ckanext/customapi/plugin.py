@@ -44,36 +44,48 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
 
-                # Parameter query
-                query = request.args.get('q', '*:*')
-                rows = int(request.args.get('rows', 10))
-                start = int(request.args.get('start', 0))
-                sort = request.args.get('sort', 'prioritas_tahun desc')
-                include_private = request.args.get('include_private', 'true').lower() == 'true'
-
-                facet_fields = eval(request.args.get(
-                    'facet.field',
-                    '["organization", "kategori", "tags"]'
-                ))
-                facet_limit = int(request.args.get('facet.limit', 500))
-
+                # Query dan parameter untuk Solr
                 params = {
-                    'q': query,
-                    'wt': 'json',
-                    'rows': rows,
-                    'start': start,
-                    'sort': sort,
-                    'facet': 'true',
-                    'facet.limit': facet_limit,
-                    'fq': 'private:true' if include_private else '*:*',
+                    'q': '(title:Pendidikan AND notes:Pendidikan)',  # Query utama
+                    'facet': 'true',  # Aktifkan faceting
+                    'facet.field': ['organization', 'kategori'],  # Field untuk faceting
+                    'facet.limit': 500,  # Batas faceting
+                    'rows': 1,  # Jumlah hasil
+                    'start': 0,  # Offset
+                    'sort': 'prioritas_tahun desc',  # Sorting
+                    'wt': 'json',  # Format hasil
                 }
 
-                for field in facet_fields:
-                    params.setdefault('facet.field', []).append(field)
+                # # Parameter query
+                # query = request.args.get('q', '*:*')
+                # rows = int(request.args.get('rows', 10))
+                # start = int(request.args.get('start', 0))
+                # sort = request.args.get('sort', 'prioritas_tahun desc')
+                # include_private = request.args.get('include_private', 'true').lower() == 'true'
 
-                # Debug: Cetak URL query
-                query_url = requests.Request('GET', solr_url, params=params).prepare().url
-                print(f"Query URL: {query_url}")
+                # facet_fields = eval(request.args.get(
+                #     'facet.field',
+                #     '["organization", "kategori", "tags"]'
+                # ))
+                # facet_limit = int(request.args.get('facet.limit', 500))
+
+                # params = {
+                #     'q': query,
+                #     'wt': 'json',
+                #     'rows': rows,
+                #     'start': start,
+                #     'sort': sort,
+                #     'facet': 'true',
+                #     'facet.limit': facet_limit,
+                #     'fq': 'private:true' if include_private else '*:*',
+                # }
+
+                # for field in facet_fields:
+                #     params.setdefault('facet.field', []).append(field)
+
+                # # Debug: Cetak URL query
+                # query_url = requests.Request('GET', solr_url, params=params).prepare().url
+                # print(f"Query URL: {query_url}")
 
                 # Kirim query ke Solr
                 response = requests.get(solr_url, params=params)
