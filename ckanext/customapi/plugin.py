@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         http://localhost:5000/api/1/custom/query-solr?q=(title:Pendidikan%20AND%20notes:Pendidikan)&facet.field=[%22organization%22,%22kategori%22,%22prioritas_tahun%22,%22tags%22,%22res_format%22]&facet.limit=500&start=0&rows=20&sort=prioritas_tahun%20desc&include_private=true
         http://localhost:8983/solr/ckan/select?q=*:*&facet=true&facet.field=organization&rows=0&wt=json
         """
-        @blueprint.route('/query-solr', methods=['GET'])
+        @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             """
             Query Solr dengan parameter dan format faceting yang benar.
