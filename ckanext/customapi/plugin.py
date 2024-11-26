@@ -44,6 +44,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 solr_url = "http://localhost:8983/solr/ckan/select"
 
+                # Parameter query
                 query = request.args.get('q', '*:*')
                 rows = int(request.args.get('rows', 10))
                 start = int(request.args.get('start', 0))
@@ -70,9 +71,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 for field in facet_fields:
                     params.setdefault('facet.field', []).append(field)
 
-                # Debugging
-                print("Query Parameters:", params)
+                # Debug: Cetak URL query
+                query_url = requests.Request('GET', solr_url, params=params).prepare().url
+                print(f"Query URL: {query_url}")
 
+                # Kirim query ke Solr
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
 
