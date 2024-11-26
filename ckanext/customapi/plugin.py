@@ -39,26 +39,25 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "success": True
             })
 
-        @blueprint_customapi.route('/query-solr', methods=['GET'])
+        """
+        http://localhost:5000/query-solr?q=climate&rows=5&start=10&sort=title asc
+        http://localhost:5000/api/1/custom/query-solr?q=(title:Pendidikan%20AND%20notes:Pendidikan)&facet.field=[%22organization%22,%22kategori%22,%22prioritas_tahun%22,%22tags%22,%22res_format%22]&facet.limit=500&start=0&rows=20&sort=prioritas_tahun%20desc&include_private=true
+        http://localhost:8983/solr/ckan/select?q=*:*&facet=true&facet.field=organization&rows=0&wt=json
+        """
+        @blueprint.route('/query-solr', methods=['GET'])
         def query_solr():
             """
-            http://localhost:5000/query-solr?q=climate&rows=5&start=10&sort=title asc
-            http://localhost:5000/api/1/custom/query-solr?q=(title:Pendidikan%20AND%20notes:Pendidikan)&facet.field=[%22organization%22,%22kategori%22,%22prioritas_tahun%22,%22tags%22,%22res_format%22]&facet.limit=500&start=0&rows=20&sort=prioritas_tahun%20desc&include_private=true
-            http://localhost:8983/solr/ckan/select?q=*:*&facet=true&facet.field=organization&rows=0&wt=json
-
+            Query Solr dengan parameter dan format faceting yang benar.
             """
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
-                query = request.args.get('q', '*:*')  # Query default: semua data
-                # Tambahkan bidang default jika query tanpa spesifikasi
-                # if ':' not in query:
-                #     query = f'title:{query} OR notes:{query}'
 
-                # Ambil parameter opsional dengan nilai default
-                rows = int(request.args.get('rows', 10))  # Default 10 hasil
-                start = int(request.args.get('start', 0)) # Default mulai dari 0
-                sort = request.args.get('sort', 'prioritas_tahun desc')  # Default sorting by relevance (score)
-                include_private = request.args.get('include_private', 'true').lower() == 'true'  # Include private default true
+                # Ambil parameter query dari URL
+                query = request.args.get('q', '*:*')  # Default query semua data
+                rows = int(request.args.get('rows', 10))  # Default jumlah hasil
+                start = int(request.args.get('start', 0))  # Default offset
+                sort = request.args.get('sort', 'prioritas_tahun desc')  # Default sorting
+                include_private = request.args.get('include_private', 'true').lower() == 'true'
 
                 # Facet fields
                 facet_fields = request.args.get(
@@ -77,18 +76,22 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'sort': sort,
                     'facet': 'true',
                     'facet.limit': facet_limit,
-                    'fq': '*:*'
+                    'fq': 'private:true' if include_private else '-private:true',
                 }
 
                 # Tambahkan setiap facet.field secara terpisah
                 for field in facet_fields:
                     params.setdefault('facet.field', []).append(field)
 
+                # Kirimkan query ke Solr
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
+
+                # Kembalikan hasil mentah dari Solr
                 return jsonify(response.json())
+
             except requests.exceptions.RequestException as e:
-                return jsonify({"error": str(e)}), 500
+                return jsonify({"success": False, "error": str(e)}), 500
                 
         return blueprint_customapi
     
