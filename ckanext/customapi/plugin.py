@@ -63,7 +63,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'start': start,
                     'sort': sort,
                     'facet': 'true',
-                    'facet.field': ['organization','kategori'],  # Field untuk faceting
+                    'facet.field': ['organization','kategori','prioritas_tahun','tags','res_format'],  # Field untuk faceting
                     'facet.limit': facet_limit,
                     # 'include_private':true
                 }
