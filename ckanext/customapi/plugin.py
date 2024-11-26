@@ -44,18 +44,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
 
-                # Query dan parameter untuk Solr
-                # params = {
-                #     'q': '(title:Pendidikan AND notes:Pendidikan)',  # Query utama
-                #     'facet': 'true',  # Aktifkan faceting
-                #     'facet.field': ['organization', 'kategori'],  # Field untuk faceting
-                #     'facet.limit': 500,  # Batas faceting
-                #     'rows': 1,  # Jumlah hasil
-                #     'start': 0,  # Offset
-                #     'sort': 'prioritas_tahun desc',  # Sorting
-                #     'wt': 'json',  # Format hasil
-                # }
-
                 # Parameter query
                 query = request.args.get('q', '*:*')
                 rows = int(request.args.get('rows', 10))
@@ -64,8 +52,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # include_private = request.args.get('include_private', 'true').lower() == 'true'
                 facet_limit = int(request.args.get('facet.limit', 500))
 
+                # Format query dengan `title` dan `notes`
+                if query != '*:*':
+                    query = f"(title:{query} AND notes:{query})"
+
                 params = {
-                    'q': '(title:Pendidikan AND notes:Pendidikan)',  # Query utama
+                    'q': query,  # Query utama
                     'wt': 'json',
                     'rows': rows,
                     'start': start,
