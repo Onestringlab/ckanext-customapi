@@ -41,17 +41,26 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
+            """
+            http://localhost:5000/query-solr?q=climate&rows=5&start=10&sort=title asc
+            """
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
                 query = request.args.get('q', '*:*')  # Query default: semua data
                 # Tambahkan bidang default jika query tanpa spesifikasi
                 if ':' not in query:
                     query = f'title:{query} OR notes:{query}'
+
+                # Ambil parameter opsional dengan nilai default
+                rows = int(request.args.get('rows', 10))  # Default 10 hasil
+                start = int(request.args.get('start', 0)) # Default mulai dari 0
+                sort = request.args.get('sort', 'prioritas desc')  # Default sorting by relevance (score)
                 params = {
                     'q': query,
                     'wt': 'json',  # Format hasil JSON
-                    'rows': 5,     # Batas hasil
-                    'star':0
+                    'rows': rows,
+                    'start': start,
+                    'sort': sort
                 }
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
