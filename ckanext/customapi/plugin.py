@@ -63,5 +63,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 def hello_api_action(context, data_dict):
     """
     Endpoint sederhana
+    curl -X POST http://localhost/api/3/action/hello_api
     """
     return {'message': 'Hello, API!', 'success': True}
