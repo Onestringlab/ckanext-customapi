@@ -57,26 +57,29 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 sort = request.args.get('sort', 'prioritas_tahun desc')  # Default sorting by relevance (score)
                 include_private = request.args.get('include_private', 'true').lower() == 'true'  # Include private default true
 
-                 # Facet fields
+                # Facet fields
                 facet_fields = request.args.get(
                     'facet.field',
                     '["organization", "kategori", "prioritas_tahun", "tags", "res_format"]'
                 )
                 facet_fields = eval(facet_fields)  # Convert string list to Python list
-                facet_limit = int(request.args.get('facet.limit', 500))  # Default facet limit
+                facet_limit = int(request.args.get('facet.limit', 500))
 
-                # Parameter Solr
+                # Parameter untuk Solr
                 params = {
                     'q': query,
-                    'wt': 'json',  # Format hasil JSON
+                    'wt': 'json',
                     'rows': rows,
                     'start': start,
                     'sort': sort,
-                    'facet': 'true',  # Aktifkan faceting
-                    'facet.field': facet_fields,
+                    'facet': 'true',
                     'facet.limit': facet_limit,
-                    'fq': 'private:true' if include_private else '-private:true'  # Filter berdasarkan private
+                    'fq': 'private:true' if include_private else '-private:true',
                 }
+
+                # Tambahkan facet.field secara terpisah
+                for field in facet_fields:
+                    params[f'facet.field'] = field
 
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
