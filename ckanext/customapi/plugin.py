@@ -64,11 +64,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # include_private = request.args.get('include_private', 'true').lower() == 'true'
                 facet_limit = int(request.args.get('facet.limit', 500))
 
-                # facet_fields = eval(request.args.get(
-                #     'facet.field',
-                #     '["organization", "kategori", "tags"]'
-                # ))
-
                 params = {
                     'q': '(title:Pendidikan AND notes:Pendidikan)',  # Query utama
                     'wt': 'json',
@@ -78,7 +73,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization','kategori'],  # Field untuk faceting
                     'facet.limit': facet_limit,
-                    'fq': 'private:true'
+                    # 'fq': 'private:true'
                 }
 
                 # Kirim query ke Solr
