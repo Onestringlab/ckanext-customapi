@@ -48,8 +48,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 solr_url = "http://solr:8983/solr/ckan/select"
                 query = request.args.get('q', '*:*')  # Query default: semua data
                 # Tambahkan bidang default jika query tanpa spesifikasi
-                if ':' not in query:
-                    query = f'title:{query} OR notes:{query}'
+                # if ':' not in query:
+                #     query = f'title:{query} OR notes:{query}'
 
                 # Ambil parameter opsional dengan nilai default
                 rows = int(request.args.get('rows', 10))  # Default 10 hasil
