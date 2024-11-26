@@ -23,48 +23,62 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         }
 
     # IBlueprint
-    def query_solr():
-        try:
-            solr_url = "http://localhost:8983/solr/ckan/select"
+    def get_blueprint(self):
+        """
+        Method untuk mendaftarkan Blueprint.
+        """
+        blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
-            query = request.args.get('q', '*:*')
-            rows = int(request.args.get('rows', 10))
-            start = int(request.args.get('start', 0))
-            sort = request.args.get('sort', 'prioritas_tahun desc')
-            include_private = request.args.get('include_private', 'true').lower() == 'true'
+        @blueprint_customapi.route('/welcome_api', methods=['GET'])
+        def welcome_api():
+            """
+            Route untuk /welcome_api
+            """
+            return jsonify({
+                "message": "Welcome to API!",
+                "success": True
+            })
+        @blueprint_customapi.route('/query-solr', methods=['GET'])
+        def query_solr():
+            try:
+                solr_url = "http://localhost:8983/solr/ckan/select"
 
-            facet_fields = eval(request.args.get(
-                'facet.field',
-                '["organization", "kategori", "tags"]'
-            ))
-            facet_limit = int(request.args.get('facet.limit', 500))
+                query = request.args.get('q', '*:*')
+                rows = int(request.args.get('rows', 10))
+                start = int(request.args.get('start', 0))
+                sort = request.args.get('sort', 'prioritas_tahun desc')
+                include_private = request.args.get('include_private', 'true').lower() == 'true'
 
-            params = {
-                'q': query,
-                'wt': 'json',
-                'rows': rows,
-                'start': start,
-                'sort': sort,
-                'facet': 'true',
-                'facet.limit': facet_limit,
-                'fq': 'private:true' if include_private else '*:*',
-            }
+                facet_fields = eval(request.args.get(
+                    'facet.field',
+                    '["organization", "kategori", "tags"]'
+                ))
+                facet_limit = int(request.args.get('facet.limit', 500))
 
-            for field in facet_fields:
-                params.setdefault('facet.field', []).append(field)
+                params = {
+                    'q': query,
+                    'wt': 'json',
+                    'rows': rows,
+                    'start': start,
+                    'sort': sort,
+                    'facet': 'true',
+                    'facet.limit': facet_limit,
+                    'fq': 'private:true' if include_private else '*:*',
+                }
 
-            # Debugging
-            print("Query Parameters:", params)
+                for field in facet_fields:
+                    params.setdefault('facet.field', []).append(field)
 
-            response = requests.get(solr_url, params=params)
-            response.raise_for_status()
+                # Debugging
+                print("Query Parameters:", params)
 
-            return jsonify(response.json())
+                response = requests.get(solr_url, params=params)
+                response.raise_for_status()
 
-        except requests.exceptions.RequestException as e:
-            return jsonify({"success": False, "error": str(e)}), 500
-                
-        return blueprint_customapi
+                return jsonify(response.json())
+
+            except requests.exceptions.RequestException as e:
+                return jsonify({"success": False, "error": str(e)}), 500
     
 def hello_api_action(context, data_dict):
     """
