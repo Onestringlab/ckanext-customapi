@@ -39,7 +39,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "success": True
             })
 
-        @blueprint_customapi.route('/query-solr', methods=['GET'])
+        @blueprint_customapi.route('/query-solr', methods=['GET'],url_prefix='/api/1/custom')
         def query_solr():
             try:
                 solr_url = "http://localhost:8983/solr/ckan/select"
