@@ -38,6 +38,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "message": "Welcome to API!",
                 "success": True
             })
+
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
@@ -79,6 +80,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
+
+                
+        return blueprint_customapi
     
 def hello_api_action(context, data_dict):
     """
