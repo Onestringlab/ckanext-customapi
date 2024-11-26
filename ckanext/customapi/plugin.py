@@ -44,14 +44,15 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             http://localhost:5000/query-solr?q=climate&rows=5&start=10&sort=title asc
             http://localhost:5000/api/1/custom/query-solr?q=(title:Pendidikan%20AND%20notes:Pendidikan)&facet.field=[%22organization%22,%22kategori%22,%22prioritas_tahun%22,%22tags%22,%22res_format%22]&facet.limit=500&start=0&rows=20&sort=prioritas_tahun%20desc&include_private=true
-            http://localhost:5000/api/3/action/package_search?q=Pendidikan&facet.field=[%22organization%22,%22kategori%22,%22prioritas_tahun%22,%22tags%22,%22res_format%22]&facet.limit=500&start=0&rows=20&sort=prioritas_tahun%20desc&include_private=true
+            http://localhost:8983/solr/ckan/select?q=*:*&facet=true&facet.field=organization&rows=0&wt=json
+
             """
             try:
                 solr_url = "http://solr:8983/solr/ckan/select"
                 query = request.args.get('q', '*:*')  # Query default: semua data
                 # Tambahkan bidang default jika query tanpa spesifikasi
-                if ':' not in query:
-                    query = f'title:{query} OR notes:{query}'
+                # if ':' not in query:
+                #     query = f'title:{query} OR notes:{query}'
 
                 # Ambil parameter opsional dengan nilai default
                 rows = int(request.args.get('rows', 10))  # Default 10 hasil
