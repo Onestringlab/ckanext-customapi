@@ -29,7 +29,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         """
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
-        @blueprint_customapi.route('/welcome_api', methods=['GET'])
+        @blueprint_customapi.route('/welcome-api', methods=['GET'])
         def welcome_api():
             """
             Route untuk /welcome_api
@@ -39,7 +39,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "success": True
             })
 
-        @blueprint_customapi.route('/query-solr', methods=['GET'],url_prefix='/api/1/custom')
+        @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
                 solr_url = "http://localhost:8983/solr/ckan/select"
