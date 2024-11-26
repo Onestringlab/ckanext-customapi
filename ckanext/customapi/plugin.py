@@ -60,7 +60,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'wt': 'json',  # Format hasil JSON
                     'rows': rows,
                     'start': start,
-                    'sort': sort
+                    'sort': sort,
+                    'facet.field': ','.join(["organization", "kategori", "prioritas_tahun", "tags", "res_format"]),
+                    'facet.limit': 500
                 }
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
