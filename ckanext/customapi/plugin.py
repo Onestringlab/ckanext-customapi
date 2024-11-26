@@ -77,9 +77,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'fq': 'private:true' if include_private else '-private:true',
                 }
 
-                # Tambahkan facet.field secara terpisah
+                # Tambahkan setiap facet.field secara terpisah
                 for field in facet_fields:
-                    params[f'facet.field'] = field
+                    params.setdefault('facet.field', []).append(field)
 
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
