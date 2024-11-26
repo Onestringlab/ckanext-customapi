@@ -61,7 +61,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 rows = int(request.args.get('rows', 10))
                 start = int(request.args.get('start', 0))
                 sort = request.args.get('sort', 'prioritas_tahun desc')
-                include_private = request.args.get('include_private', 'true').lower() == 'true'
+                # include_private = request.args.get('include_private', 'true').lower() == 'true'
                 facet_limit = int(request.args.get('facet.limit', 500))
 
                 # facet_fields = eval(request.args.get(
@@ -78,7 +78,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization','kategori'],  # Field untuk faceting
                     'facet.limit': facet_limit,
-                    'fq': 'private:true' if include_private else '*:*',
+                    # 'fq': 'private:true' if include_private else '*:*'
                 }
 
                 # Kirim query ke Solr
