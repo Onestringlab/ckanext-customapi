@@ -83,7 +83,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_detail_by_name_id():
             try:
                 api_key = request.headers.get("Authorization")
-                if not api_key or api_key != "your-api-key":
+                if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
                     return jsonify({"success": False, "error": "Unauthorized"}), 401
 
                 # Ambil parameter ID dari request
@@ -95,9 +95,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Buat query berdasarkan ID atau name
                 query_parts = []
-                if record_id:
+                if record_id and not re.match(r'^[a-zA-Z0-9\-]+$', record_id):
                     query_parts.append(f"id:{record_id}")
-                if record_name:
+                if record_name and '"' in record_name:
                     query_parts.append(f"name:{record_name}")
 
                 # Gabungkan query dengan OR
