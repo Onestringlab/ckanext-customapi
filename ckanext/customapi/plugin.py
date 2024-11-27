@@ -83,6 +83,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_detail_by_name_id():
             try:
                 api_key = request.headers.get("Authorization")
+                print(api_key)
                 if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
                     return jsonify({"success": False, "error": "Unauthorized"}), 401
 
