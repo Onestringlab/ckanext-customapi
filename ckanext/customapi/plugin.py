@@ -83,10 +83,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_detail_by_name_id():
             try:
                 # Validasi API Key
-                api_key = request.headers.get("Authorization")
-                print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
-                if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
-                    return jsonify({"success": False, "error": "Unauthorized"}), 401
+                # api_key = request.headers.get("Authorization")
+                # print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
+                # if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
+                    # return jsonify({"success": False, "error": "Unauthorized"}), 401
 
                 # Ambil parameter dari query string
                 record_id = request.args.get('id')
