@@ -104,11 +104,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 print ("Valid:", valid_api_keys)
 
                 # Periksa apakah API Key yang diberikan valid
-                # if api_key not in valid_api_keys:
-                #     return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
+                if api_key not in valid_api_keys:
+                    return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
 
-                if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
-                    return jsonify({"success": False, "error": "Unauthorized"}), 401
+                # if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
+                #     return jsonify({"success": False, "error": "Unauthorized"}), 401
 
                 # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
@@ -148,7 +148,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": docs[0], "Valid API keys":valid_api_keys})
+                return jsonify({"success": True, "data": docs[0])
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
