@@ -64,6 +64,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
 
+                # Periksa apakah API Key yang diberikan valid
+                if api_key not in valid_api_keys:
+                    return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
+
                 # Parameter query
                 query = request.args.get('q', '*:*')
                 rows = int(request.args.get('rows', 10))
