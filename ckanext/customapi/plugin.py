@@ -82,6 +82,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
         def get_detail_by_name_id():
             try:
+                api_key = request.headers.get("Authorization")
+                if not api_key or api_key != "your-api-key":
+                    return jsonify({"success": False, "error": "Unauthorized"}), 401
+
                 # Ambil parameter ID dari request
                 record_id = request.args.get('id')
                 record_name = request.args.get('name')
