@@ -98,15 +98,18 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
 
-                # Query untuk mendapatkan daftar API key dari tabel user
+
+
+                #Query API keys dari database menggunakan ORM
+                valid_api_keys = []
+                valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
+                
                 valid_api_keys = []
                 with engine.connect() as connection:
                     query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
                     result = connection.execute(query)
                     valid_api_keys = [row['apikey'] for row in result]
                 
-                print ("Valid:", valid_api_keys)
-
                 # Periksa apakah API Key yang diberikan valid
                 if api_key not in valid_api_keys:
                     return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
