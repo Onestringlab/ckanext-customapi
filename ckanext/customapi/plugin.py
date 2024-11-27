@@ -28,7 +28,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     # IBlueprint
     def get_blueprint(self):
         # Ambil URL database dari konfigurasi CKAN
-        DATABASE_URI = config.get('sqlalchemy.url')
+        # DATABASE_URI = config.get('sqlalchemy.url')
         
         # Inisialisasi engine SQLAlchemy
         # engine = create_engine(DATABASE_URI)
@@ -40,9 +40,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         valid_api_keys = []
         valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
 
-        """
-        Method untuk mendaftarkan Blueprint.
-        """
+        # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
         solr_url = "http://solr:8983/solr/ckan/select"
 
