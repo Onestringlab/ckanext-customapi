@@ -91,7 +91,19 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Validasi API Key
                 api_key = request.headers.get("Authorization")
-                print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
+                if not api_key:
+                    return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
+
+                # Query untuk mendapatkan daftar API key dari tabel user
+                with engine.connect() as connection:
+                    query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
+                    result = connection.execute(query)
+                    valid_api_keys = [row['apikey'] for row in result]
+
+                # Periksa apakah API Key yang diberikan valid
+                # if api_key not in valid_api_keys:
+                #     return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
+
                 if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
                     return jsonify({"success": False, "error": "Unauthorized"}), 401
 
