@@ -3,7 +3,9 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.model import Package
 from ckan.model.meta import Session
+from ckan.common import config
 from flask import Blueprint, jsonify, request
+from sqlalchemy import create_engine, text
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -24,6 +26,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
+        # Ambil URL database dari konfigurasi CKAN
+        DATABASE_URI = config.get('sqlalchemy.url')
+        # Inisialisasi engine SQLAlchemy
+        engine = create_engine(DATABASE_URI)
+
         """
         Method untuk mendaftarkan Blueprint.
         """
@@ -82,7 +89,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
         def get_detail_by_id_or_name():
             try:
-                 # Validasi API Key
+                # Validasi API Key
                 api_key = request.headers.get("Authorization")
                 print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
                 if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
