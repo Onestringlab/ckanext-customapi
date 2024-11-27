@@ -6,7 +6,7 @@ from ckan.common import config
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from sqlalchemy import create_engine, text
+# from sqlalchemy import create_engine, text
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -100,7 +100,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 #Query API keys dari database menggunakan ORM
                 valid_api_keys = []
                 valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
-                # valid_api_keys = [row.apikey for row in Session.query(User.c.apikey).filter(User.c.apikey.isnot(None)).all()]
                 
                 # valid_api_keys = []
                 # with engine.connect() as connection:
