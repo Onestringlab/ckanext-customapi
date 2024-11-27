@@ -29,7 +29,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     def get_blueprint(self):
         # Ambil URL database dari konfigurasi CKAN
         DATABASE_URI = config.get('sqlalchemy.url')
-
+        
         # Inisialisasi engine SQLAlchemy
         engine = create_engine(DATABASE_URI)
         Session = sessionmaker(bind=engine)
@@ -98,9 +98,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
 
-                # Query API keys dari database menggunakan ORM
+                # Query untuk mendapatkan daftar API key dari tabel user
                 valid_api_keys = []
-                valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
+                with engine.connect() as connection:
+                    query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
+                    result = connection.execute(query)
+                    valid_api_keys = [row['apikey'] for row in result]
                 
                 print ("Valid:", valid_api_keys)
 
