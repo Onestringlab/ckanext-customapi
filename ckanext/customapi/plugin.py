@@ -1,9 +1,10 @@
 import requests
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+
+from ckan.common import config
 from ckan.model import Package, User
 from ckan.model.meta import Session, metadata
-from ckan.common import config
 from flask import Blueprint, jsonify, request
 
 class CustomapiPlugin(plugins.SingletonPlugin):
@@ -97,7 +98,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 #Query API keys dari database menggunakan ORM
                 valid_api_keys = []
-                valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
+                # valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
                 # valid_api_keys = [row.apikey for row in Session.query(User.c.apikey).filter(User.c.apikey.isnot(None)).all()]
                 
                 valid_api_keys = []
