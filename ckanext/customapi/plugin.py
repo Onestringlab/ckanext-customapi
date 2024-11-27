@@ -36,6 +36,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         # Inisialisasi engine SQLAlchemy
         session = meta.Session
 
+        #Query API keys dari database menggunakan ORM
+        valid_api_keys = []
+        valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
+
         """
         Method untuk mendaftarkan Blueprint.
         """
@@ -55,6 +59,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
+                # Validasi API Key
+                api_key = request.headers.get("Authorization")
+                if not api_key:
+                    return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
+
                 # Parameter query
                 query = request.args.get('q', '*:*')
                 rows = int(request.args.get('rows', 10))
@@ -98,10 +107,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 api_key = request.headers.get("Authorization")
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
-
-                #Query API keys dari database menggunakan ORM
-                valid_api_keys = []
-                valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
                 
                 # valid_api_keys = []
                 # with engine.connect() as connection:
