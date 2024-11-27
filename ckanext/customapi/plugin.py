@@ -84,9 +84,20 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil parameter ID dari request
                 record_id = request.args.get('id')
-                if not record_id:
-                    return jsonify({"success": False, "error": "Parameter 'id' is required"}), 400
+                record_name = request.args.get('name')
+                
+                if not record_id and not record_name:
+                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
+                # Buat query berdasarkan ID atau name
+                query_parts = []
+                if record_id:
+                    query_parts.append(f"id:{record_id}")
+                if record_name:
+                    query_parts.append(f"name:{record_name}")
+
+                # Gabungkan query dengan OR
+                query = " OR ".join(query_parts)
                 # Parameter query untuk mencari data berdasarkan ID
                 params = {
                     'q': f'id:{record_id}',  # Query berdasarkan ID
@@ -104,7 +115,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Cek apakah data ditemukan
                 if not docs:
-                    return jsonify({"success": False, "message": "No record found for the given ID"}), 404
+                    return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": docs[0]})
