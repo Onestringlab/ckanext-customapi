@@ -95,6 +95,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
 
                 # Query untuk mendapatkan daftar API key dari tabel user
+                valid_api_keys = []
                 with engine.connect() as connection:
                     query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
                     result = connection.execute(query)
@@ -147,7 +148,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": docs[0], valid_api_keys})
+                return jsonify({"success": True, "data": docs[0], "Valid API keys":valid_api_keys})
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
