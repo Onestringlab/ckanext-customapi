@@ -7,6 +7,8 @@ from ckan.model import Package, User
 from ckan.model.meta import Session, metadata
 from flask import Blueprint, jsonify, request
 
+from sqlalchemy import create_engine, text
+
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IActions)
