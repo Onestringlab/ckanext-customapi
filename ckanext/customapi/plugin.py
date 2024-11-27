@@ -148,7 +148,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": docs[0])
+                return jsonify({"success": True, "data": docs[0]})
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
