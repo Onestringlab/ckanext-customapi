@@ -79,8 +79,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
-        @blueprint_customapi.route('/get-detail-by-id', methods=['GET'])
-        def get_detail_by_id():
+        @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
+        def get_detail_by_name_id():
             try:
                 # Ambil parameter ID dari request
                 record_id = request.args.get('id')
