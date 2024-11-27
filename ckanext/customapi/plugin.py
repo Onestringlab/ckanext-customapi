@@ -28,6 +28,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         Method untuk mendaftarkan Blueprint.
         """
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
+        solr_url = "http://solr:8983/solr/ckan/select"
 
         @blueprint_customapi.route('/welcome-api', methods=['GET'])
         def welcome_api():
@@ -42,8 +43,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
-                solr_url = "http://solr:8983/solr/ckan/select"
-
                 # Parameter query
                 query = request.args.get('q', '*:*')
                 rows = int(request.args.get('rows', 10))
@@ -80,6 +79,38 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
+        @blueprint_customapi.route('/get-detail-by-id', methods=['GET'])
+        def get_detail_by_id():
+            try:
+                # Ambil parameter ID dari request
+                record_id = request.args.get('id')
+                if not record_id:
+                    return jsonify({"success": False, "error": "Parameter 'id' is required"}), 400
+
+                # Parameter query untuk mencari data berdasarkan ID
+                params = {
+                    'q': f'id:{record_id}',  # Query berdasarkan ID
+                    'wt': 'json',           # Format respons JSON
+                    'rows': 1               # Batasi hasil hanya satu
+                }
+
+                # Kirim query ke Solr
+                response = requests.get(solr_url, params=params)
+                response.raise_for_status()
+
+                # Parse respons dari Solr
+                solr_response = response.json()
+                docs = solr_response.get('response', {}).get('docs', [])
+
+                # Cek apakah data ditemukan
+                if not docs:
+                    return jsonify({"success": False, "message": "No record found for the given ID"}), 404
+
+                # Kembalikan data dokumen
+                return jsonify({"success": True, "data": docs[0]})
+
+            except requests.exceptions.RequestException as e:
+                return jsonify({"success": False, "error": str(e)}), 500
                 
         return blueprint_customapi
     
