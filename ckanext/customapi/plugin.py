@@ -31,7 +31,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         DATABASE_URI = config.get('sqlalchemy.url')
         
         # Inisialisasi engine SQLAlchemy
-        engine = create_engine(DATABASE_URI)
+        # engine = create_engine(DATABASE_URI)
+
+        # Inisialisasi engine SQLAlchemy
         session = meta.Session
 
         """
