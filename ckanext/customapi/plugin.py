@@ -80,32 +80,21 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
-        def get_detail_by_name_id():
+        def get_detail_by_id_or_name():
             try:
-                # Validasi API Key
-                # api_key = request.headers.get("Authorization")
-                # print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
-                # if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
-                    # return jsonify({"success": False, "error": "Unauthorized"}), 401
-
-                # Ambil parameter dari query string
+                # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
                 record_name = request.args.get('name')
 
                 if not record_id and not record_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
-                # Validasi input ID dan name
-                if record_id and not re.match(r'^[a-zA-Z0-9\-]+$', record_id):
-                    return jsonify({"success": False, "error": "Invalid ID format"}), 400
-                if record_name and '"' in record_name:
-                    return jsonify({"success": False, "error": "Invalid name format"}), 400
-
                 # Buat query berdasarkan ID atau name
                 query_parts = []
                 if record_id:
                     query_parts.append(f"id:{record_id}")
                 if record_name:
+                    # Gunakan kutipan untuk memastikan query mendukung string dengan spasi
                     query_parts.append(f'name:"{record_name}"')
 
                 # Gabungkan query dengan OR
@@ -113,13 +102,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parameter query untuk Solr
                 params = {
-                    'q': query,
-                    'wt': 'json',
-                    'rows': 1
+                    'q': query,  # Query utama
+                    'wt': 'json',  # Format respons JSON
+                    'rows': 1  # Batasi hasil hanya satu
                 }
 
                 # Kirim query ke Solr
-                print(f"Solr Query Params: {params}")  # Debugging log untuk parameter query
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
 
@@ -135,11 +123,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "data": docs[0]})
 
             except requests.exceptions.RequestException as e:
-                print(f"RequestException: {e}")  # Debugging log untuk error request
                 return jsonify({"success": False, "error": str(e)}), 500
-            except Exception as e:
-                print(f"Unexpected Error: {e}")  # Debugging log untuk error umum
-                return jsonify({"success": False, "error": "Internal server error"}), 500
                 
         return blueprint_customapi
     
