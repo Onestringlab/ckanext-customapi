@@ -94,14 +94,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if record_id:
                     query_parts.append(f"id:{record_id}")
                 if record_name:
-                    query_parts.append(f'name:"{record_name}"')
+                    query_parts.append(f"name:{record_name}")
 
                 # Gabungkan query dengan OR
                 query = " OR ".join(query_parts)
-
+                
                 # Parameter query untuk mencari data berdasarkan ID
                 params = {
-                    'q': f'id:{record_id}',  # Query berdasarkan ID
+                    'q': query,  # Query utama
                     'wt': 'json',           # Format respons JSON
                     'rows': 1               # Batasi hasil hanya satu
                 }
