@@ -2,7 +2,7 @@ import requests
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.model import Package
-from ckan.model.meta import Session
+from ckan.model.meta import Session, metadata
 from ckan.common import config
 from flask import Blueprint, jsonify, request
 from sqlalchemy.orm import sessionmaker
@@ -34,6 +34,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         engine = create_engine(DATABASE_URI)
         Session = sessionmaker(bind=engine)
         session = Session()
+
+        User = metadata.tables['user']
 
         """
         Method untuk mendaftarkan Blueprint.
@@ -98,8 +100,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
 
-
-
                 #Query API keys dari database menggunakan ORM
                 valid_api_keys = []
                 valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
@@ -114,8 +114,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if api_key not in valid_api_keys:
                     return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
 
-                # if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
-                #     return jsonify({"success": False, "error": "Unauthorized"}), 401
 
                 # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
