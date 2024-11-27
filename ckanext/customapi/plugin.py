@@ -82,6 +82,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
         def get_detail_by_id_or_name():
             try:
+                 # Validasi API Key
+                api_key = request.headers.get("Authorization")
+                print(f"Received API Key: {api_key}")  # Debugging log untuk API Key
+                if not api_key or api_key != "5a00873b-2b80-4f13-a41b-ae60d4bc06c1":
+                    return jsonify({"success": False, "error": "Unauthorized"}), 401
+
                 # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
                 record_name = request.args.get('name')
