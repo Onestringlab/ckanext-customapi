@@ -99,6 +99,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
                     result = connection.execute(query)
                     valid_api_keys = [row['apikey'] for row in result]
+                
+                print (valid_api_keys)
 
                 # Periksa apakah API Key yang diberikan valid
                 # if api_key not in valid_api_keys:
