@@ -3,8 +3,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
 from ckan.common import config
-from ckan.model import Package, User
-from ckan.model.meta import Session, metadata
+from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
 from sqlalchemy import create_engine, text
