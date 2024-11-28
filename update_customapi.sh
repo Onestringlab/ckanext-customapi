@@ -7,7 +7,7 @@ COMMIT_MESSAGE="Initial Commit"
 cd "$HOST_EXT_PATH" || exit
 git add .
 git commit -m "$COMMIT_MESSAGE"
-git push -u origin main
+git push -u origin master
 
 # Nama container Docker
 CONTAINER_NAME="ckan"
