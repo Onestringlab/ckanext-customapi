@@ -36,7 +36,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         # Inisialisasi engine SQLAlchemy
         session = meta.Session
 
-        #Query API keys dari database menggunakan ORM
+        #Query API keys dari database menggunakan ORM SQLAlchemy
         valid_api_keys = []
         valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
 
