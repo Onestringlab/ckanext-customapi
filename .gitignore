@@ -44,3 +44,6 @@ docs/_build/
 kode.txt
 .env
 test.py
+test_jwt.py
+test_minio.py
+others-api.md
