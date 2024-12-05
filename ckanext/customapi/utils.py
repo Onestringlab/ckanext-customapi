@@ -6,5 +6,4 @@ def query_custom(query, params=None):
     """
     session = meta.Session
     result = session.execute(query, params or {})
-    # return result.fetchall()
-    return query
+    return result.fetchall()
