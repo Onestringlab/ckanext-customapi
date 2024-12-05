@@ -6,7 +6,7 @@ from ckan.common import config
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from .utils import query_database
+from ckanext.customapi.utils import query_database
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
