@@ -54,9 +54,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /query_database
             """
-            sql_query = query_custom('SELECT * FROM group WHERE type = "organization"')
+            query = "SELECT * FROM group WHERE type = 'organization'"
+            result = query_custom(query)
             return jsonify({
-                "message": sql_query,
+                "data": result,
                 "success": True
             })
 
