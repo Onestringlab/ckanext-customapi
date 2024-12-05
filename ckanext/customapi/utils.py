@@ -1,6 +1,6 @@
 from ckan.model import meta
 
-def query_database(query, params=None):
+def query_database(query):
     """
     Helper function untuk menjalankan query ke database CKAN.
     """
