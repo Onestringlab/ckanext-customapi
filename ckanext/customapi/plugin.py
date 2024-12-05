@@ -54,7 +54,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /query_database
             """
-            query = 'SELECT id, name, title FROM "group" WHERE type = \'organization\''
+            query = 'SELECT id, name, title, created FROM "group" WHERE type = \'organization\''
             result = query_custom(query)
             
             # Konversi hasil query menjadi daftar dictionary
