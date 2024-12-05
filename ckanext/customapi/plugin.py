@@ -6,7 +6,7 @@ from ckan.common import config
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_database_ku
+from ckanext.customapi.utils import query_database
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -54,7 +54,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /query_database
             """
-            sql_query = query_database_ku('SELECT * FROM group WHERE type = "organization"')
+            sql_query = query_database('SELECT * FROM group WHERE type = "organization"')
             return jsonify({
                 "message": sql_query,
                 "success": True
