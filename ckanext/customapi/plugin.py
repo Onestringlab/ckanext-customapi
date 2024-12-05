@@ -56,8 +56,20 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             query = 'SELECT id, name, title FROM "group" WHERE type = \'organization\''
             result = query_custom(query)
+            
+            # Konversi hasil query menjadi daftar dictionary
+            data = [
+                {
+                    "id": row[0],
+                    "name": row[1],
+                    "title": row[2],
+                    "created": row[3].isoformat() if isinstance(row[3], datetime.datetime) else row[3]
+                }
+                for row in result
+            ]
+
             return jsonify({
-                "data": result,
+                "data": data,
                 "success": True
             })
 
