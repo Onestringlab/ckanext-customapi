@@ -38,13 +38,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
         solr_url = "http://solr:8983/solr/ckan/select"
 
-        @blueprint_customapi.route('/welcome-api', methods=['GET'])
+        @blueprint_customapi.route('/welcome-api3', methods=['GET'])
         def welcome_api():
             """
             Route untuk /welcome_api
             """
             return jsonify({
-                "message": "Welcome to API 2!!",
+                "message": "Welcome to API 3!!",
                 "success": True
             })
         
