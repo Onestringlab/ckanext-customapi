@@ -49,7 +49,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             })
         
         @blueprint_customapi.route('/query-database', methods=['GET'])
-        def welcome_api():
+        def query_database():
             sql_query = query_database('SELECT * FROM "group" WHERE "type" = "organization";')
             return jsonify({
                 "message": sql_query,
