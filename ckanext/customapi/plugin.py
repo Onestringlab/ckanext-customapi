@@ -44,12 +44,15 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             Route untuk /welcome_api
             """
             return jsonify({
-                "message": "Welcome to API!",
+                "message": "Welcome to API 2!!",
                 "success": True
             })
         
         @blueprint_customapi.route('/query-database', methods=['GET'])
         def query_database():
+            """
+            Route untuk /query_database
+            """
             sql_query = query_database('SELECT * FROM group WHERE type = "organization";')
             return jsonify({
                 "message": sql_query,
