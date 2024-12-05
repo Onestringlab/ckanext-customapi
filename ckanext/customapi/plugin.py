@@ -6,7 +6,7 @@ from ckan.common import config
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-# from sqlalchemy import create_engine, text
+from customapi.utils import query_database
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -27,12 +27,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
-        # Ambil URL database dari konfigurasi CKAN
-        # DATABASE_URI = config.get('sqlalchemy.url')
-        
-        # Inisialisasi engine SQLAlchemy
-        # engine = create_engine(DATABASE_URI)
-
         # Inisialisasi engine SQLAlchemy
         session = meta.Session
 
@@ -51,6 +45,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             return jsonify({
                 "message": "Welcome to API!",
+                "success": True
+            })
+        
+        @blueprint_customapi.route('/query-database', methods=['GET'])
+        def welcome_api():
+            sql_query = query_database('SELECT * FROM "group" WHERE "type" = "organization";')
+            return jsonify({
+                "message": sql_query,
                 "success": True
             })
 
@@ -110,16 +112,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not api_key:
                     return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
                 
-                # valid_api_keys = []
-                # with engine.connect() as connection:
-                #     query = text("SELECT apikey FROM \"user\" WHERE apikey IS NOT NULL")
-                #     result = connection.execute(query)
-                #     valid_api_keys = [row['apikey'] for row in result]
-                
                 # Periksa apakah API Key yang diberikan valid
                 if api_key not in valid_api_keys:
                     return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
-
 
                 # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
