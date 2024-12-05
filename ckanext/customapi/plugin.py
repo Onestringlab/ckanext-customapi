@@ -64,7 +64,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     "id": row[0],
                     "name": row[1],
                     "title": row[2],
-                    "created": row[3].isoformat() if isinstance(row[3], datetime.datetime) else row[3]
+                    "created": row[3].isoformat() if isinstance(row[3], datetime) else row[3]
                 }
                 for row in result
             ]
