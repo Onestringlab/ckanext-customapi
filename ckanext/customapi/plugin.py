@@ -149,8 +149,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                         AND m.state = 'active'
                         AND u.name = :username
                 '''
-                session = meta.Session
-                result = session.execute(query, {'username': username}).fetchall()
+                result = query_custom(query, {'username': username})
 
                 # Konversi hasil query menjadi daftar dictionary
                 data = [
