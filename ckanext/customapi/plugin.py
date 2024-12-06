@@ -243,8 +243,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             # Ambil nilai "name" dari payload
             # name = decoded_token.get("name")
-                
             return decoded_token
+                
+        return blueprint_customapi
     
 def hello_api_action(context, data_dict):
     """
