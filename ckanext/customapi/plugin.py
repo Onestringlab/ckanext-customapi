@@ -178,8 +178,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                response = requests.get(solr_url, params=params)
-                response.raise_for_status()
+                # response = requests.get(solr_url, params=params)
+                # response.raise_for_status()
+                response = query_solr(params=params)
 
                 return jsonify(response.json())
 
@@ -218,8 +219,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                response = requests.get(solr_url, params=params)
-                response.raise_for_status()
+                response = query_solr(params=params)
 
                 # Parse respons dari Solr
                 solr_response = response.json()
