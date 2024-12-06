@@ -209,10 +209,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {}
                 response = get_action('package_show')(context, params)
 
-                print(f"Solr Response: {response}")
-                print(f"Generated Solr Query: {query}")
-
-
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": response})
 
