@@ -235,9 +235,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # include_private = request.args.get('include_private', 'true').lower() == 'true'
                 facet_limit = int(request.args.get('facet.limit', 500))
 
-                # Format query dengan `title` dan `notes`
+                # Format query dengan `title` atau `notes`
                 if query != '*:*':
-                    query = f"(title:{query} AND notes:{query})"
+                    query = f"(title:{query} OR notes:{query})"
 
                 params = {
                     'q': query,  # Query utama
