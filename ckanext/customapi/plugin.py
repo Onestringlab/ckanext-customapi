@@ -5,7 +5,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
 from ckan.common import config
-from ckan.logic import package_search
+from ckan.logic import get_action
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
@@ -179,7 +179,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                response = package_search.search(params)
+                context = {}
+                response = get_action('package_search')(context, params)
 
                 return jsonify(response.json())
 
