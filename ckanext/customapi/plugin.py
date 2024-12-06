@@ -74,6 +74,54 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "success": True
             })
 
+        @blueprint_customapi.route('/get-user-by-username', methods=['POST'])
+        def get_user_by_username():
+            """
+            Route untuk /get-user-by-username
+            """
+            try:
+                # Ambil parameter username dari JSON payload
+                payload = request.get_json()
+                if not payload or 'username' not in payload:
+                    return jsonify({"success": False, "error": "Parameter 'username' is required"}), 400
+                
+                username = payload['username']
+
+                # Query menggunakan parameterized query untuk keamanan
+                query = '''
+                    SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
+                        activity_streams_email_notifications, state, plugin_extras, image_url 
+                    FROM public.user 
+                    WHERE name = :username
+                '''
+                session = meta.Session
+                result = session.execute(query, {'username': username}).fetchall()
+
+                # Konversi hasil query menjadi daftar dictionary
+                data = [
+                    {
+                        "id": row[0],
+                        "name": row[1],
+                        "apikey": row[2],
+                        "fullname": row[3],
+                        "email": row[4],
+                        "reset_key": row[5],
+                        "sysadmin": row[6],
+                        "activity_streams_email_notifications": row[7],
+                        "state": row[8],
+                        "plugin_extras": row[9],
+                        "image_url": row[10]
+                    }
+                    for row in result
+                ]
+
+                return jsonify({
+                    "data": data,
+                    "success": True
+                })
+            except Exception as e:
+                return jsonify({"success": False, "error": str(e)}), 500
+
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
