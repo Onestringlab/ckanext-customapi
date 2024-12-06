@@ -214,6 +214,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
+        
+
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
@@ -263,18 +265,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
-        @blueprint_customapi.route('/get-detail-by-name-id', methods=['GET'])
-        def get_detail_by_id_or_name():
+        @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
+        def get_dataset_by_id_or_name():
             try:
-                # Validasi API Key
-                api_key = request.headers.get("Authorization")
-                if not api_key:
-                    return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
-                
-                # Periksa apakah API Key yang diberikan valid
-                if api_key not in valid_api_keys:
-                    return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
-
                 # Ambil parameter ID dan name dari request
                 record_id = request.args.get('id')
                 record_name = request.args.get('name')
