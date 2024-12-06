@@ -121,6 +121,56 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
+        @blueprint_customapi.route('/get-capacity-by-username', methods=['POST'])
+        def get_capacity_by_username():
+            """
+            Route untuk mendapatkan kapasitas berdasarkan username
+            """
+            try:
+                # Ambil parameter username dari JSON payload
+                payload = request.get_json()
+                if not payload or 'username' not in payload:
+                    return jsonify({"success": False, "error": "Parameter 'username' is required"}), 400
+
+                username = payload['username']
+
+                # Query menggunakan parameterized query untuk keamanan
+                query = '''
+                    SELECT 
+                        u.name AS user_name, 
+                        u.id AS user_id, 
+                        g.name AS organization_name, 
+                        m.capacity
+                    FROM "member" m
+                    JOIN "user" u ON m.table_id = u.id
+                    JOIN "group" g ON m.group_id = g.id
+                    WHERE 
+                        g.type = 'organization'
+                        AND m.state = 'active'
+                        AND u.name = :username
+                '''
+                session = meta.Session
+                result = session.execute(query, {'username': username}).fetchall()
+
+                # Konversi hasil query menjadi daftar dictionary
+                data = [
+                    {
+                        "user_name": row[0],
+                        "user_id": row[1],
+                        "organization_name": row[2],
+                        "capacity": row[3]
+                    }
+                    for row in result
+                ]
+
+                return jsonify({
+                    "data": data,
+                    "success": True
+                })
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
