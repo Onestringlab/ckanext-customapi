@@ -168,8 +168,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     "success": True
                 })
 
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+            except Exception as e:
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
