@@ -212,7 +212,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parameter query untuk Solr
                 params = {
-                    'q': query,  # Query utama
+                    'q': '*:*',  # Query utama
                     'wt': 'json',  # Format respons JSON
                     'rows': 1  # Batasi hasil hanya satu
                 }
@@ -228,8 +228,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 docs = response.get('results', [])
 
                 # Cek apakah data ditemukan
-                if not docs:
-                    return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
+                # if not docs:
+                #     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": docs})
