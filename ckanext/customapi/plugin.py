@@ -221,6 +221,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {}
                 response = get_action('package_search')(context, params)
 
+                print(f"Solr Response: {response}")
+                
                 # Parse respons dari Solr
                 docs = response.get('results', [])
 
