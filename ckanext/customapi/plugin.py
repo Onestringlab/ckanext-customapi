@@ -182,7 +182,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {}
                 response = get_action('package_search')(context, params)
 
-                return jsonify(response.json())
+                return jsonify(response)
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
