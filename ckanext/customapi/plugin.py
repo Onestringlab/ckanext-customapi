@@ -223,7 +223,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_search')(context, params)
 
                 # Parse respons dari Solr
-                docs = response.get('response', {}).get('docs', [])
+                docs = response.get('results', [])
 
                 # Cek apakah data ditemukan
                 if not docs:
