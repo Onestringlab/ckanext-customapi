@@ -184,7 +184,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify(response)
 
-            except requests.exceptions.RequestException as e:
+            except Exception as e:  # Tangani exception secara umum
                 return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
