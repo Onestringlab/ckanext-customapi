@@ -200,8 +200,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not record_id and not record_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
-                # Buat query berdasarkan ID atau name
-                query_parts = []
                 if record_id:
                     id = record_id
                 if record_name:
