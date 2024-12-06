@@ -212,7 +212,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parameter query untuk Solr
                 params = {
-                    'q': query,  # Query utama
+                    'id': record_id,  # Query utama
                     # 'wt': 'json',  # Format respons JSON
                     # 'rows': 1  # Batasi hasil hanya satu
                 }
