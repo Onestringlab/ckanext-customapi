@@ -244,7 +244,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             # Ambil nilai "name" dari payload
             name = decoded_token.get("name")
                 
-        return name
+            return decoded_token
     
 def hello_api_action(context, data_dict):
     """
