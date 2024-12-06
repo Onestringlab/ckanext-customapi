@@ -232,8 +232,19 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
+        
+        @blueprint_customapi.route('/get-token', methods=['POST'])
+        def get_token():
+            # JWT token yang Anda miliki
+            jwt_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0NjcsInJvbGVzIjpbIldBTElEQVRBIiwiQURNSU4iLCJVU0VSIl0sInByb2ZpbGUiOnsidXNlcl9pZCI6MjQ2NywicGhvbmVfbnVtYmVyIjoiODE5MDg5NjI3NzIifSwibmFtZSI6IllvZ2llIEt1c21hbiwgU0UgU1QiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ5a3VzbWFuQGdtYWlsLmNvbSIsImVtYWlsIjoieWt1c21hbkBnbWFpbC5jb20iLCJqdGkiOiJlZWE4NGQzZi0wZDA0LTQ0MzMtYTMyNC0xYzgzMTJiZmMyYjkiLCJpYXQiOjE3MzMzNjYzOTgsImV4cCI6MTczMzM2NjY5OH0.dClNvLYszwUKWDqtxGxBvYFNC2SGhEOTmMw7NGYTn7w"
+
+            # Dekode JWT tanpa memvalidasi signature (hanya mengambil header dan payload)
+            decoded_token = jwt.decode(jwt_token, options={"verify_signature": False})
+
+            # Ambil nilai "name" dari payload
+            name = decoded_token.get("name")
                 
-        return blueprint_customapi
+        return decoded_token
     
 def hello_api_action(context, data_dict):
     """
