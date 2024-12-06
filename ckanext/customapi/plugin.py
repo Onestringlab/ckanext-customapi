@@ -186,9 +186,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
 
-                # Format query dengan `title` dan `notes`
+                # Format query dengan `title` atau `notes`
                 if query != '*:*':
-                    query = f"(title:{query} AND notes:{query})"
+                    query = f"(title:{query} OR notes:{query})"
 
                 # Parameter untuk Solr
                 params = {
