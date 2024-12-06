@@ -214,7 +214,54 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
-        
+        @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
+        def get_dataset_by_id_or_name():
+            try:
+                # Ambil parameter ID dan name dari payload JSON
+                data = request.get_json()
+
+                # Cek apakah data mengandung ID atau name
+                record_id = data.get('id')
+                record_name = data.get('name')
+
+                if not record_id and not record_name:
+                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
+
+                # Buat query berdasarkan ID atau name
+                query_parts = []
+                if record_id:
+                    query_parts.append(f"id:{record_id}")
+                if record_name:
+                    # Gunakan kutipan untuk memastikan query mendukung string dengan spasi
+                    query_parts.append(f'name:"{record_name}"')
+
+                # Gabungkan query dengan OR
+                query = " OR ".join(query_parts)
+
+                # Parameter query untuk Solr
+                params = {
+                    'q': query,  # Query utama
+                    'wt': 'json',  # Format respons JSON
+                    'rows': 1  # Batasi hasil hanya satu
+                }
+
+                # Kirim query ke Solr
+                response = requests.get(solr_url, params=params)
+                response.raise_for_status()
+
+                # Parse respons dari Solr
+                solr_response = response.json()
+                docs = solr_response.get('response', {}).get('docs', [])
+
+                # Cek apakah data ditemukan
+                if not docs:
+                    return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
+
+                # Kembalikan data dokumen
+                return jsonify({"success": True, "data": docs[0]})
+
+            except requests.exceptions.RequestException as e:
+                return jsonify({"success": False, "error": str(e)}), 500
 
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
@@ -261,52 +308,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 print("Query URL:", response.url)
 
                 return jsonify(response.json())
-
-            except requests.exceptions.RequestException as e:
-                return jsonify({"success": False, "error": str(e)}), 500
-
-        @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
-        def get_dataset_by_id_or_name():
-            try:
-                # Ambil parameter ID dan name dari request
-                record_id = request.args.get('id')
-                record_name = request.args.get('name')
-
-                if not record_id and not record_name:
-                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
-
-                # Buat query berdasarkan ID atau name
-                query_parts = []
-                if record_id:
-                    query_parts.append(f"id:{record_id}")
-                if record_name:
-                    # Gunakan kutipan untuk memastikan query mendukung string dengan spasi
-                    query_parts.append(f'name:"{record_name}"')
-
-                # Gabungkan query dengan OR
-                query = " OR ".join(query_parts)
-
-                # Parameter query untuk Solr
-                params = {
-                    'q': query,  # Query utama
-                    'wt': 'json',  # Format respons JSON
-                    'rows': 1  # Batasi hasil hanya satu
-                }
-
-                # Kirim query ke Solr
-                response = requests.get(solr_url, params=params)
-                response.raise_for_status()
-
-                # Parse respons dari Solr
-                solr_response = response.json()
-                docs = solr_response.get('response', {}).get('docs', [])
-
-                # Cek apakah data ditemukan
-                if not docs:
-                    return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
-
-                # Kembalikan data dokumen
-                return jsonify({"success": True, "data": docs[0]})
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
