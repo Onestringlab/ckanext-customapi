@@ -188,7 +188,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
-        def get_dataset_by_id_or_name():
+        def get_dataset_by_name_or_id():
             try:
                 # Ambil parameter ID dan name dari payload JSON
                 payload = request.get_json()
@@ -219,7 +219,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {}
-                response = get_action('package_show')(context, params)
+                response = get_action('package_search')(context, params)
 
                 print(f"Solr Response: {response}")
                 print(f"Generated Solr Query: {query}")
