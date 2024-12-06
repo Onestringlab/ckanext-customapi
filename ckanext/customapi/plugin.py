@@ -171,6 +171,45 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
+        @blueprint_customapi.route('/get-dataset', methods=['GET'])
+        def get_dataset():
+            try:
+                # Parameter query
+                query = request.args.get('q', '*:*')
+                rows = int(request.args.get('rows', 10))
+                start = int(request.args.get('start', 0))
+                sort = request.args.get('sort', 'prioritas_tahun desc')
+                # include_private = request.args.get('include_private', 'true').lower() == 'true'
+                facet_limit = int(request.args.get('facet.limit', 500))
+
+                # Format query dengan `title` dan `notes`
+                if query != '*:*':
+                    query = f"(title:{query} AND notes:{query})"
+
+                params = {
+                    'q': query,  # Query utama
+                    'wt': 'json',
+                    'rows': rows,
+                    'start': start,
+                    'sort': sort,
+                    'facet': 'true',
+                    'facet.field': ['organization','kategori','prioritas_tahun','tags','res_format'],  # Field untuk faceting
+                    'facet.limit': facet_limit,
+                    # 'include_private':true
+                }
+
+                # Kirim query ke Solr
+                response = requests.get(solr_url, params=params)
+                response.raise_for_status()
+
+                # Debug URL
+                print("Query URL:", response.url)
+
+                return jsonify(response.json())
+
+            except requests.exceptions.RequestException as e:
+                return jsonify({"success": False, "error": str(e)}), 500
+
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
             try:
