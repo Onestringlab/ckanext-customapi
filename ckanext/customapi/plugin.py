@@ -203,31 +203,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Buat query berdasarkan ID atau name
                 query_parts = []
                 if record_id:
-                    query_parts.append(f"id:{record_id}")
+                    id = record_id
                 if record_name:
-                    query_parts.append(f'name:"{record_name}"')
+                    id = record_name
 
-                # Gabungkan query dengan OR
-                query = " OR ".join(query_parts)
+                # Parameter query untuk package_show
+                params = {'id': id}
 
-                # Parameter query untuk Solr
-                params = {
-                    'id': record_name,  # Query utama
-                    # 'wt': 'json',  # Format respons JSON
-                    # 'rows': 1  # Batasi hasil hanya satu
-                }
-
-                # Jalankan package_search
+                # Jalankan package_show
                 context = {}
                 response = get_action('package_show')(context, params)
-
-                # print(f"Solr Response: {response}")
-                # print(f"Generated Solr Query: {query}")
-
-
-                # Cek apakah data ditemukan
-                # if not docs:
-                #     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": response})
