@@ -208,7 +208,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     query_parts.append(f'name:"{record_name}"')
 
                 # Gabungkan query dengan OR
-                query = " OR ".join(query_parts)
+                query = f"(id:{record_id} OR name:{record_name})"
 
                 # Parameter query untuk Solr
                 params = {
@@ -225,11 +225,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 docs = response.get('results', [])
 
                 # Cek apakah data ditemukan
-                # if not docs:
-                #     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
+                if not docs:
+                    return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": params})
+                return jsonify({"success": True, "data": docs})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
