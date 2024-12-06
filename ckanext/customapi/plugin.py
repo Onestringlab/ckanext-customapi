@@ -168,8 +168,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parameter untuk Solr
                 params = {
-                    # 'q': query,  # Query utama
-                    'q': 'id:67df2d0e-ddba-42a5-94e9-a2348fa4ca18',
+                    'q': query,  # Query utama
                     'wt': 'json',
                     'rows': rows,
                     'start': start,
@@ -213,7 +212,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parameter query untuk Solr
                 params = {
-                    'q': 'id:67df2d0e-ddba-42a5-94e9-a2348fa4ca18',
+                    'q': query,  # Query utama
                     'wt': 'json',  # Format respons JSON
                     'rows': 1  # Batasi hasil hanya satu
                 }
