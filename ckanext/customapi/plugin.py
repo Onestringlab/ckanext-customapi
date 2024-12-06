@@ -234,54 +234,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
-
-
-        @blueprint_customapi.route('/query-solr', methods=['GET'])
-        def query_solr():
-            try:
-                # Validasi API Key
-                api_key = request.headers.get("Authorization")
-                if not api_key:
-                    return jsonify({"success": False, "error": "Unauthorized: Missing API Key"}), 401
-
-                # Periksa apakah API Key yang diberikan valid
-                if api_key not in valid_api_keys:
-                    return jsonify({"success": False, "error": "Unauthorized: Invalid API Key"}), 401
-
-                # Parameter query
-                query = request.args.get('q', '*:*')
-                rows = int(request.args.get('rows', 10))
-                start = int(request.args.get('start', 0))
-                sort = request.args.get('sort', 'prioritas_tahun desc')
-                # include_private = request.args.get('include_private', 'true').lower() == 'true'
-                facet_limit = int(request.args.get('facet.limit', 500))
-
-                # Format query dengan `title` atau `notes`
-                if query != '*:*':
-                    query = f"(title:{query} OR notes:{query})"
-
-                params = {
-                    'q': query,  # Query utama
-                    'wt': 'json',
-                    'rows': rows,
-                    'start': start,
-                    'sort': sort,
-                    'facet': 'true',
-                    'facet.field': ['organization','kategori','prioritas_tahun','tags','res_format'],  # Field untuk faceting
-                    'facet.limit': facet_limit,
-                    # 'include_private':true
-                }
-
-                # Kirim query ke Solr
-                response = query_solr(params=params)
-
-                # Debug URL
-                print("Query URL:", response.url)
-
-                return jsonify(response.json())
-
-            except requests.exceptions.RequestException as e:
-                return jsonify({"success": False, "error": str(e)}), 500
                 
         return blueprint_customapi
     
