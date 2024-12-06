@@ -189,11 +189,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_dataset_by_id_or_name():
             try:
                 # Ambil parameter ID dan name dari payload JSON
-                data = request.get_json()
+                payload = request.get_json()
 
-                # Cek apakah data mengandung ID atau name
-                record_id = data.get('id')
-                record_name = data.get('name')
+                # Cek apakah payload mengandung ID atau name
+                record_id = payload.get('id')
+                record_name = payload.get('name')
 
                 if not record_id and not record_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
@@ -235,15 +235,23 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
-            # JWT token yang Anda miliki
-            jwt_token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI0NjcsInJvbGVzIjpbIldBTElEQVRBIiwiQURNSU4iLCJVU0VSIl0sInByb2ZpbGUiOnsidXNlcl9pZCI6MjQ2NywicGhvbmVfbnVtYmVyIjoiODE5MDg5NjI3NzIifSwibmFtZSI6IllvZ2llIEt1c21hbiwgU0UgU1QiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ5a3VzbWFuQGdtYWlsLmNvbSIsImVtYWlsIjoieWt1c21hbkBnbWFpbC5jb20iLCJqdGkiOiJlZWE4NGQzZi0wZDA0LTQ0MzMtYTMyNC0xYzgzMTJiZmMyYjkiLCJpYXQiOjE3MzMzNjYzOTgsImV4cCI6MTczMzM2NjY5OH0.dClNvLYszwUKWDqtxGxBvYFNC2SGhEOTmMw7NGYTn7w"
+            payload = request.get_json()  # Mengambil JSON body dari request
+            jwt_token = payload.get('jwt_token')  # Mengambil JWT dari key 'jwt_token'
 
-            # Dekode JWT tanpa memvalidasi signature (hanya mengambil header dan payload)
-            decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": False})
+            if not jwt_token:
+                return jsonify({"error": "JWT token tidak ditemukan"}), 400
 
-            # Ambil nilai "name" dari payload
-            # name = decoded_token.get("name")
-            return decoded_token
+            try:
+                # Dekode JWT tanpa memvalidasi signature dan expiration
+                decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": False})
+
+                # Jika sukses, kembalikan decoded token
+                return jsonify(decoded_token)
+
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token sudah kedaluwarsa"}), 401
+            except jwt.InvalidTokenError as e:
+                return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
                 
         return blueprint_customapi
     
