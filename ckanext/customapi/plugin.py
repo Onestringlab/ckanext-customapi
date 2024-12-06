@@ -221,8 +221,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {}
                 response = get_action('package_show')(context, params)
 
-                print(f"Solr Response: {response}")
-                print(f"Generated Solr Query: {query}")
+                # print(f"Solr Response: {response}")
+                # print(f"Generated Solr Query: {query}")
 
 
                 # Cek apakah data ditemukan
@@ -230,7 +230,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 #     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": params})
+                return jsonify({"success": True, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
