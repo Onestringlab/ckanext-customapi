@@ -171,7 +171,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
-        @blueprint_customapi.route('/get-dataset', methods=['GET'])
+        @blueprint_customapi.route('/get-dataset', methods=['POST'])
         def get_dataset():
             try:
                 # Parameter query
