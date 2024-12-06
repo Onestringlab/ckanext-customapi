@@ -174,18 +174,23 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-dataset', methods=['POST'])
         def get_dataset():
             try:
-                # Parameter query
-                query = request.args.get('q', '*:*')
-                rows = int(request.args.get('rows', 10))
-                start = int(request.args.get('start', 0))
-                sort = request.args.get('sort', 'prioritas_tahun desc')
-                # include_private = request.args.get('include_private', 'true').lower() == 'true'
-                facet_limit = int(request.args.get('facet.limit', 500))
+                # Ambil payload dari request body
+                payload = request.get_json()
+                if not payload:
+                    return jsonify({"success": False, "error": "Request body is required"}), 400
+
+                # Ambil parameter dari payload JSON
+                query = payload.get('q', '*:*')
+                rows = int(payload.get('rows', 10))
+                start = int(payload.get('start', 0))
+                sort = payload.get('sort', 'prioritas_tahun desc')
+                facet_limit = int(payload.get('facet.limit', 500))
 
                 # Format query dengan `title` dan `notes`
                 if query != '*:*':
                     query = f"(title:{query} AND notes:{query})"
 
+                # Parameter untuk Solr
                 params = {
                     'q': query,  # Query utama
                     'wt': 'json',
@@ -193,9 +198,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'start': start,
                     'sort': sort,
                     'facet': 'true',
-                    'facet.field': ['organization','kategori','prioritas_tahun','tags','res_format'],  # Field untuk faceting
+                    'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],  # Field untuk faceting
                     'facet.limit': facet_limit,
-                    # 'include_private':true
                 }
 
                 # Kirim query ke Solr
@@ -209,6 +213,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except requests.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
+
 
         @blueprint_customapi.route('/query-solr', methods=['GET'])
         def query_solr():
