@@ -94,8 +94,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     FROM public.user 
                     WHERE name = :username
                 '''
-                session = meta.Session
-                result = session.execute(query, {'username': username}).fetchall()
+                result = query_custom(query, {'username': username})
 
                 # Konversi hasil query menjadi daftar dictionary
                 data = [
