@@ -180,7 +180,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Kirim query ke Solr
                 # response = requests.get(solr_url, params=params)
                 # response.raise_for_status()
-                response = query_solr(params=params)
+                response = query_solr(params)
 
                 return jsonify(response.json())
 

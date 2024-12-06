@@ -13,7 +13,7 @@ def query_custom(query, params=None):
     result = session.execute(query, params or {})
     return result.fetchall()
 
-def query_solr(params=None):
+def query_solr(params):
     """
     Helper function untuk menjalankan query solr.
     """
