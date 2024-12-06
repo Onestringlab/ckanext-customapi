@@ -213,13 +213,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Parameter query untuk Solr
                 params = {
                     'q': query,  # Query utama
-                    'wt': 'json',  # Format respons JSON
-                    'rows': 1  # Batasi hasil hanya satu
+                    # 'wt': 'json',  # Format respons JSON
+                    # 'rows': 1  # Batasi hasil hanya satu
                 }
 
                 # Jalankan package_search
                 context = {}
-                response = get_action('package_search')(context, params)
+                response = get_action('package_show')(context, params)
 
                 print(f"Solr Response: {response}")
                 print(f"Generated Solr Query: {query}")
