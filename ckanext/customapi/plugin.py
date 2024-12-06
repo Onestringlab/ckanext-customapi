@@ -205,7 +205,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if record_id:
                     query_parts.append(f"id:{record_id}")
                 if record_name:
-                    # Gunakan kutipan untuk memastikan query mendukung string dengan spasi
                     query_parts.append(f'name:"{record_name}"')
 
                 # Gabungkan query dengan OR
@@ -230,7 +229,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 #     return jsonify({"success": False, "message": "No record found for the given ID or name"}), 404
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": response})
+                return jsonify({"success": True, "data": docs})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
