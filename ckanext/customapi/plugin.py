@@ -242,7 +242,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             decoded_token = jwt.decode(jwt_token, options={"verify_signature": False})
 
             # Ambil nilai "name" dari payload
-            name = decoded_token.get("name")
+            # name = decoded_token.get("name")
                 
             return decoded_token
     
