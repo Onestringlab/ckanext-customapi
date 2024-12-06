@@ -7,7 +7,7 @@ from ckan.common import config
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_custom
+from ckanext.customapi.utils import query_custom, query_solr
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -47,30 +47,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             return jsonify({
                 "message": "Welcome to API 3!!",
-                "success": True
-            })
-        
-        @blueprint_customapi.route('/query-database', methods=['GET'])
-        def query_database():
-            """
-            Route untuk /query_database
-            """
-            query = 'SELECT id, name, title, created FROM "group" WHERE type = \'organization\''
-            result = query_custom(query)
-            
-            # Konversi hasil query menjadi daftar dictionary
-            data = [
-                {
-                    "id": row[0],
-                    "name": row[1],
-                    "title": row[2],
-                    "created": row[3].isoformat() if isinstance(row[3], datetime) else row[3]
-                }
-                for row in result
-            ]
-
-            return jsonify({
-                "data": data,
                 "success": True
             })
 
@@ -205,9 +181,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
 
-                # Debug URL
-                print("Query URL:", response.url)
-
                 return jsonify(response.json())
 
             except requests.exceptions.RequestException as e:
@@ -300,8 +273,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                response = requests.get(solr_url, params=params)
-                response.raise_for_status()
+                response = query_solr(params=params)
 
                 # Debug URL
                 print("Query URL:", response.url)
