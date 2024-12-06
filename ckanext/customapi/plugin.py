@@ -30,15 +30,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     # IBlueprint
     def get_blueprint(self):
         # Inisialisasi engine SQLAlchemy
-        session = meta.Session
+        # session = meta.Session
 
         #Query API keys dari database menggunakan ORM SQLAlchemy
-        valid_api_keys = []
-        valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
+        # valid_api_keys = []
+        # valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
 
         # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
-        solr_url = "http://solr:8983/solr/ckan/select"
 
         @blueprint_customapi.route('/welcome-api3', methods=['GET'])
         def welcome_api():
@@ -178,8 +177,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                # response = requests.get(solr_url, params=params)
-                # response.raise_for_status()
                 response = query_solr(params)
 
                 return jsonify(response.json())
