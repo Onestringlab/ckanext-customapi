@@ -219,7 +219,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Kirim query ke Solr
-                response = query_solr(params=params)
+                response = query_solr(params)
 
                 # Parse respons dari Solr
                 solr_response = response.json()
