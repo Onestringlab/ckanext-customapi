@@ -174,17 +174,17 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'start': start,
                     'sort': sort,
                     'facet': 'true',
-                    'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],  # Field untuk faceting
+                    'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
                     'facet.limit': facet_limit,
                 }
 
-                # Kirim query ke Solr
+                # Jalankan package_search
                 context = {}
                 response = get_action('package_search')(context, params)
 
                 return jsonify(response)
 
-            except Exception as e:  # Tangani exception secara umum
+            except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
@@ -218,8 +218,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'rows': 1  # Batasi hasil hanya satu
                 }
 
-                # Kirim query ke Solr
-                response = query_solr(params)
+                # Jalankan package_search
+                context = {}
+                response = get_action('package_search')(context, params)
 
                 # Parse respons dari Solr
                 solr_response = response.json()
@@ -232,7 +233,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": docs[0]})
 
-            except requests.exceptions.RequestException as e:
+            except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
