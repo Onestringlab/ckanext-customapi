@@ -208,7 +208,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     query_parts.append(f'name:"{record_name}"')
 
                 # Gabungkan query dengan OR
-                query = f"(id:{record_id} OR name:{record_name})"
+                query = " OR ".join(query_parts)
 
                 # Parameter query untuk Solr
                 params = {
