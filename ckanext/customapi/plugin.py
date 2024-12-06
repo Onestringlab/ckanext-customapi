@@ -200,9 +200,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not record_id and not record_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
-                # Gabungkan query dengan OR
-                query = " OR ".join(query_parts)
-
                 # Parameter query untuk Solr
                 params = {
                     'id': record_id,  # Query utama
