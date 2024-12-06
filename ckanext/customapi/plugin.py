@@ -1,4 +1,5 @@
-import requests,jwt
+import requests
+import jwt
 from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
