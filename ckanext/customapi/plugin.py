@@ -1,4 +1,4 @@
-import requests
+import requests,jwt
 from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -181,7 +181,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify(response.json())
 
-            except requests.exceptions.RequestException as e:
+            except requests,jwt.exceptions.RequestException as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
