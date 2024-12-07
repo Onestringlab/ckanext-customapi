@@ -162,6 +162,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
                 req_username = payload.get('username')
+                req_api = payload.get('apikey')
 
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
@@ -182,8 +183,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {
-                    'user': req_username
-                    # 'ignore_auth': True 
+                    'user': req_username,
+                    'apikey': req_api
                 }
                 response = get_action('package_search')(context, params)
 
