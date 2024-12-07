@@ -163,10 +163,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 facet_limit = int(payload.get('facet.limit', 500))
                 req_username = payload.get('username')
 
-                username=''
-                if req_username:
-                    username = req_username
-
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
                     query = f"(title:{query} OR notes:{query})"
@@ -186,7 +182,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {
-                    'user': username
+                    'user': req_username
                 }
                 response = get_action('package_search')(context, params)
 
