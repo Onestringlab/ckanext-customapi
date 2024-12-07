@@ -208,8 +208,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Parameter query untuk package_show
                 params = {'id': id}
 
+                # Context dengan pengguna yang memiliki akses
+                context = {
+                    'user': 'aptekadmin'  # Ganti dengan nama pengguna yang memiliki izin
+                }
+
                 # Jalankan package_show
-                context = {}
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
