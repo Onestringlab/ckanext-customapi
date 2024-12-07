@@ -162,7 +162,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
                 req_username = payload.get('username')
-                req_api = payload.get('apikey')
 
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
