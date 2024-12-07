@@ -161,7 +161,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
-                req_username = payload.get('username')
+                # req_username = payload.get('username')
 
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
@@ -211,8 +211,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     id = request_id
                 if request_name:
                     id = request_name
-
-                username=''
                 if request_username:
                     username = request_username
 
@@ -221,7 +219,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'user': username  # Ganti dengan nama pengguna yang memiliki izin
+                    'user': username
                 }
 
                 # Jalankan package_show
