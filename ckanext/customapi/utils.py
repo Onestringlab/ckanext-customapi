@@ -22,15 +22,15 @@ def query_solr(params):
 def get_user_object(username):
     user = User.get(username)
     if user and user.is_active():
-        # user_dict = {
-        #     "id": user.id,
-        #     "name": user.name,
-        #     "email": user.email,
-        #     "fullname": user.fullname,
-        #     "apikey": user.apikey,
-        #     "sysadmin": user.sysadmin,
-        #     "state": user.state,
-        #     "created": user.created.isoformat() if user.created else None
-        # }
-        return user.name
+        user_dict = {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "fullname": user.fullname,
+            "apikey": user.apikey,
+            "sysadmin": user.sysadmin,
+            "state": user.state,
+            "created": user.created.isoformat() if user.created else None
+        }
+        return user_dict
     return None
