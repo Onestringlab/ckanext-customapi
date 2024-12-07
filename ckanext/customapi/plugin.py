@@ -179,7 +179,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 # Jalankan package_search
-                context = {}
+                context = {
+                    'user': 'aptekadmin'  # Ganti dengan nama pengguna yang memiliki izin
+                }
                 response = get_action('package_search')(context, params)
 
                 return jsonify(response)
