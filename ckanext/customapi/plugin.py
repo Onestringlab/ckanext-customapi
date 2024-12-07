@@ -161,6 +161,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
+                req_username = payload.get('username')
+
+                username=''
+                if req_username:
+                    username = req_username
 
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
@@ -181,7 +186,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {
-                    'user': 'aptekadmin'
+                    'user': username
                 }
                 response = get_action('package_search')(context, params)
 
@@ -197,25 +202,29 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 payload = request.get_json()
 
                 # Cek apakah payload mengandung ID atau name
-                record_id = payload.get('id')
-                record_name = payload.get('name')
+                request_id = payload.get('id')
+                request_name = payload.get('name')
+                request_username = payload.get('username')
 
-                if not record_id and not record_name:
+                if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
-                if record_id:
-                    id = record_id
-                if record_name:
-                    id = record_name
+                if request_id:
+                    id = request_id
+                if request_name:
+                    id = request_name
+
+                username=''
+                if request_username:
+                    username = request_username
 
                 # Parameter query untuk package_show
                 params = {'id': id}
 
                 # Context dengan pengguna yang memiliki akses
-                # context = {
-                #     'user': 'aptekadmin'  # Ganti dengan nama pengguna yang memiliki izin
-                # }
-                context = {}
+                context = {
+                    'user': username  # Ganti dengan nama pengguna yang memiliki izin
+                }
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
