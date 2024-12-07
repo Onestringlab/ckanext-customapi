@@ -180,11 +180,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': True 
                 }
 
-                # Jalankan package_search
                 context = {
-                    'user': session.get(req_username),
-                    'auth_user_obj': get_user_object(req_username)
-                }
+                            'user': req_username,
+                            'ignore_auth': True
+                        }
+                        
+                # Jalankan package_search
                 response = get_action('package_search')(context, params)
 
                 return jsonify({"success": True, "data": response})
