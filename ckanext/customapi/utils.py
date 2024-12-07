@@ -20,3 +20,9 @@ def query_solr(params):
     response = requests.get(solr_url, params=params)
     response.raise_for_status()
     return response
+
+def get_user_object(username):
+    user = User.get(username)
+    if user and user.is_active():
+        return user
+    return None

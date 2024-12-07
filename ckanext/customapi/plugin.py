@@ -9,7 +9,7 @@ from ckan.logic import get_action
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_custom, query_solr
+from ckanext.customapi.utils import query_custom, query_solr, get_user_object
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -182,7 +182,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {
-                    'user': req_username
+                    'user': req_username,
+                    'auth_user_obj': get_user_object(req_username) 
                 }
                 response = get_action('package_search')(context, params)
 
