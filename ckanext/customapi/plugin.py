@@ -209,9 +209,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': id}
 
                 # Context dengan pengguna yang memiliki akses
-                context = {
-                    'user': 'aptekadmin'  # Ganti dengan nama pengguna yang memiliki izin
-                }
+                # context = {
+                #     'user': 'aptekadmin'  # Ganti dengan nama pengguna yang memiliki izin
+                # }
+                context = {}
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
