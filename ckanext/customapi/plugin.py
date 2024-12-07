@@ -176,6 +176,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
                     'facet.limit': facet_limit,
+                    'include_private': True 
                 }
 
                 # Jalankan package_search
