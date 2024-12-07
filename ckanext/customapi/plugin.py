@@ -186,8 +186,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'user': req_username
                 }
                 response = get_action('package_search')(context, params)
-
-                return jsonify(response,context,user_obj)
+                print(user_obj)
+                return jsonify(response,context)
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
