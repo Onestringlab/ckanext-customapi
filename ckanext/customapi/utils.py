@@ -23,7 +23,7 @@ def get_user_object(username):
     user = User.get(username)
     if user and user.is_active():
         user_dict = {
-            "id": user.id,
+            # "id": user.id,
             "name": user.name,
             "email": user.email,
             "fullname": user.fullname,
