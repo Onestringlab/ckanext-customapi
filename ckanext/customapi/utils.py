@@ -32,5 +32,5 @@ def get_user_object(username):
             "state": user.state,
             "created": user.created.isoformat() if user.created else None
         }
-        return user_dict
+        return 'lll'
     return None
