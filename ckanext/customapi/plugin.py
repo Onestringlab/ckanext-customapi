@@ -32,7 +32,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     # IBlueprint
     def get_blueprint(self):
         # Inisialisasi engine SQLAlchemy
-        # session = meta.Session
+        session = meta.Session
 
         #Query API keys dari database menggunakan ORM SQLAlchemy
         # valid_api_keys = []
@@ -182,7 +182,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_search
                 context = {
-                    'user': req_username,
+                    'user': session.get(req_username),
                     'auth_user_obj': get_user_object(req_username)
                 }
                 response = get_action('package_search')(context, params)
