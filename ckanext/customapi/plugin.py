@@ -184,11 +184,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Jalankan package_search
                 context = {
                     'user': req_username,
-                    'apikey': req_api
+                    'auth_user_obj': get_user_object(req_username)
                 }
                 response = get_action('package_search')(context, params)
 
-                return jsonify(response)
+                return jsonify(response,context)
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
