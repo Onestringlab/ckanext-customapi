@@ -58,11 +58,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             try:
                 # Ambil parameter username dari JSON payload
-                payload = request.get_json()
-                if not payload or 'username' not in payload:
-                    return jsonify({"success": False, "error": "Parameter 'username' is required"}), 400
-                
-                username = payload['username']
+                token = request.headers.get("Authorization")
+                username, email = get_username(token)
 
                 # Query menggunakan parameterized query untuk keamanan
                 query = '''
@@ -231,9 +228,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-resource-list-for-user', methods=['POST'])
         def get_resource_list_for_user():
             try:
+                request_data = request.get_json()
+                username = request_data['username']
                 # Siapkan konteks dengan user yang telah diautentikasi
                 context = {
-                    'user': 'dewilp21',  # User yang valid harus tersedia di CKAN
+                    'user': username,  # User yang valid harus tersedia di CKAN
                     'ignore_auth': False
                 }
 
@@ -246,6 +245,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Kembalikan respons dengan daftar resource
                 return jsonify({
                     'success': True,
+                    'username': username,
                     'resources': resources
                 })
 
