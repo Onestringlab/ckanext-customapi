@@ -1,5 +1,6 @@
 import requests
 from ckan.model import meta, User
+import jwt
 
 solr_url = "http://solr:8983/solr/ckan/select"
 
