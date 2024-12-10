@@ -186,7 +186,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 context = {
-                            'user': username,
+                            'username': username,
                             'ignore_auth': True
                         }
 
