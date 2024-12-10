@@ -191,8 +191,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                         }
 
                 # Jalankan package_search
-                # response = get_action('package_search')(context, params)
-                response = get_action('package_search')(params)
+                response = get_action('package_search')(context, params)
 
 
                 return jsonify({"success": True, "email": email, "data": response})
