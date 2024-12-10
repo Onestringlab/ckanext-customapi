@@ -227,7 +227,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'user': username
                 }
 
-                role_access = has_package_access(id, username)
+                # role_access = has_package_access(id, username)
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
