@@ -232,7 +232,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
-                print(f'response:{response}')
+                print(f'role_access:{role_access}')
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": response})
