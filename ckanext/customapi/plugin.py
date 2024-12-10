@@ -223,7 +223,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'user': username
+                    'email': email
                 }
 
                 # Jalankan package_show
