@@ -24,3 +24,26 @@ def get_user_object(username):
     if user and user.is_active():
         return user
     return None
+
+def get_username(jwt_token, secret_key=None, public_key=None, algorithm="HS256"):
+    try:
+        key = secret_key if algorithm.startswith("HS") else public_key
+
+        if not key:
+            raise ValueError("Secret key or public key must be provided for decoding the token")
+
+        # Decode the JWT token
+        decoded_token = jwt.decode(jwt_token, key, algorithms=[algorithm])
+
+        # Extract the preferred_username
+        preferred_username = decoded_token.get("preferred_username")
+
+        if not preferred_username:
+            raise ValueError("preferred_username is not found in the token payload")
+
+        return preferred_username
+
+    except ExpiredSignatureError:
+        raise ValueError("The token has expired")
+    except InvalidTokenError as e:
+        raise ValueError(f"Invalid token: {str(e)}")

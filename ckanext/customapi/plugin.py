@@ -152,10 +152,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil payload dari request body
                 payload = request.get_json()
-                auth_header = request.headers.get("Authorization")
-                print(f'auth_header: {auth_header}')
                 if not payload:
                     return jsonify({"success": False, "error": "Request body is required"}), 400
+
+                username = get_username(request.headers.get("Authorization"))
+                print(f'username: {username}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '*:*')
@@ -190,7 +191,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
 
-                return jsonify({"success": True, "data": "response"})
+                return jsonify({"success": True, "data": username})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
