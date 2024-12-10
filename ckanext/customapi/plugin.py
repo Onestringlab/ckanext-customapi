@@ -181,8 +181,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'sort': sort,
                     'facet': 'true',
                     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
-                    'facet.limit': facet_limit
-                    # 'include_private': True 
+                    'facet.limit': facet_limit,
+                    'include_private': True 
                 }
 
                 context = {
@@ -191,7 +191,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                         }
 
                 # Jalankan package_search
-                response = get_action('package_search')(context, params)
+                # response = get_action('package_search')(context, params)
+                response = get_action('package_search')(params)
+
 
                 return jsonify({"success": True, "email": email, "data": response})
 
