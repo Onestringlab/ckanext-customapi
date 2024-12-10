@@ -30,10 +30,14 @@ def get_user_object(username):
 def get_username(jwt_token):
     try:
         # Dekode JWT tanpa memvalidasi signature dan expiration
-        decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": False})
+        decoded_token = jwt.decode(jwt_token, options={"verify_signature": False})
+
+        # Extract the preferred_username
+        email = decoded_token.get("email")
+        preferred_username = decoded_token.get("preferred_username")
 
         # Jika sukses, kembalikan decoded token
-        return jsonify(decoded_token)
+        return preferred_username
 
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "Token sudah kedaluwarsa"}), 401
