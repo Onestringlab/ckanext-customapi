@@ -1,8 +1,8 @@
-import requests
-from ckan.model import meta, User
 import jwt
+import requests
 
-solr_url = "http://solr:8983/solr/ckan/select"
+from ckan.model import meta, User
+from flask import jsonify
 
 def query_custom(query, params=None):
     """
@@ -16,6 +16,7 @@ def query_solr(params):
     """
     Helper function untuk menjalankan query solr.
     """
+    solr_url = "http://solr:8983/solr/ckan/select"
     response = requests.get(solr_url, params=params)
     response.raise_for_status()
     return response
