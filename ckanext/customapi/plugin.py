@@ -9,7 +9,7 @@ from ckan.logic import get_action
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_custom, query_solr, get_user_object, get_username
+from ckanext.customapi.utils import query_custom, query_solr, get_user_object, get_username, has_package_access
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -218,7 +218,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     id = request_name
                 preferred_username, email = get_username(token)
                 username = email.split('@')[0]
-                print(username)
 
                 # Parameter query untuk package_show
                 params = {'id': id}
@@ -226,19 +225,19 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Context dengan pengguna yang memiliki akses
                 context = {
                     'user': username,
-                    'ignore_auth': True
+                    'ignore_auth': False
                 }
 
-                # role_access = has_package_access(id, username)
+                role_access = has_package_access(id, username)
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "role_access": "role_access", "data": response})
+                return jsonify({"success": True, "role_access": has_package_access, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "role_access": "role_access", "error": str(e)}), 500
+                return jsonify({"success": False, "role_access": has_package_access, "error": str(e)}), 500
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
