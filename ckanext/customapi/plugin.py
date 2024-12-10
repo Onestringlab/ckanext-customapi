@@ -90,7 +90,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({
                     "data": data,
-                    "success": True
+                    "success": True,
+                    "username": username
                 })
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
