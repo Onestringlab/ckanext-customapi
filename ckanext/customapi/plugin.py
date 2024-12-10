@@ -218,6 +218,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     id = request_name
                 preferred_username, email = get_username(token)
                 username = email.split('@')[0]
+                print(username)
 
                 # Parameter query untuk package_show
                 params = {'id': id}
