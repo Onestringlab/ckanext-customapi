@@ -224,7 +224,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'user': username
+                    'user': username,
+                    'ignore_auth': True
                 }
 
                 # role_access = has_package_access(id, username)
