@@ -239,7 +239,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "error": str(e)}), 500
+                return jsonify({"success": False, "error-------------------------------": str(e)}), 500
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
