@@ -238,8 +238,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
-            payload = request.get_json()  # Mengambil JSON body dari request
-            jwt_token = payload.get('jwt_token')  # Mengambil JWT dari key 'jwt_token'
+            jwt_token = request.headers.get("Authorization")
 
             if not jwt_token:
                 return jsonify({"error": "JWT token tidak ditemukan"}), 400
