@@ -52,6 +52,6 @@ def has_package_access(id, username):
     }
     try:
         response = get_action('package_show')(context, params)
-        return jsonify({"access": "True"})
+        return {"access": "True"}
     except Exception as e:
-        return jsonify({"access": "False"})
+        return {"access": "False"}
