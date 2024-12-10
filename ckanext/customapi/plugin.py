@@ -207,17 +207,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Cek apakah payload mengandung ID atau name
                 request_id = payload.get('id')
                 request_name = payload.get('name')
-                request_username = payload.get('username')
-
-                if not request_id and not request_name:
+                token = request.headers.get("Authorization")
+  
+                  if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
                 if request_id:
                     id = request_id
                 if request_name:
                     id = request_name
-                if request_username:
-                    username = request_username
+                username, email = get_username(token)
 
                 # Parameter query untuk package_show
                 params = {'id': id}
