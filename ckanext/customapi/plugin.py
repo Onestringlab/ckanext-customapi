@@ -216,14 +216,15 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     id = request_id
                 if request_name:
                     id = request_name
-                username, email = get_username(token)
+                preferred_username, email = get_username(token)
+                username = split(email,'@')[0]
 
                 # Parameter query untuk package_show
                 params = {'id': id}
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'email': email
+                    'user': username
                 }
 
                 # Jalankan package_show
