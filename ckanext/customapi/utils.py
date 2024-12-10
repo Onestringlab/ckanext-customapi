@@ -25,19 +25,15 @@ def get_user_object(username):
         return user
     return None
 
-def get_username(jwt_token, secret_key=None, public_key=None, algorithm="HS256"):
+def get_username(jwt_token):
     try:
+        # Dekode JWT tanpa memvalidasi signature dan expiration
         decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": False})
 
-        # Extract the preferred_username
-        preferred_username = decoded_token.get("preferred_username")
+        # Jika sukses, kembalikan decoded token
+        return jsonify(decoded_token)
 
-        if not preferred_username:
-            raise ValueError("preferred_username is not found in the token payload")
-
-        return preferred_username
-
-    except ExpiredSignatureError:
-        raise ValueError("The token has expired")
-    except InvalidTokenError as e:
-        raise ValueError(f"Invalid token: {str(e)}")
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token sudah kedaluwarsa"}), 401
+    except jwt.InvalidTokenError as e:
+        return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
