@@ -37,7 +37,7 @@ def get_username(jwt_token):
         preferred_username = decoded_token.get("preferred_username")
 
         # Jika sukses, kembalikan decoded token
-        return preferred_username
+        return preferred_username,email
 
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "Token sudah kedaluwarsa"}), 401

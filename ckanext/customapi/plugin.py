@@ -158,8 +158,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 token = request.headers.get("Authorization")
                 print(f'token: {token}')
 
-                username = get_username(token)
-                print(f'username: {username}')
+                username, email = get_username(token)
+                print(f'{username},{email}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '*:*')
