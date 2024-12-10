@@ -1,8 +1,9 @@
 import jwt
 import requests
 
-from ckan.model import meta, User
 from flask import jsonify
+from ckan.model import meta, User
+from ckan.logic import get_action
 
 def query_custom(query, params=None):
     """
@@ -43,3 +44,14 @@ def get_username(jwt_token):
         return jsonify({"error": "Token sudah kedaluwarsa"}), 401
     except jwt.InvalidTokenError as e:
         return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
+
+def has_package_access(id, username):
+    params = {'id': id}
+    context = {
+        'user': username
+    }
+    try:
+        response = get_action('package_show')(context, params)
+        return True
+    except Exception as e:
+        return False

@@ -193,7 +193,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
 
-                return jsonify({"success": True, "username": username, "data": response})
+                return jsonify({"success": True, "email": email, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
@@ -227,14 +227,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'user': username
                 }
 
+                access = has_package_access(id, username)
+
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": response})
+                return jsonify({"success": True, "access": access, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "error": str(e)}), 500
+                return jsonify({"success": False, "access": access, "error": str(e)}), 500
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
