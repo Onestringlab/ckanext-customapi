@@ -153,7 +153,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Ambil payload dari request body
                 payload = request.get_json()
                 # jwt_token = payload.get('Authorization')
-                log.info(f'payload: {payload}')
+                print(f'payload: {payload}')
                 if not payload:
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
