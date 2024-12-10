@@ -155,8 +155,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not payload:
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
-                username = get_username(request.headers.get("Authorization"))
-                print(f'username: {username}')
+                # username = get_username(request.headers.get("Authorization"))
+                # print(f'username: {username}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '*:*')
