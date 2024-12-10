@@ -105,11 +105,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             try:
                 # Ambil parameter username dari JSON payload
-                payload = request.get_json()
-                if not payload or 'username' not in payload:
-                    return jsonify({"success": False, "error": "Parameter 'username' is required"}), 400
-
-                username = payload['username']
+                token = request.headers.get("Authorization")
+                username, email = get_username(token)
 
                 # Query menggunakan parameterized query untuk keamanan
                 query = '''
@@ -222,9 +219,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'ignore_auth': False
                 }
 
-                role_access = has_package_access(id, username)
-                print(f'role_access-------------:{role_access}')
-
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
 
@@ -233,6 +227,35 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
+
+        @blueprint_customapi.route('/get-resource-list-for-user', methods=['POST'])
+        def get_resource_list_for_user():
+            try:
+                # Siapkan konteks dengan user yang telah diautentikasi
+                context = {
+                    'user': 'dewilp21',  # User yang valid harus tersedia di CKAN
+                    'ignore_auth': False
+                }
+
+                # Parameter untuk resource_list_for_user (bisa kosong)
+                params = {}
+
+                # Panggil aksi CKAN resource_list_for_user
+                resources = get_action('resource_list_for_user')(context, params)
+
+                # Kembalikan respons dengan daftar resource
+                return jsonify({
+                    'success': True,
+                    'resources': resources
+                })
+
+            except Exception as e:
+                # Tangkap error dan kembalikan sebagai JSON
+                return jsonify({
+                    'success': False,
+                    'error': str(e)
+                }), 500
+
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
