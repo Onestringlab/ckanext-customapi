@@ -226,11 +226,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Context dengan pengguna yang memiliki akses
                 context = {
                     'user': username,
-                    'ignore_auth': True
+                    'ignore_auth': False
                 }
 
-                # role_access = has_package_access(id, username)
-                # print(f'role_access:{role_access}')
+                role_access = has_package_access(id, username)
+                print(f'role_access-------------:{role_access}')
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)
