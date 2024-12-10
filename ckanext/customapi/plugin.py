@@ -191,7 +191,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
 
-                return jsonify({"success": True, "data": username})
+                return jsonify({"success": True, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
