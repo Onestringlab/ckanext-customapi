@@ -151,46 +151,46 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_dataset():
             try:
                 # Ambil payload dari request body
-                payload = request.get_json()
-                # auth_header = request.headers.get("Authorization")
-                print(f'auth_header: {auth_header}')
-                if not payload:
-                    return jsonify({"success": False, "error": "Request body is required"}), 400
+                # payload = request.get_json()
+                auth_header = request.headers.get("Authorization")
+                # print(f'auth_header: {auth_header}')
+                # if not payload:
+                #     return jsonify({"success": False, "error": "Request body is required"}), 400
 
-                # Ambil parameter dari payload JSON
-                query = payload.get('q', '*:*')
-                rows = int(payload.get('rows', 10))
-                start = int(payload.get('start', 0))
-                sort = payload.get('sort', 'prioritas_tahun desc')
-                facet_limit = int(payload.get('facet.limit', 500))
-                # req_username = payload.get('username')
+                # # Ambil parameter dari payload JSON
+                # query = payload.get('q', '*:*')
+                # rows = int(payload.get('rows', 10))
+                # start = int(payload.get('start', 0))
+                # sort = payload.get('sort', 'prioritas_tahun desc')
+                # facet_limit = int(payload.get('facet.limit', 500))
+                # # req_username = payload.get('username')
 
-                # Format query dengan `title` atau `notes`
-                if query != '*:*':
-                    query = f"(title:{query} OR notes:{query})"
+                # # Format query dengan `title` atau `notes`
+                # if query != '*:*':
+                #     query = f"(title:{query} OR notes:{query})"
 
-                # Parameter untuk Solr
-                params = {
-                    'q': query,  # Query utama
-                    'wt': 'json',
-                    'rows': rows,
-                    'start': start,
-                    'sort': sort,
-                    'facet': 'true',
-                    'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
-                    'facet.limit': facet_limit,
-                    'include_private': True 
-                }
+                # # Parameter untuk Solr
+                # params = {
+                #     'q': query,  # Query utama
+                #     'wt': 'json',
+                #     'rows': rows,
+                #     'start': start,
+                #     'sort': sort,
+                #     'facet': 'true',
+                #     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
+                #     'facet.limit': facet_limit,
+                #     'include_private': True 
+                # }
 
-                context = {
-                            # 'user': req_username
-                            'ignore_auth': True
-                        }
+                # context = {
+                #             # 'user': req_username
+                #             'ignore_auth': True
+                #         }
 
-                # Jalankan package_search
-                response = get_action('package_search')(context, params)
+                # # Jalankan package_search
+                # response = get_action('package_search')(context, params)
 
-                return jsonify({"success": True, "data": response})
+                # return jsonify({"success": True, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
