@@ -186,7 +186,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {
                             'user': username,
-                            'ignore_auth': False
+                            'ignore_auth': True
                         }
 
                 # Jalankan package_search
