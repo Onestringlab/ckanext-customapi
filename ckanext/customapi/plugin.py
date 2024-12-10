@@ -232,7 +232,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 role_access = has_package_access(id, username)
 
                 # Jalankan package_show
-                response = get_action('package_show')(context, params)
+                response = get_action('resource_show')(context, params)
                 print(f'role_access:{role_access}')
 
                 # Kembalikan data dokumen
