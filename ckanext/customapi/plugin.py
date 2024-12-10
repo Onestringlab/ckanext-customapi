@@ -229,11 +229,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'ignore_auth': False
                 }
 
-                role_access = has_package_access(id, username)
-                print(f'role_access:{role_access}')
+                # role_access = has_package_access(id, username)
+                # print(f'role_access:{role_access}')
 
                 # Jalankan package_show
-                response = get_action('resource_show')(context, params)
+                response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": response})
