@@ -59,7 +59,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil parameter username dari JSON payload
                 token = request.headers.get("Authorization")
-                username, email = get_username(token)
+                _, email = get_username(token)
+                username = email.split('@')[0]
 
                 # Query menggunakan parameterized query untuk keamanan
                 query = '''
