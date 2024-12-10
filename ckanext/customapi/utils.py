@@ -51,7 +51,7 @@ def has_package_access(id, username):
         'user': username
     }
     try:
-        response = get_action('package_show')(context, params)
-        return {"access": "True"}
+        # response = get_action('package_show')(context, params)
+        return context
     except Exception as e:
-        return {"access": "False"}
+        return context
