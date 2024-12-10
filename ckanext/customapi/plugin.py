@@ -181,8 +181,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'sort': sort,
                     'facet': 'true',
                     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
-                    'facet.limit': facet_limit,
-                    'include_private': True 
+                    'facet.limit': facet_limit
                 }
 
                 context = {
