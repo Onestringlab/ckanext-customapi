@@ -224,7 +224,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'user': email
+                    'user': username
                 }
 
                 # Jalankan package_show
