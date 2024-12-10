@@ -156,10 +156,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
-                print(f'token: {token}')
-
                 username, email = get_username(token)
-                print(f'{username},{email}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '*:*')
@@ -185,14 +182,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': True 
                 }
 
-                context = {
-                            'username': username,
-                            'ignore_auth': True
-                        }
+                context = {'ignore_auth': True}
 
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
-
 
                 return jsonify({"success": True, "email": email, "data": response})
 
@@ -225,7 +218,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'username': username,
+                    'user': username,
                     'ignore_auth': False
                 }
 
