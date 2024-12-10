@@ -216,7 +216,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Context dengan pengguna yang memiliki akses
                 context = {
                     'user': username,
-                    'ignore_auth': False
+                    'ignore_auth': True
                 }
 
                 # Jalankan package_show
@@ -236,7 +236,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Siapkan konteks dengan user yang telah diautentikasi
                 context = {
                     'user': username,  # User yang valid harus tersedia di CKAN
-                    'ignore_auth': True
+                    'ignore_auth': False
                 }
 
                 # Parameter untuk resource_list_for_user (bisa kosong)
