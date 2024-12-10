@@ -230,16 +230,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 role_access = has_package_access(id, username)
+                print(f'role_access:{role_access}')
 
                 # Jalankan package_show
                 response = get_action('resource_show')(context, params)
-                print(f'role_access:{role_access}')
 
                 # Kembalikan data dokumen
                 return jsonify({"success": True, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "error-------------------------------": str(e)}), 500
+                return jsonify({"success": False, "error": str(e)}), 500
         
         @blueprint_customapi.route('/get-token', methods=['POST'])
         def get_token():
