@@ -105,7 +105,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil parameter username dari JSON payload
                 token = request.headers.get("Authorization")
-                username, email = get_username(token)
+                _, email = get_username(token)
+                username = email.split('@')[0]
 
                 # Query menggunakan parameterized query untuk keamanan
                 query = '''
@@ -235,7 +236,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Siapkan konteks dengan user yang telah diautentikasi
                 context = {
                     'user': username,  # User yang valid harus tersedia di CKAN
-                    'ignore_auth': False
+                    'ignore_auth': True
                 }
 
                 # Parameter untuk resource_list_for_user (bisa kosong)
