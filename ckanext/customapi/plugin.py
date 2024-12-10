@@ -209,7 +209,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 request_name = payload.get('name')
                 token = request.headers.get("Authorization")
   
-                  if not request_id and not request_name:
+                if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
                 if request_id:
