@@ -225,7 +225,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
-                    'user': username,
+                    'username': username,
                     'ignore_auth': False
                 }
 
