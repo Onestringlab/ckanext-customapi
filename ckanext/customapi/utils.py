@@ -27,13 +27,7 @@ def get_user_object(username):
 
 def get_username(jwt_token, secret_key=None, public_key=None, algorithm="HS256"):
     try:
-        key = secret_key if algorithm.startswith("HS") else public_key
-
-        if not key:
-            raise ValueError("Secret key or public key must be provided for decoding the token")
-
-        # Decode the JWT token
-        decoded_token = jwt.decode(jwt_token, key, algorithms=[algorithm])
+        decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": False})
 
         # Extract the preferred_username
         preferred_username = decoded_token.get("preferred_username")
