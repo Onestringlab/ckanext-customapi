@@ -148,18 +148,18 @@ def has_package_access(user_id, dataset_id):
         return True
     
     # Jika dataset private, cek kapasitas user di organisasi terkait
-    # if not dataset.is_public():
-    #     # Ambil organisasi dari dataset
-    #     organization_id = dataset.owner_org
-    #     if organization_id:
-    #         # Ambil organisasi
-    #         organization = Organization.get(organization_id)
+    if not dataset.is_public():
+        # Ambil organisasi dari dataset
+        organization_id = dataset.owner_org
+        if organization_id:
+            # Ambil organisasi
+            organization = Organization.get(organization_id)
             
-    #         # Cek apakah pengguna adalah admin, editor, atau member dari organisasi
-    #         member = Member.get(user.id, organization.id)
-    #         if member:
-    #             if member.capacity in ['admin', 'editor', 'member']:
-    #                 return True
+            # Cek apakah pengguna adalah admin, editor, atau member dari organisasi
+            member = Member.get(user.id, organization.id)
+            if member:
+                if member.capacity in ['admin', 'editor', 'member']:
+                    return True
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return False
