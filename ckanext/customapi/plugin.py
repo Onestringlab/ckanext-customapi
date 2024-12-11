@@ -168,7 +168,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if len(query) == 0:  # Jika panjang query 0
                     query = '*:*'
                 elif query != '*:*':  # Jika query bukan '*:*', gunakan format pencarian
-                    query = f"(title:{query} OR notes:{query})"
+                    query = f"(title:*{query}* OR notes:*{query}*)"
                 
                 print(query)
 
