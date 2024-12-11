@@ -164,11 +164,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 include_private = payload.get('include_private', False)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
 
-                # Format query dengan `title` atau `notes`
-                if len(query) == 0:  
+                # Periksa panjang query
+                if len(query) == 0:  # Jika panjang query 0
                     query = '*:*'
-                elif query != '*:*':
+                elif query != '*:*':  # Jika query bukan '*:*', gunakan format pencarian
                     query = f"(title:{query} OR notes:{query})"
+                
+                print(query)
 
                 # Parameter untuk Solr
                 params = {
