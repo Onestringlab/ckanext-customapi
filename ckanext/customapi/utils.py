@@ -141,7 +141,7 @@ def has_package_access(user_id, dataset_id):
     if dataset.private:
         # Ambil grup dari dataset
         groups = dataset.get_groups()
-
+        print(groups)
         for group in groups:
             # Ambil grup terkait dengan dataset
             group_id = group.id
