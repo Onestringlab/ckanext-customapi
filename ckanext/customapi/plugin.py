@@ -103,7 +103,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
-                username, email = get_username(token)
+                _, email = get_username(token)
+                username = email.split('@')[0]
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
@@ -149,7 +150,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': include_private 
                 }
 
-                context = {'ignore_auth': True}
+                context = {'user': username,'ignore_auth': True}
 
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
@@ -174,14 +175,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
                 if request_id:
-                    id = request_id
+                    dataset_id = request_id
                 if request_name:
-                    id = request_name
+                    dataset_id = request_name
                 preferred_username, email = get_username(token)
                 username = email.split('@')[0]
 
                 # Parameter query untuk package_show
-                params = {'id': id}
+                params = {'id': dataset_id}
+
+                has_access = has_package_access(username, dataset_id)
 
                 # Context dengan pengguna yang memiliki akses
                 context = {
@@ -193,7 +196,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True, "data": response})
+                return jsonify({"success": True,"has_access": has_access, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500

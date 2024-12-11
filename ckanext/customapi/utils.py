@@ -111,13 +111,54 @@ def get_username_capacity(username, organization_name=None):
 
     return data
 
-def has_package_access(id, username):
-    params = {'id': id}
-    context = {
-        'user': username
-    }
-    try:
-        # response = get_action('package_show')(context, params)
-        return context
-    except Exception as e:
-        return context
+def has_package_access(user_id, dataset_id):
+    """
+    Fungsi untuk memeriksa hak akses pengguna terhadap dataset.
+    
+    Args:
+        user_id (str): ID pengguna yang ingin diperiksa aksesnya.
+        dataset_id (str): ID dataset yang akan diperiksa.
+    
+    Returns:
+        bool: True jika akses diberikan, False jika akses ditolak.
+    """
+    # Mendapatkan pengguna berdasarkan user_id
+    user = User.get(user_id)
+
+    if not user:
+        raise ValueError(f"User dengan ID {user_id} tidak ditemukan.")
+    
+    # Ambil dataset berdasarkan ID
+    dataset = Package.get(dataset_id)
+
+    if not dataset:
+        raise ValueError(f"Dataset dengan ID {dataset_id} tidak ditemukan.")
+    
+    # Jika dataset bersifat public, beri akses
+    if dataset.is_public():
+        return True
+    
+    # Jika pengguna adalah sysadmin, beri akses
+    if user.sysadmin:
+        return True
+    
+    # Jika pengguna adalah creator dari dataset, beri akses
+    if user.id == dataset.creator_user_id:
+        return True
+    
+    # Jika dataset private, cek kapasitas user di organisasi terkait
+    if not dataset.is_public():
+        # Ambil organisasi dari dataset
+        organization_id = dataset.owner_org
+        if organization_id:
+            # Ambil organisasi
+            organization = Organization.get(organization_id)
+            
+            # Cek apakah pengguna adalah admin, editor, atau member dari organisasi
+            member = Member.get(user.id, organization.id)
+            if member:
+                if member.capacity in ['admin', 'editor', 'member']:
+                    return True
+
+    # Jika tidak ada kondisi yang terpenuhi, akses ditolak
+    return False
