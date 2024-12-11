@@ -95,8 +95,8 @@ def get_username_capacity(username, group_id=None):
     if group_id:
         query += ' AND g.id = :group_id'
         result = query_custom(query, {'username': username,'group_id': group_id})
-    
-    result = query_custom(query, {'username': username})
+    else:
+        result = query_custom(query, {'username': username})
 
     # Konversi hasil query menjadi daftar dictionary
     data = [
