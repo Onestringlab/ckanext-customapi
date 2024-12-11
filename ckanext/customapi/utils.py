@@ -148,9 +148,10 @@ def has_package_access(user_id, dataset_id):
             print(user.id, user.name ,group_id)
             capacities = get_username_capacity(user.name,group_id)
             print(capacities)
-            capacity = capacities[0].get('capacity', None)
-            if capacity in ['admin', 'editor', 'member']:
-                return True
+            if capacities:
+                capacity = capacities[0].get('capacity', None)
+                if capacity in ['admin', 'editor', 'member']:
+                    return True
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return False
