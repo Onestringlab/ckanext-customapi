@@ -163,6 +163,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 facet_limit = int(payload.get('facet.limit', 500))
                 include_private = payload.get('include_private', False)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
+                organization = payload.get('organization', '').strip()
 
                 # Periksa panjang query
                 if len(query) == 0:  # Jika panjang query 0
@@ -170,7 +171,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 elif query != '*:*':  # Jika query bukan '*:*', gunakan format pencarian
                     query = f"(title:*{query}* OR notes:*{query}*)"
                 
-                print(query)
+                if organization:
+                    query += f" AND organization:{organization}"
 
                 # Parameter untuk Solr
                 params = {
