@@ -164,6 +164,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 include_private = payload.get('include_private', False)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
                 organization = payload.get('organization', '').strip()
+                kategori = payload.get('kategori', '').strip()
+                prioritas_tahun = payload.get('prioritas_tahun', '').strip()
 
                 # Periksa panjang query
                 if len(query) == 0:  # Jika panjang query 0
@@ -173,6 +175,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 
                 if organization:
                     query += f" AND organization:{organization}"
+                if kategori:
+                    query += f" AND kategori:{kategori}"
+                if prioritas_tahun:
+                    query += f" AND prioritas_tahun:{prioritas_tahun}"
 
                 # Parameter untuk Solr
                 params = {
