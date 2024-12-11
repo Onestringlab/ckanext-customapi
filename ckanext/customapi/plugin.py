@@ -156,7 +156,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 username, email = get_username(token)
 
                 # Ambil parameter dari payload JSON
-                query = payload.get('q', '*:*')
+                query = payload.get('q', '').strip()
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
@@ -165,7 +165,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
 
                 # Format query dengan `title` atau `notes`
-                if query != '*:*':
+                if not query:  
+                    query = '*:*'
+                elif query != '*:*':
                     query = f"(title:{query} OR notes:{query})"
 
                 # Parameter untuk Solr
