@@ -3,8 +3,7 @@ import requests
 
 from flask import jsonify
 from ckan.model import meta, User
-# from ckan.logic import get_action
-from ckan.auth import get_action
+from ckan.logic import get_action
 from ckan.model import Package, User, Organization, Member
 
 def query_custom(query, params=None):
