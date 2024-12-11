@@ -47,3 +47,4 @@ test.py
 test_jwt.py
 test_minio.py
 others-api.md
+test_enkripsi.py

@@ -9,7 +9,8 @@ from ckan.logic import get_action
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_custom, query_solr, get_user_object, get_username, has_package_access
+from ckanext.customapi.utils import query_custom, query_solr, get_username, has_package_access
+from ckanext.customapi.utils import get_profile_by_username
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -63,31 +64,33 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 username = email.split('@')[0]
 
                 # Query menggunakan parameterized query untuk keamanan
-                query = '''
-                    SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
-                        activity_streams_email_notifications, state, plugin_extras, image_url 
-                    FROM public.user 
-                    WHERE name = :username
-                '''
-                result = query_custom(query, {'username': username})
+                # query = '''
+                #     SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
+                #         activity_streams_email_notifications, state, plugin_extras, image_url 
+                #     FROM public.user 
+                #     WHERE name = :username
+                # '''
+                # result = query_custom(query, {'username': username})
 
-                # Konversi hasil query menjadi daftar dictionary
-                data = [
-                    {
-                        "id": row[0],
-                        "name": row[1],
-                        "apikey": row[2],
-                        "fullname": row[3],
-                        "email": row[4],
-                        "reset_key": row[5],
-                        "sysadmin": row[6],
-                        "activity_streams_email_notifications": row[7],
-                        "state": row[8],
-                        "plugin_extras": row[9],
-                        "image_url": row[10]
-                    }
-                    for row in result
-                ]
+                # # Konversi hasil query menjadi daftar dictionary
+                # data = [
+                #     {
+                #         "id": row[0],
+                #         "name": row[1],
+                #         "apikey": row[2],
+                #         "fullname": row[3],
+                #         "email": row[4],
+                #         "reset_key": row[5],
+                #         "sysadmin": row[6],
+                #         "activity_streams_email_notifications": row[7],
+                #         "state": row[8],
+                #         "plugin_extras": row[9],
+                #         "image_url": row[10]
+                #     }
+                #     for row in result
+                # ]
+
+                data = get_profile_by_username(username)
 
                 return jsonify({
                     "data": data,
