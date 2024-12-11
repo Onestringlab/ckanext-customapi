@@ -180,7 +180,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': False 
                 }
 
-                context = {'ignore_auth': True}
+                context = {'ignore_auth': False}
 
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
