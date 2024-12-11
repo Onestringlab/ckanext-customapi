@@ -185,7 +185,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': include_private 
                 }
 
-                context = {'ignore_auth': False}
+                context = {'ignore_auth': True}
 
                 # Jalankan package_search
                 response = get_action('package_search')(context, params)
