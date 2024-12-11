@@ -146,9 +146,10 @@ def has_package_access(user_id, dataset_id):
             # Ambil grup terkait dengan dataset
             group_id = group.id
             print(user.id, user.name ,group_id)
-            capacity = get_username_capacity(user.name,group_id)
+            capacities = get_username_capacity(user.name,group_id)
+            print(capacities)
 
-            if capacity.capacity in ['admin', 'editor', 'member']:
+            if capacities.capacity in ['admin', 'editor', 'member']:
                 return True 
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
