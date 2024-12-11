@@ -145,10 +145,10 @@ def has_package_access(user_id, dataset_id):
         for group in groups:
             # Ambil grup terkait dengan dataset
             group_id = group.id
-            print(group)
+            print(group_id)
             
             # # Cek apakah pengguna adalah admin, editor, atau member dari grup
-            # member = Member.get(user.id, group_id)
+            member = Member.get(user.id, group_id)
             # if member:
             #     if member.capacity in ['admin', 'editor', 'member']:
             #         return True
