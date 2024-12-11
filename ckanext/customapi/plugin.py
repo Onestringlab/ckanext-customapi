@@ -161,6 +161,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
+                include_private = payload.get('include_private')
 
                 # Format query dengan `title` atau `notes`
                 if query != '*:*':
@@ -176,7 +177,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
                     'facet.limit': facet_limit,
-                    'include_private': True 
+                    'include_private': include_private 
                 }
 
                 context = {'ignore_auth': True}
