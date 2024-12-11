@@ -141,12 +141,11 @@ def has_package_access(user_id, dataset_id):
     if dataset.private:
         # Ambil grup dari dataset
         groups = dataset.get_groups()
-        print(groups)
         for group in groups:
             # Ambil grup terkait dengan dataset
             group_id = group.id
-            print(user.id, user.name ,group_id)
-            capacities = get_username_capacity(user.name,group_id)
+            print(user.name ,group_id)
+            capacities = get_username_capacity(user.name, group_id)
             print(capacities)
             if capacities:
                 capacity = capacities[0].get('capacity', None)
