@@ -10,7 +10,7 @@ from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
 from ckanext.customapi.utils import query_custom, query_solr, get_username, has_package_access
-from ckanext.customapi.utils import get_profile_by_username
+from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -83,34 +83,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 token = request.headers.get("Authorization")
                 _, email = get_username(token)
                 username = email.split('@')[0]
-
-                # # Query menggunakan parameterized query untuk keamanan
-                # query = '''
-                #     SELECT 
-                #         u.name AS user_name, 
-                #         u.id AS user_id, 
-                #         g.name AS organization_name, 
-                #         m.capacity
-                #     FROM "member" m
-                #     JOIN "user" u ON m.table_id = u.id
-                #     JOIN "group" g ON m.group_id = g.id
-                #     WHERE 
-                #         g.type = 'organization'
-                #         AND m.state = 'active'
-                #         AND u.name = :username
-                # '''
-                # result = query_custom(query, {'username': username})
-
-                # # Konversi hasil query menjadi daftar dictionary
-                # data = [
-                #     {
-                #         "user_name": row[0],
-                #         "user_id": row[1],
-                #         "organization_name": row[2],
-                #         "capacity": row[3]
-                #     }
-                #     for row in result
-                # ]
 
                 data = get_username_capacity(username)
 

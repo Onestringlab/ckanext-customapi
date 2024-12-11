@@ -73,12 +73,13 @@ def get_profile_by_username(username):
     ]
     return data
 
-def get_username_capacity(username):
+def get_username_capacity(username, organization_name=None):
     # Query menggunakan parameterized query untuk keamanan
     query = '''
         SELECT 
             u.name AS user_name, 
             u.id AS user_id, 
+            g.title AS organization_title,
             g.name AS organization_name, 
             m.capacity
         FROM "member" m
@@ -89,6 +90,11 @@ def get_username_capacity(username):
             AND g.type = 'organization'
             AND u.name = :username
     '''
+
+    if organization_name:
+        query += ' AND organization_name = :organization_name'
+        result = query_custom(query, {'username': username,'organization_name': organization_name})
+    
     result = query_custom(query, {'username': username})
 
     # Konversi hasil query menjadi daftar dictionary
@@ -96,8 +102,9 @@ def get_username_capacity(username):
         {
             "user_name": row[0],
             "user_id": row[1],
-            "organization_name": row[2],
-            "capacity": row[3]
+            "organization_title": row[2],
+            "organization_name": row[3],
+            "capacity": row[4]
         }
         for row in result
     ]
