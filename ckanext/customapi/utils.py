@@ -74,7 +74,7 @@ def get_profile_by_username(username):
     ]
     return data
 
-def get_username_capacity(username, organization_name=None):
+def get_username_capacity(username, group_id=None):
     # Query menggunakan parameterized query untuk keamanan
     query = '''
         SELECT 
@@ -92,9 +92,9 @@ def get_username_capacity(username, organization_name=None):
             AND u.name = :username
     '''
 
-    if organization_name:
-        query += ' AND organization_name = :organization_name'
-        result = query_custom(query, {'username': username,'organization_name': organization_name})
+    if group_id:
+        query += ' AND g.id = :group_id'
+        result = query_custom(query, {'username': username,'group_id': group_id})
     
     result = query_custom(query, {'username': username})
 
@@ -145,18 +145,11 @@ def has_package_access(user_id, dataset_id):
         for group in groups:
             # Ambil grup terkait dengan dataset
             group_id = group.id
-            print(user.id, group_id)
-            
-            # # Cek apakah pengguna adalah admin, editor, atau member dari grup
-            try:
-                member = Member.get(user_id=user.id, group_id=group_id)
-                if member:
-                    if member.capacity in ['admin', 'editor', 'member']:
-                        return True
-            except Exception as e:
-                # Jika gagal mendapatkan member, lanjutkan ke grup berikutnya
-                print(f"Error saat mengecek anggota grup {group_id}: {str(e)}")
-                continue
+            print(user.id, user.name ,group_id)
+            capacity = get_username_capacity(user.name,group_id)
+
+            if capacity in ['admin', 'editor', 'member']:
+                return True 
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return False
