@@ -165,7 +165,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
 
                 # Format query dengan `title` atau `notes`
-                if not query:  
+                if len(query) == 0:  
                     query = '*:*'
                 elif query != '*:*':
                     query = f"(title:{query} OR notes:{query})"
@@ -191,7 +191,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "email": email, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "error": str(e,query)}), 500
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
         def get_dataset_by_name_or_id():
