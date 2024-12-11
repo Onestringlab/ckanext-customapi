@@ -63,33 +63,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 _, email = get_username(token)
                 username = email.split('@')[0]
 
-                # Query menggunakan parameterized query untuk keamanan
-                # query = '''
-                #     SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
-                #         activity_streams_email_notifications, state, plugin_extras, image_url 
-                #     FROM public.user 
-                #     WHERE name = :username
-                # '''
-                # result = query_custom(query, {'username': username})
-
-                # # Konversi hasil query menjadi daftar dictionary
-                # data = [
-                #     {
-                #         "id": row[0],
-                #         "name": row[1],
-                #         "apikey": row[2],
-                #         "fullname": row[3],
-                #         "email": row[4],
-                #         "reset_key": row[5],
-                #         "sysadmin": row[6],
-                #         "activity_streams_email_notifications": row[7],
-                #         "state": row[8],
-                #         "plugin_extras": row[9],
-                #         "image_url": row[10]
-                #     }
-                #     for row in result
-                # ]
-
                 data = get_profile_by_username(username)
 
                 return jsonify({
@@ -111,33 +84,35 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 _, email = get_username(token)
                 username = email.split('@')[0]
 
-                # Query menggunakan parameterized query untuk keamanan
-                query = '''
-                    SELECT 
-                        u.name AS user_name, 
-                        u.id AS user_id, 
-                        g.name AS organization_name, 
-                        m.capacity
-                    FROM "member" m
-                    JOIN "user" u ON m.table_id = u.id
-                    JOIN "group" g ON m.group_id = g.id
-                    WHERE 
-                        g.type = 'organization'
-                        AND m.state = 'active'
-                        AND u.name = :username
-                '''
-                result = query_custom(query, {'username': username})
+                # # Query menggunakan parameterized query untuk keamanan
+                # query = '''
+                #     SELECT 
+                #         u.name AS user_name, 
+                #         u.id AS user_id, 
+                #         g.name AS organization_name, 
+                #         m.capacity
+                #     FROM "member" m
+                #     JOIN "user" u ON m.table_id = u.id
+                #     JOIN "group" g ON m.group_id = g.id
+                #     WHERE 
+                #         g.type = 'organization'
+                #         AND m.state = 'active'
+                #         AND u.name = :username
+                # '''
+                # result = query_custom(query, {'username': username})
 
-                # Konversi hasil query menjadi daftar dictionary
-                data = [
-                    {
-                        "user_name": row[0],
-                        "user_id": row[1],
-                        "organization_name": row[2],
-                        "capacity": row[3]
-                    }
-                    for row in result
-                ]
+                # # Konversi hasil query menjadi daftar dictionary
+                # data = [
+                #     {
+                #         "user_name": row[0],
+                #         "user_id": row[1],
+                #         "organization_name": row[2],
+                #         "capacity": row[3]
+                #     }
+                #     for row in result
+                # ]
+
+                data = get_username_capacity(username)
 
                 return jsonify({
                     "data": data,
