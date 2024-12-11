@@ -113,16 +113,6 @@ def get_username_capacity(username, organization_name=None):
     return data
 
 def has_package_access(user_id, dataset_id):
-    """
-    Fungsi untuk memeriksa hak akses pengguna terhadap dataset.
-    
-    Args:
-        user_id (str): ID pengguna yang ingin diperiksa aksesnya.
-        dataset_id (str): ID dataset yang akan diperiksa.
-    
-    Returns:
-        bool: True jika akses diberikan, False jika akses ditolak.
-    """
     # Mendapatkan pengguna berdasarkan user_id
     user = User.get(user_id)
 
@@ -155,12 +145,13 @@ def has_package_access(user_id, dataset_id):
         for group in groups:
             # Ambil grup terkait dengan dataset
             group_id = group.id
+            print(group)
             
-            # Cek apakah pengguna adalah admin, editor, atau member dari grup
-            member = Member.get(user.id, group_id)
-            if member:
-                if member.capacity in ['admin', 'editor', 'member']:
-                    return True
+            # # Cek apakah pengguna adalah admin, editor, atau member dari grup
+            # member = Member.get(user.id, group_id)
+            # if member:
+            #     if member.capacity in ['admin', 'editor', 'member']:
+            #         return True
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return False
