@@ -156,7 +156,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 username, email = get_username(token)
 
                 # Ambil parameter dari payload JSON
-                query = payload.get('query', '').strip()
+                query = payload.get('q', '').strip()
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
@@ -191,7 +191,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "email": email, "data": response})
 
             except Exception as e:
-                return jsonify({"success": False, "error": str(e)}), 500
+                return jsonify({"success": False, "error": str(e,query)}), 500
 
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
         def get_dataset_by_name_or_id():
