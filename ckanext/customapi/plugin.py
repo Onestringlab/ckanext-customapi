@@ -156,7 +156,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 username, email = get_username(token)
 
                 # Ambil parameter dari payload JSON
-                query = payload.get('q', '').strip()
+                query = payload.get('query', '').strip()
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
