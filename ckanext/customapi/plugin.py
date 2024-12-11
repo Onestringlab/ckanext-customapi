@@ -166,6 +166,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 organization = payload.get('organization', '').strip()
                 kategori = payload.get('kategori', '').strip()
                 prioritas_tahun = payload.get('prioritas_tahun', '').strip()
+                tags = payload.get('tags', '').strip()
+                res_format = payload.get('res_format', '').strip()
 
                 # Periksa panjang query
                 if len(query) == 0:  # Jika panjang query 0
@@ -179,6 +181,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     query += f" AND kategori:{kategori}"
                 if prioritas_tahun:
                     query += f" AND prioritas_tahun:{prioritas_tahun}"
+                if tags:
+                    query += f" AND tags:{tags}"
+                if res_format:
+                    query += f" AND res_format:{res_format}"
 
                 # Parameter untuk Solr
                 params = {
