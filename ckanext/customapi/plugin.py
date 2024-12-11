@@ -184,13 +184,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Parameter query untuk package_show
                 params = {'id': dataset_id}
 
-                has_access = has_package_access(username, dataset_id)
+                # has_access = has_package_access(username, dataset_id)
 
                 # Context dengan pengguna yang memiliki akses
-                context = {
-                    'user': username,
-                    'ignore_auth': True
-                }
+                context = {'ignore_auth': True}
 
                 # Jalankan package_show
                 response = get_action('package_show')(context, params)

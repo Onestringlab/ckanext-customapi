@@ -136,7 +136,7 @@ def has_package_access(user_id, dataset_id):
         raise ValueError(f"Dataset dengan ID {dataset_id} tidak ditemukan.")
     
     # Jika dataset bersifat public, beri akses
-    if dataset.is_public():
+    if not dataset.private:
         return True
     
     # Jika pengguna adalah sysadmin, beri akses
