@@ -92,11 +92,11 @@ def get_username_capacity(username, group_id=None):
             AND u.name = :username
     '''
 
+    result = query_custom(query, {'username': username})
+
     if group_id:
         query += ' AND g.id = :group_id'
         result = query_custom(query, {'username': username,'group_id': group_id})
-    else:
-        result = query_custom(query, {'username': username})
 
     # Konversi hasil query menjadi daftar dictionary
     data = [
@@ -148,7 +148,7 @@ def has_package_access(user_id, dataset_id):
             print(user.id, user.name ,group_id)
             capacity = get_username_capacity(user.name,group_id)
 
-            if capacity in ['admin', 'editor', 'member']:
+            if capacity.capacity in ['admin', 'editor', 'member']:
                 return True 
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
