@@ -9,7 +9,7 @@ from ckan.logic import get_action
 from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
-from ckanext.customapi.utils import query_custom, query_solr, get_username, has_package_access
+from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 
 class CustomapiPlugin(plugins.SingletonPlugin):
