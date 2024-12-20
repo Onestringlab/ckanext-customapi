@@ -112,7 +112,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', 'prioritas_tahun desc')
                 facet_limit = int(payload.get('facet.limit', 500))
-                include_private = payload.get('include_private', False)
+                include_private = payload.get('include_private', True)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
                 organization = payload.get('organization', '').strip()
                 kategori = payload.get('kategori', '').strip()
@@ -147,7 +147,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'facet': 'true',
                     'facet.field': ['organization', 'kategori', 'prioritas_tahun', 'tags', 'res_format'],
                     'facet.limit': facet_limit,
-                    'include_private': include_private 
+                    'include_private': include_private
                 }
 
                 context = {'user': username,'ignore_auth': True}
