@@ -192,5 +192,9 @@ def list_organizations():
             }
             for row in result_kl
         ]
+    total_kl = result_kl.count()
 
-    return data_kl
+    return {
+        "total_kl": total_kl,
+        "data_kl": data_kl
+    }

@@ -236,7 +236,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_data_organizations():
             try:
                 data_kl = list_organizations()
-                return jsonify({"success": True, "total_kl": len(data_kl), "data_kl": data_kl})
+                return jsonify({"success": True, "data_kl": data_kl})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
