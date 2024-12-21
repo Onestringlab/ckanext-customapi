@@ -194,7 +194,33 @@ def list_organizations():
         ]
     total_kl = result_kl.count()
 
+    result_pv = (
+        session.query(
+            Group.id,
+            Group.name,
+            Group.title,
+            Group.image_url
+        )
+        .filter(Group.is_organization == True)
+        .filter(Group.title.like('Provinsi%'))
+        .order_by(Group.title.asc())
+    )
+
+    data_pv = [
+            {
+                "id": row.id,
+                "name": row.name,
+                "title": row.title,
+                "image_url": row.image_url
+            }
+            for row in result_kl
+        ]
+    total_pv = result_pv.count()
+
     return {
         "total_kl": total_kl,
-        "data_kl": data_kl
+        "data_kl": data_kl,
+        "total_pv": total_pv,
+        "data_pv": data_pv,
+
     }

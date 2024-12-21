@@ -235,8 +235,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-data-organizations', methods=['POST'])
         def get_data_organizations():
             try:
-                data_kl = list_organizations()
-                return jsonify({"success": True, "data_kl": data_kl})
+                data = list_organizations()
+                return jsonify({"success": True, "data": data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
