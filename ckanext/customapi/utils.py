@@ -217,10 +217,39 @@ def list_organizations():
         ]
     total_pv = result_pv.count()
 
+    filters_kk = [
+        Group.title.like('Kota%'),
+        Group.title.like('Kabupaten%')
+    ]
+
+    result_kk = (
+        session.query(
+            Group.id,
+            Group.name,
+            Group.title,
+            Group.image_url
+        )
+        .filter(Group.is_organization == True)
+        .filter(or_(*filters_kk))
+        .order_by(Group.title.asc())
+    )
+
+    data_kk = [
+            {
+                "id": row.id,
+                "name": row.name,
+                "title": row.title,
+                "image_url": row.image_url
+            }
+            for row in result_kk
+        ]
+    total_kk = result_kk.count()
+
     return {
         "total_kl": total_kl,
         "data_kl": data_kl,
         "total_pv": total_pv,
         "data_pv": data_pv,
-
+        "total_pv": total_kk,
+        "data_pv": data_kk
     }
