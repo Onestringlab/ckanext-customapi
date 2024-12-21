@@ -220,6 +220,26 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except jwt.InvalidTokenError as e:
                 return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
                 
+        @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
+        def get_count_datasets():
+            try:
+                # Parameter untuk Solr
+                params = {
+                    'q': '*:*',
+                    'wt': 'json',
+                    'rows': 0,
+                    'include_private': include_private
+                }
+
+                context = {'ignore_auth': True}
+                result = toolkit.get_action('package_search')(context, search_params)
+                count = result.get('count', 0)
+                
+                return jsonify({"success": True, "data": count})
+            except:
+                return jsonify({"error": f"{str(e)}"}), 400
+
+
         return blueprint_customapi
     
 def hello_api_action(context, data_dict):
