@@ -1,5 +1,5 @@
-import requests
 import jwt
+import requests
 from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -235,8 +235,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-data-organizations', methods=['POST'])
         def get_data_organizations():
             try:
-                result = list_organizations()
-                return jsonify({"success": True, "data": result})
+                data_kl = list_organizations()
+                return jsonify({"success": True, "total_kl": len(data_kl), "data_kl": data_kl})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
