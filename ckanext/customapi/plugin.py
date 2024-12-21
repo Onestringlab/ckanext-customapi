@@ -229,7 +229,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # count = result.get('count', 0)
                 
                 return jsonify({"success": True, "data": result})
-            except:
+            except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
         @blueprint_customapi.route('/get-data-organizations', methods=['POST'])
@@ -237,7 +237,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 result = list_organizations()
                 return jsonify({"success": True, "data": result})
-            except:
+            except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
 
