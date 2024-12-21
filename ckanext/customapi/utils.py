@@ -2,6 +2,7 @@ import jwt
 import requests
 
 from flask import jsonify
+from sqlalchemy import or_
 from ckan.logic import get_action
 from ckan.model import Package, User, Group, Member, meta
 
