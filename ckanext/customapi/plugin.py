@@ -232,7 +232,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 }
 
                 context = {'ignore_auth': True}
-                result = toolkit.get_action('package_search')(context, search_params)
+                result = toolkit.get_action('package_search')(context, params)
                 count = result.get('count', 0)
                 
                 return jsonify({"success": True, "data": count})
