@@ -156,6 +156,8 @@ def has_package_access(user_id, dataset_id):
 
 def list_organizations():
     session = meta.Session
+
+    # kementerian lembaga
     filters_kl = [
         Group.title.like('Arsip%'),
         Group.title.like('Badan%'),
@@ -194,6 +196,7 @@ def list_organizations():
         ]
     total_kl = result_kl.count()
 
+    # provinsi
     result_pv = (
         session.query(
             Group.id,
@@ -217,6 +220,7 @@ def list_organizations():
         ]
     total_pv = result_pv.count()
 
+    # kabupaten kota
     filters_kk = [
         Group.title.like('Kota%'),
         Group.title.like('Kabupaten%')
