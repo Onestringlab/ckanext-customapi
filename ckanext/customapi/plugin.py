@@ -233,9 +233,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'ignore_auth': True}
                 result = toolkit.get_action('package_search')(context, params)
-                count = result.get('count', 0)
+                # count = result.get('count', 0)
                 
-                return jsonify({"success": True, "data": count})
+                return jsonify({"success": True, "data": result})
             except:
                 return jsonify({"error": f"{str(e)}"}), 400
 
