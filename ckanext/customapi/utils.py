@@ -166,8 +166,7 @@ def list_organizations():
         .all()
     )
 
-    data = json.dumps(
-        [
+    data = [
             {
                 "id": row.id,
                 "name": row.name,
@@ -176,6 +175,5 @@ def list_organizations():
             }
             for row in result
         ]
-    )
 
     return data
