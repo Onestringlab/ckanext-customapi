@@ -178,7 +178,7 @@ def list_organizations():
             Group.image_url
         )
         .filter(Group.is_organization == True)
-        .filter(or_(*filters))
+        .filter(or_(*filters_kl))
         .order_by(Group.title.asc())
     )
 
