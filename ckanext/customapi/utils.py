@@ -159,7 +159,7 @@ def list_organizations():
         session.query(
             Group.id,
             Group.name,
-            Group.tittle,
+            Group.title,
             Group.image_url
         )
         .filter(Group.is_organization == True)
@@ -171,7 +171,7 @@ def list_organizations():
             {
                 "id": row.id,
                 "name": row.name,
-                "tittle": row.tittle,
+                "title": row.title,
                 "image_url": row.image_url
             }
             for row in result

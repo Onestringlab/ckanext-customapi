@@ -41,7 +41,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             Route untuk /welcome_api
             """
             return jsonify({
-                "message": "Welcome to the Virtual World 7!!",
+                "message": "Welcome to the Virtual World 8!!",
                 "success": True
             })
 
@@ -213,25 +213,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except jwt.InvalidTokenError as e:
                 return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
                 
-        @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
-        def get_count_datasets():
-            try:
-                # Parameter untuk Solr
-                params = {
-                    'q': '*:*',
-                    'wt': 'json',
-                    'rows': 0,
-                    'include_private': True
-                }
-
-                context = {'ignore_auth': True}
-                result = toolkit.get_action('package_search')(context, params)
-                # count = result.get('count', 0)
-                
-                return jsonify({"success": True, "data": result})
-            except:
-                return jsonify({"error": f"{str(e)}"}), 400
-
         @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
         def get_count_datasets():
             try:
