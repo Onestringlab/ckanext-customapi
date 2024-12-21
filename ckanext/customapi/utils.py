@@ -155,7 +155,22 @@ def has_package_access(user_id, dataset_id):
 
 def list_organizations():
     session = meta.Session
-    result = (
+    filters_kl = [
+        Group.title.like('Arsip%'),
+        Group.title.like('Badan%'),
+        Group.title.like('Dewan%'),
+        Group.title.like('Kementerian%'),
+        Group.title.like('Kepolisian%'),
+        Group.title.like('Komisi%'),
+        Group.title.like('Lembaga%'),
+        Group.title.like('Mahkamah%'),
+        Group.title.like('Majelis%'),
+        Group.title.like('Ombudsman%'),
+        Group.title.like('Perpustakaan%'),
+        Group.title.like('Pusat%')
+    ]
+
+    result_kl = (
         session.query(
             Group.id,
             Group.name,
@@ -163,17 +178,18 @@ def list_organizations():
             Group.image_url
         )
         .filter(Group.is_organization == True)
-        .all()
+        .filter(or_(*filters))
+        .order_by(Group.title.asc())
     )
 
-    data = [
+    data_kl = [
             {
                 "id": row.id,
                 "name": row.name,
                 "title": row.title,
                 "image_url": row.image_url
             }
-            for row in result
+            for row in result_kl
         ]
 
-    return data
+    return data_kl
