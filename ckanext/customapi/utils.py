@@ -254,6 +254,6 @@ def list_organizations():
         "data_kl": data_kl,
         "total_pv": total_pv,
         "data_pv": data_pv,
-        "total_pv": total_kk,
-        "data_pv": data_kk
+        "total_kk": total_kk,
+        "data_kk": data_kk
     }
