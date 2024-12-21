@@ -2,9 +2,8 @@ import jwt
 import requests
 
 from flask import jsonify
-from ckan.model import meta, User
 from ckan.logic import get_action
-from ckan.model import Package, User, Group, Member
+from ckan.model import Package, User, Group, Member, meta
 
 def query_custom(query, params=None):
     """
@@ -153,3 +152,30 @@ def has_package_access(user_id, dataset_id):
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return False
+
+def list_organizations():
+    session = meta.Session
+    result = (
+        session.query(
+            Group.id,
+            Group.name,
+            Group.tittle,
+            Group.image_url
+        )
+        .filter(Group.is_organization == True)
+        .all()
+    )
+
+    data = json.dumps(
+        [
+            {
+                "id": row.id,
+                "name": row.name,
+                "tittle": row.tittle,
+                "image_url": row.image_url
+            }
+            for row in result
+        ]
+    )
+
+    return data

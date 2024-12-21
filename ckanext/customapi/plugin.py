@@ -6,11 +6,11 @@ import ckan.plugins.toolkit as toolkit
 
 from ckan.common import config
 from ckan.logic import get_action
-from ckan.model import Package, User, meta
 from flask import Blueprint, jsonify, request
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
+from ckanext.customapi.utils import list_organizations
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -32,13 +32,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
-        # Inisialisasi engine SQLAlchemy
-        session = meta.Session
-
-        #Query API keys dari database menggunakan ORM SQLAlchemy
-        # valid_api_keys = []
-        # valid_api_keys = [user.apikey for user in session.query(User).filter(User.apikey.isnot(None)).all()]
-
         # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
@@ -235,6 +228,33 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 result = toolkit.get_action('package_search')(context, params)
                 # count = result.get('count', 0)
                 
+                return jsonify({"success": True, "data": result})
+            except:
+                return jsonify({"error": f"{str(e)}"}), 400
+
+        @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
+        def get_count_datasets():
+            try:
+                # Parameter untuk Solr
+                params = {
+                    'q': '*:*',
+                    'wt': 'json',
+                    'rows': 0,
+                    'include_private': True
+                }
+
+                context = {'ignore_auth': True}
+                result = toolkit.get_action('package_search')(context, params)
+                # count = result.get('count', 0)
+                
+                return jsonify({"success": True, "data": result})
+            except:
+                return jsonify({"error": f"{str(e)}"}), 400
+
+        @blueprint_customapi.route('/get-data-organizations', methods=['POST'])
+        def get_data_organizations():
+            try:
+                result = list_organizations()
                 return jsonify({"success": True, "data": result})
             except:
                 return jsonify({"error": f"{str(e)}"}), 400
