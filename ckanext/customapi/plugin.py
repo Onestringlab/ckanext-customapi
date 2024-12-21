@@ -228,7 +228,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'q': '*:*',
                     'wt': 'json',
                     'rows': 0,
-                    'include_private': include_private
+                    'include_private': True
                 }
 
                 context = {'ignore_auth': True}
