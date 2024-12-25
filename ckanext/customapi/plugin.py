@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 9!!"
+            message = "Welcome to the Virtual World 10!!"
             log.info(f'message:{message}')
             return jsonify({
                 "message": message,
@@ -107,6 +107,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if token:
                     _, email = get_username(token)
                     username = email.split('@')[0]
+                
+                log.info(f'token:{token}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
