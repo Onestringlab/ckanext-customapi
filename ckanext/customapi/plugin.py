@@ -190,16 +190,15 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
+                    log.info(f'token_value:{token_value}')
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    log.info(f'token_value:{token_value}')
+                    preferred_username, email = get_username(token)
 
                 if request_id:
                     dataset_id = request_id
                 if request_name:
                     dataset_id = request_name
-                preferred_username, email = get_username(token)
-                username = email.split('@')[0]
 
                 # Parameter query untuk package_show
                 params = {'id': dataset_id}
