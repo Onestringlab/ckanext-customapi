@@ -189,7 +189,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 request_id = payload.get('id')
                 request_name = payload.get('name')
                 token = request.headers.get("Authorization")
-  
+
                 if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
@@ -203,7 +203,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     log.info(f'token_value:{token_value}')
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    preferred_username, email = get_username(token)
 
                 if request_id:
                     dataset_id = request_id
