@@ -3,7 +3,7 @@
 COMMIT_MESSAGE="Initial Commit"
 git add .
 git commit -m "$COMMIT_MESSAGE"
-git push -u origin maste
+git push -u origin master
 
 # Path host untuk ekstensi
 HOST_EXT_PATH="/srv/app/ext_2024/ckanext-customapi"
