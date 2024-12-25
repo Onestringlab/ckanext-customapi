@@ -66,7 +66,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    # log.info(f'token_value:{token_value}')
 
                     data = get_profile_by_username(username)
 
@@ -122,7 +121,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    # log.info(f'token_value:{token_value}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
@@ -242,7 +240,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'ignore_auth': True}
                 result = toolkit.get_action('package_search')(context, params)
-                # count = result.get('count', 0)
                 
                 return jsonify({"success": True, "data": result})
             except Exception as e:
