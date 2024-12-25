@@ -86,15 +86,21 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil parameter username dari JSON payload
                 token = request.headers.get("Authorization")
-                _, email = get_username(token)
-                username = email.split('@')[0]
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
 
-                data = get_username_capacity(username)
+                    data = get_username_capacity(username)
 
-                return jsonify({
-                    "data": data,
-                    "success": True
-                })
+                    return jsonify({
+                        "data": data,
+                        "success": True
+                    })
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
@@ -222,25 +228,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
-        
-        @blueprint_customapi.route('/get-token', methods=['POST'])
-        def get_token():
-            jwt_token = request.headers.get("Authorization")
-
-            if not jwt_token:
-                return jsonify({"error": "JWT token tidak ditemukan"}), 400
-
-            try:
-                # Dekode JWT tanpa memvalidasi signature dan expiration
-                decoded_token = jwt.decode(jwt_token, options={"verify_signature": False, "verify_exp": True})
-
-                # Jika sukses, kembalikan decoded token
-                return jsonify(decoded_token)
-
-            except jwt.ExpiredSignatureError:
-                return jsonify({"error": "Token sudah kedaluwarsa"}), 401
-            except jwt.InvalidTokenError as e:
-                return jsonify({"error": f"Token tidak valid: {str(e)}"}), 400
                 
         @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
         def get_count_datasets():
