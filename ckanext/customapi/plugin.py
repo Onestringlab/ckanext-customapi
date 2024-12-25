@@ -58,16 +58,23 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             try:
                 # Ambil parameter username dari JSON payload
                 token = request.headers.get("Authorization")
-                _, email = get_username(token)
-                username = email.split('@')[0]
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+                    # log.info(f'token_value:{token_value}')
 
-                data = get_profile_by_username(username)
+                    data = get_profile_by_username(username)
 
-                return jsonify({
-                    "data": data,
-                    "success": True,
-                    "username": username
-                })
+                    return jsonify({
+                        "data": data,
+                        "success": True,
+                        "username": username
+                    })
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
 
@@ -101,7 +108,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
-                log.info(f'token:{token}')
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 if token:
@@ -110,7 +116,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    log.info(f'token_value:{token_value}')
+                    # log.info(f'token_value:{token_value}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
@@ -212,7 +218,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True,"has_access": has_access, "data": response})
+                return jsonify({"success": True,, "email": email, has_access": has_access, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
