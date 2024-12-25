@@ -105,7 +105,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 if token:
-                    _, email = get_username(token)
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    _, email = get_username(token.split(" ", 1)[1])
                     username = email.split('@')[0]
                 
 
