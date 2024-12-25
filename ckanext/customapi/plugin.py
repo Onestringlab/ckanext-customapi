@@ -41,7 +41,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             Route untuk /welcome_api
             """
             return jsonify({
-                "message": "Welcome to the Virtual World 8!!",
+                "message": "Welcome to the Virtual World 9!!",
                 "success": True
             })
 
