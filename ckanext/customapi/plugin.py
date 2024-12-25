@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 10!!"
+            message = "Welcome to the Virtual World 11!!"
             log.info(f'message:{message}')
             return jsonify({
                 "message": message,
