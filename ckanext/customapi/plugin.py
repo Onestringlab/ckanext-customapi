@@ -183,6 +183,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+                    log.info(f'token_value:{token_value}')
+
                 if request_id:
                     dataset_id = request_id
                 if request_name:
