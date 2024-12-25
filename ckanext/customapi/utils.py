@@ -117,7 +117,7 @@ def has_package_access(user_id, dataset_id):
     user = User.get(user_id)
 
     if not user:
-        raise ValueError(f"User dengan ID {user_id} tidak ditemukan.")
+        return False
     
     # Ambil dataset berdasarkan ID
     dataset = Package.get(dataset_id)
