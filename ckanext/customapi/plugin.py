@@ -218,7 +218,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_show')(context, params)
 
                 # Kembalikan data dokumen
-                return jsonify({"success": True,, "email": email, has_access": has_access, "data": response})
+                return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
