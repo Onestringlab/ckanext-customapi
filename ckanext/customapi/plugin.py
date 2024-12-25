@@ -96,6 +96,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
+                print(token)
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 if token:
