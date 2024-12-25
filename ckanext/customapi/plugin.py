@@ -1,4 +1,5 @@
 import jwt
+import logging
 import requests
 from datetime import datetime
 import ckan.plugins as plugins
@@ -32,6 +33,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
+        log = logging.getLogger(__name__)
+
         # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
@@ -40,8 +43,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
+            message = "Welcome to the Virtual World 9!!"
+            log.info(f'message:{message}')
             return jsonify({
-                "message": "Welcome to the Virtual World 9!!",
+                "message": message,
                 "success": True
             })
 
