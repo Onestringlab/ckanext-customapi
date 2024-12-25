@@ -101,14 +101,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
-                # print(token)
+                log.info(f'token:{token}')
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 if token:
                     _, email = get_username(token)
                     username = email.split('@')[0]
                 
-                log.info(f'token:{token}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
