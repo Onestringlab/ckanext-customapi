@@ -96,14 +96,17 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
                 token = request.headers.get("Authorization")
-                _, email = get_username(token)
-                username = email.split('@')[0]
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                if token:
+                    _, email = get_username(token)
+                    username = email.split('@')[0]
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
-                sort = payload.get('sort', 'prioritas_tahun desc')
+                sort = payload.get('sort', '')
                 facet_limit = int(payload.get('facet.limit', 500))
                 include_private = payload.get('include_private', True)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
@@ -117,7 +120,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Periksa panjang query
                 if len(query) == 0:  # Jika panjang query 0
                     query = '*:*'
-                elif query != '*:*':  # Jika query bukan '*:*', gunakan format pencarian
+                elif query != '*:*': 
                     query = f"(title:*{query}* OR notes:*{query}*)"
                 
                 if organization:
