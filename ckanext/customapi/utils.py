@@ -115,9 +115,10 @@ def get_username_capacity(username, group_id=None):
 def has_package_access(user_id, dataset_id):
     # Mendapatkan pengguna berdasarkan user_id
     user = User.get(user_id)
+    package_access = False
 
     if not user:
-        return False
+        package_access = False
     
     # Ambil dataset berdasarkan ID
     dataset = Package.get(dataset_id)
@@ -127,15 +128,15 @@ def has_package_access(user_id, dataset_id):
     
     # Jika dataset bersifat public, beri akses
     if not dataset.private:
-        return True
+        package_access = True
     
     # Jika pengguna adalah sysadmin, beri akses
     if user.sysadmin:
-        return True
+        package_access = True
     
     # Jika pengguna adalah creator dari dataset, beri akses
     if user.id == dataset.creator_user_id:
-        return True
+        package_access = True
     
     # Jika dataset private, cek kapasitas user di organisasi terkait
     if dataset.private:
@@ -149,10 +150,10 @@ def has_package_access(user_id, dataset_id):
             if capacities:
                 capacity = capacities[0].get('capacity', None)
                 if capacity in ['admin', 'editor', 'member']:
-                    return True
+                    package_access = True
 
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
-    return False
+    return package_access
 
 def list_organizations():
     session = meta.Session
