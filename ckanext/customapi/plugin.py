@@ -107,9 +107,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if token:
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
-                    _, email = get_username(token.split(" ", 1)[1])
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
                     username = email.split('@')[0]
-                
+                    log.info(f'token_value:{token_value}')
 
                 # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
