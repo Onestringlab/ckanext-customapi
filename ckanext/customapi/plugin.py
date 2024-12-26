@@ -56,7 +56,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             Route untuk /get-user-by-username
             """
             try:
-                # Ambil parameter username dari JSON payload
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 token = request.headers.get("Authorization")
@@ -82,7 +81,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             Route untuk mendapatkan kapasitas berdasarkan username
             """
             try:
-                # Ambil parameter username dari JSON payload
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 token = request.headers.get("Authorization")
@@ -105,7 +103,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-dataset', methods=['POST'])
         def get_dataset():
             try:
-                # Ambil payload dari request body
                 payload = request.get_json()
                 if not payload:
                     return jsonify({"success": False, "error": "Request body is required"}), 400
@@ -119,7 +116,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     username = email.split('@')[0]
 
-                # Ambil parameter dari payload JSON
                 query = payload.get('q', '').strip()
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
@@ -134,8 +130,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 res_format = payload.get('res_format', '').strip()
                 fq = payload.get('fq', '').strip()
 
-                # Periksa panjang query
-                if len(query) == 0:  # Jika panjang query 0
+                if len(query) == 0:
                     query = '*:*'
                 elif query != '*:*': 
                     query = f"(title:*{query}* OR notes:*{query}*)"
@@ -153,9 +148,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if fq:
                     query += f" AND {fq}"
 
-                # Parameter untuk Solr
                 params = {
-                    'q': query,  # Query utama
+                    'q': query,
                     'wt': 'json',
                     'rows': rows,
                     'start': start,
@@ -168,7 +162,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'user': username,'ignore_auth': True}
 
-                # Jalankan package_search
                 response = get_action('package_search')(context, params)
 
                 return jsonify({"success": True, "email": email, "data": response})
@@ -179,10 +172,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-dataset-by-name-id', methods=['POST'])
         def get_dataset_by_name_or_id():
             try:
-                # Ambil parameter ID dan name dari payload JSON
                 payload = request.get_json()
-
-                # Cek apakah payload mengandung ID atau name
                 request_id = payload.get('id')
                 request_name = payload.get('name')
 
@@ -205,18 +195,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if request_name:
                     dataset_id = request_name
 
-                # Parameter query untuk package_show
                 params = {'id': dataset_id}
 
                 has_access = has_package_access(username, dataset_id)
 
-                # Context dengan pengguna yang memiliki akses
                 context = {'ignore_auth': True}
 
-                # Jalankan package_show
                 response = get_action('package_show')(context, params)
 
-                # Kembalikan data dokumen
                 return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
 
             except Exception as e:
@@ -225,7 +211,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-count-datasets', methods=['POST'])
         def get_count_datasets():
             try:
-                # Parameter untuk Solr
                 params = {
                     'q': '*:*',
                     'wt': 'json',
