@@ -134,7 +134,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if len(query) == 0:
                     query = '*:*'
                 elif query != '*:*': 
-                    query = f"(title:*{query}* OR notes:*{query}*)"
+                    query = f"(title:{query} OR notes:{query})"
                 
                 if organization:
                     query += f" AND organization:{organization}"
