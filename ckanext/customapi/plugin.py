@@ -114,6 +114,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
                     username = email.split('@')[0]
 
                 query = payload.get('q', '').strip()
@@ -186,7 +187,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
-                    log.info(f'token_value:{token_value}')
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
