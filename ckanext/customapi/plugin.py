@@ -57,14 +57,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             try:
                 # Ambil parameter username dari JSON payload
-                token = request.headers.get("Authorization")
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
+                token = request.headers.get("Authorization")
                 if token:
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
                     username = email.split('@')[0]
 
                     data = get_profile_by_username(username)
@@ -84,14 +83,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             try:
                 # Ambil parameter username dari JSON payload
-                token = request.headers.get("Authorization")
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
+                token = request.headers.get("Authorization")
                 if token:
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
                     username = email.split('@')[0]
 
                     data = get_username_capacity(username)
@@ -112,14 +110,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if not payload:
                     return jsonify({"success": False, "error": "Request body is required"}), 400
 
-                token = request.headers.get("Authorization")
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
+                token = request.headers.get("Authorization")
                 if token:
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
                     token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
                     username = email.split('@')[0]
 
                 # Ambil parameter dari payload JSON
@@ -188,14 +185,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Cek apakah payload mengandung ID atau name
                 request_id = payload.get('id')
                 request_name = payload.get('name')
-                token = request.headers.get("Authorization")
 
                 if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
-                log.info(f'token:{token}')
+                token = request.headers.get("Authorization")
                 if token:
                     if not token.startswith("Bearer "):
                         return jsonify({"error": "Invalid authorization format"}), 400
