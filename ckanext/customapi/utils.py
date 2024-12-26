@@ -79,7 +79,8 @@ def get_username_capacity(username, group_id=None):
     query = '''
         SELECT 
             u.name AS user_name, 
-            u.id AS user_id, 
+            u.id AS user_id,
+            g.id as  organization_id,
             g.title AS organization_title,
             g.name AS organization_name, 
             m.capacity
@@ -103,9 +104,10 @@ def get_username_capacity(username, group_id=None):
         {
             "user_name": row[0],
             "user_id": row[1],
-            "organization_title": row[2],
-            "organization_name": row[3],
-            "capacity": row[4]
+            "organization_id" : row[2],
+            "organization_title": row[3],
+            "organization_name": row[4],
+            "capacity": row[5]
         }
         for row in result
     ]
