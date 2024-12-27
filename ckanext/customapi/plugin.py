@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 11!!"
+            message = "Welcome to the Virtual World 12!"
             log.info(f'message:{message}')
             return jsonify({
                 "message": message,
@@ -121,7 +121,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', '')
-                facet_limit = int(payload.get('facet.limit', 500))
+                facet_limit = int(payload.get('facet_limit', 500))
                 include_private = payload.get('include_private', True)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
                 organization = payload.get('organization', '').strip()
