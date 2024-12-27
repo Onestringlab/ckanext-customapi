@@ -5,9 +5,6 @@ git add .
 git commit -m "$COMMIT_MESSAGE"
 git push -u origin master
 
-# Path host untuk ekstensi
-HOST_EXT_PATH="/srv/app/ext_2024/ckanext-customapi"
-
 # URL repository
 REPO_URL="https://repo.tech-dev.id/sdi/ckan/ckanext-customapi.git"
 
