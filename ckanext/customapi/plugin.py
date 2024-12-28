@@ -38,19 +38,22 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
-        @blueprint_customapi.route('/welcome-api3', methods=['GET'])
+        @blueprint_customapi.route('/welcome-api', methods=['GET'])
         def welcome_api():
             """
             Route untuk /welcome_api
             """
-            response = make_response("Membuat cookie")
-            response.set_cookie('hore', 'Kambing')
             message = "Welcome to the Virtual World 13!"
             log.info(f'message:{message}')
-            return jsonify({
+
+            # Buat respons JSON
+            response = jsonify({
                 "message": message,
                 "success": True
             })
+
+            response.set_cookie('hore', 'Kambing', secure=False)
+            return response
 
         @blueprint_customapi.route('/get-user-by-username', methods=['POST'])
         def get_user_by_username():
