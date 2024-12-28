@@ -7,7 +7,7 @@ import ckan.plugins.toolkit as toolkit
 
 from ckan.common import config
 from ckan.logic import get_action
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
@@ -43,7 +43,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 12!"
+            response = make_response("Membuat cookie")
+            response.set_cookie('hore', 'Kambing')
+            message = "Welcome to the Virtual World 13!"
             log.info(f'message:{message}')
             return jsonify({
                 "message": message,
