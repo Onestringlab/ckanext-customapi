@@ -74,14 +74,14 @@ def get_profile_by_username(username):
     ]
     return data
 
-def get_profile_by_id(id):
+def get_profile_by_id(user_id):
     query = '''
                 SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
                     activity_streams_email_notifications, state, plugin_extras, image_url 
                 FROM public.user 
-                WHERE id = :id
+                WHERE id = :user_id
             '''
-    result = query_custom(query, {'id': id})
+    result = query_custom(query, {'id': user_id})
 
     # Konversi hasil query menjadi daftar dictionary
     data = [
