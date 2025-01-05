@@ -273,7 +273,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
-
         return blueprint_customapi
     
 def hello_api_action(context, data_dict):
