@@ -81,7 +81,7 @@ def get_profile_by_id(id):
                 FROM public.user 
                 WHERE id = :id
             '''
-    result = query_custom(query, {'username': username})
+    result = query_custom(query, {'id': id})
 
     # Konversi hasil query menjadi daftar dictionary
     data = [
