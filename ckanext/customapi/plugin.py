@@ -95,8 +95,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-
-                data = get_profile_by_id(id)
+                
+                user_id = payload.get('id', '').strip()
+                data = get_profile_by_id(user_id)
 
                 return jsonify({
                     "data": data,
