@@ -269,7 +269,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 response = get_action('package_activity_list')(context, params)
 
-                return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
+                return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
