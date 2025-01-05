@@ -95,14 +95,16 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                
+
+                payload = request.get_json()
                 user_id = payload.get('id', '').strip()
                 data = get_profile_by_id(user_id)
 
                 return jsonify({
                     "data": data,
                     "success": True,
-                    "username": username
+                    "username": username,
+                    "email": email
                 })
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
