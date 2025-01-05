@@ -11,7 +11,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
-from ckanext.customapi.utils import list_organizations
+from ckanext.customapi.utils import list_organizations, get_profile_by_id
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -95,7 +95,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-                    
+
                 data = get_profile_by_id(id)
 
                 return jsonify({
