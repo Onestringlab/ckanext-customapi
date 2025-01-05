@@ -200,7 +200,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if request_name:
                     dataset_id = request_name
 
-                params = {'id': dataset_id, 'include_dataset': True}
+                params = {'id': dataset_id}
 
                 has_access = has_package_access(username, dataset_id)
 
