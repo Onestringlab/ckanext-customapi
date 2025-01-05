@@ -238,6 +238,41 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
+        @blueprint_customapi.route('/get-stream-dataset', methods=['POST'])
+        def get_stream_dataset():
+            try:
+                payload = request.get_json()
+                request_id = payload.get('id')
+                request_name = payload.get('name')
+
+                if not request_id and not request_name:
+                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                if request_id:
+                    dataset_id = request_id
+                if request_name:
+                    dataset_id = request_name
+
+                params = {'id': dataset_id}
+
+                context = {'ignore_auth': True}
+
+                response = get_action('package_activity_list')(context, params)
+
+                return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
 
         return blueprint_customapi
     
