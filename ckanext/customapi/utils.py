@@ -74,6 +74,34 @@ def get_profile_by_username(username):
     ]
     return data
 
+def get_profile_by_id(id):
+    query = '''
+                SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
+                    activity_streams_email_notifications, state, plugin_extras, image_url 
+                FROM public.user 
+                WHERE id = :id
+            '''
+    result = query_custom(query, {'username': username})
+
+    # Konversi hasil query menjadi daftar dictionary
+    data = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "apikey": row[2],
+            "fullname": row[3],
+            "email": row[4],
+            "reset_key": row[5],
+            "sysadmin": row[6],
+            "activity_streams_email_notifications": row[7],
+            "state": row[8],
+            "plugin_extras": row[9],
+            "image_url": row[10]
+        }
+        for row in result
+    ]
+    return data
+
 def get_username_capacity(username, group_id=None):
     # Query menggunakan parameterized query untuk keamanan
     query = '''
