@@ -304,7 +304,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-stream-organisasi', methods=['POST'])
         def get_stream_organisasi():
             try:
-                # payload = request.get_json()
+                payload = request.get_json()
                 # request_id = payload.get('id')
                 # request_name = payload.get('name')
 
