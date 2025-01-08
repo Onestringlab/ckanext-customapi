@@ -399,6 +399,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 params = {'id': org_id}
 
+                context = {'ignore_auth': True}
+
                 response = get_action('organization_show')(context, params)
 
                 return jsonify({"success": True, "email": email, "data": response})
