@@ -288,7 +288,7 @@ def list_organizations():
         "data_kk": data_kk
     }
 
-def get_organizations(q, sort,limit=10, offset=0):
+def get_organizations_query(q, sort,limit=10, offset=0):
     query = '''
                 SELECT g.id, 
                     g.name, 

@@ -11,7 +11,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
-from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations
+from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -408,7 +408,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"error": f"{str(e)}"}), 400
 
         @blueprint_customapi.route('/get-organizations', methods=['POST'])
-        def get_organizations():
+        def get_organization():
             try:
                 payload = request.get_json()
                 q = payload.get('q')
@@ -426,7 +426,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                response = get_organizations(q,sort,limit,offset)
+                response = get_organizations_query(q,sort,limit,offset)
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
