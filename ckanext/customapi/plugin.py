@@ -375,6 +375,36 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
+        @blueprint_customapi.route('/get-organization-show', methods=['POST'])
+        def get_organization_show():
+            try:
+                payload = request.get_json()
+                request_id = payload.get('org_id')
+                request_name = payload.get('org_name')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                if request_id:
+                    org_id = org_id
+                if request_name:
+                    org_id = org_name
+
+                params = {'id': org_id}
+
+                response = get_action('organization_show')(context, params)
+
+                return jsonify({"success": True, "email": email, "data": response})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
         return blueprint_customapi
     
 def hello_api_action(context, data_dict):
