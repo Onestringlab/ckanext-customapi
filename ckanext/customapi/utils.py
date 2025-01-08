@@ -287,3 +287,42 @@ def list_organizations():
         "total_kk": total_kk,
         "data_kk": data_kk
     }
+
+def get_organizations(q, sort,limit=10, offset=0):
+    query = '''
+                SELECT g.id, 
+                    g.name, 
+                    g.title, 
+                    g.image_url, 
+                    COUNT(p.id) AS dataset_count
+                FROM public.group g
+                LEFT JOIN public.package p ON g.id = p.owner_org
+                WHERE g.is_organization = true
+                AND g.approval_status = 'approved'
+                AND g.title LIKE :q
+                GROUP BY g.id, g.name, g.title, g.image_url
+                ORDER BY g.title :sort
+                LIMIT :limit
+                OFFSET :offset
+            '''
+    # Parameter untuk query
+    params = {
+        'q': f"%{q}%",
+        'sort' : sort,
+        'limit': limit,
+        'offset': offset,
+    }
+    result = query_custom(query, params)
+
+    # Konversi hasil query menjadi daftar dictionary
+    data = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "title": row[2],
+            "image": row[3],
+            "dataset_count":[4]
+        }
+        for row in result
+    ]
+    return data

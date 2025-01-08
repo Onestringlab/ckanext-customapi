@@ -11,7 +11,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
-from ckanext.customapi.utils import list_organizations, get_profile_by_id
+from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -402,6 +402,31 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {'ignore_auth': True}
 
                 response = get_action('organization_show')(context, params)
+
+                return jsonify({"success": True, "email": email, "data": response})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
+        @blueprint_customapi.route('/get-organizations', methods=['POST'])
+        def get_organizations():
+            try:
+                payload = request.get_json()
+                q = payload.get('q')
+                limit = int(payload.get('limit', 10))
+                offset = int(payload.get('offset', 0))
+                sort = payload.get('sort', 'asd')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                response = get_organizations(q,sort,limit,offset)
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
