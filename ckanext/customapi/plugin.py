@@ -369,7 +369,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'ignore_auth': True}
 
-                response = get_action('organization')(context, params)
+                response = get_action('organization_list')(context, params)
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
