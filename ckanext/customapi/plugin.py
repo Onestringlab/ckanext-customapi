@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 5.3!"
+            message = "Welcome to the Virtual World 6.1!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -299,7 +299,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"error": f"{str(e)}","data": response}), 400
 
         return blueprint_customapi
     
