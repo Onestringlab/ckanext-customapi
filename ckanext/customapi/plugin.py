@@ -342,6 +342,21 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 payload = request.get_json()
                 request_id = payload.get('id')
                 request_name = payload.get('name')
+                rows = int(payload.get('rows', 10))
+                start = int(payload.get('start', 0))
+                include_private = payload.get('include_private', True)
+                include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
+                all_fields = payload.get('all_fields', True)
+                all_fields = bool(all_fields) if isinstance(all_fields, bool) else str(all_fields).lower() == 'true'
+
+                params = {
+                    'wt': 'json',
+                    'rows': rows,
+                    'start': start,
+                    'sort': sort,
+                    'include_private': include_private,
+                    "all_fields": all_fields
+                }
 
                 if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
