@@ -340,8 +340,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_organizations_list():
             try:
                 payload = request.get_json()
-                rows = int(payload.get('rows', 10))
-                start = int(payload.get('start', 0))
+                limit = int(payload.get('limit', 10))
+                offset = int(payload.get('offset', 0))
                 sort = payload.get('sort', '')
                 include_private = payload.get('include_private', True)
                 include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
@@ -350,8 +350,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 params = {
                     'wt': 'json',
-                    'rows': rows,
-                    'start': start,
+                    'limit': limit,
+                    'offset': offset,
                     'sort': sort,
                     'include_private': include_private,
                     "all_fields": all_fields
