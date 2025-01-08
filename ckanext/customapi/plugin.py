@@ -52,7 +52,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 "success": True
             })
 
-            # response.set_cookie('hore', 'Kambing', secure=False)
             return response
 
         @blueprint_customapi.route('/get-user-by-username', methods=['POST'])
