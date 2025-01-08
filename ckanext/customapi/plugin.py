@@ -343,8 +343,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 limit = int(payload.get('limit', 10))
                 offset = int(payload.get('offset', 0))
                 sort = payload.get('sort', '')
-                include_private = payload.get('include_private', True)
-                include_private = bool(include_private) if isinstance(include_private, bool) else str(include_private).lower() == 'true'
+                include_extras = payload.get('include_extras', True)
+                include_extras = bool(include_private) if isinstance(include_extras, bool) else str(include_extras).lower() == 'true'
                 all_fields = payload.get('all_fields', True)
                 all_fields = bool(all_fields) if isinstance(all_fields, bool) else str(all_fields).lower() == 'true'
 
@@ -353,7 +353,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'limit': limit,
                     'offset': offset,
                     'sort': sort,
-                    'include_private': include_private,
+                    'include_extras': include_extras,
                     "all_fields": all_fields
                 }
 
