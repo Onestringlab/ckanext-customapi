@@ -301,8 +301,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
-        @blueprint_customapi.route('/get-stream-organisasi', methods=['POST'])
-        def get_stream_organisasi():
+        @blueprint_customapi.route('/get-stream-organizations', methods=['POST'])
+        def get_stream_organizations():
             try:
                 payload = request.get_json()
                 request_id = payload.get('id')
