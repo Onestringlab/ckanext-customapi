@@ -294,7 +294,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
     if sort.lower() not in valid_sorts:
         sort = "asc" 
 
-    query = '''
+    query = f'''
                 SELECT g.id, 
                     g.name, 
                     g.title, 
@@ -306,7 +306,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                 AND g.approval_status = 'approved'
                 AND g.title LIKE :q
                 GROUP BY g.id, g.name, g.title, g.image_url
-                ORDER BY g.title asc
+                ORDER BY g.title {sort}
                 LIMIT :limit
                 OFFSET :offset
             '''
