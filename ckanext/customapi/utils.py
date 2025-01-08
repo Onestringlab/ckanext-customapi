@@ -305,6 +305,8 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                 WHERE g.is_organization = true
                 AND g.approval_status = 'approved'
                 AND g.title LIKE :q
+                AND p.state = 'active'
+                AND p.type = 'dataset'
                 GROUP BY g.id, g.name, g.title, g.image_url
                 ORDER BY g.title {sort}
                 LIMIT :limit
