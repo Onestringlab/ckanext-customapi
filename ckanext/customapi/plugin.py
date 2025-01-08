@@ -379,8 +379,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_organization_show():
             try:
                 payload = request.get_json()
-                request_id = payload.get('org_id')
-                request_name = payload.get('org_name')
+                org_id = payload.get('org_id')
+                org_name = payload.get('org_name')
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
