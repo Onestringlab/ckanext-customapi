@@ -289,6 +289,11 @@ def list_organizations():
     }
 
 def get_organizations_query(q, sort,limit=10, offset=0):
+
+    valid_sorts = ["asc", "desc"]
+    if sort.lower() not in valid_sorts:
+        sort = "asc" 
+
     query = '''
                 SELECT g.id, 
                     g.name, 
@@ -301,14 +306,13 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                 AND g.approval_status = 'approved'
                 AND g.title LIKE :q
                 GROUP BY g.id, g.name, g.title, g.image_url
-                ORDER BY g.title :sort
+                ORDER BY g.title {sort}
                 LIMIT :limit
                 OFFSET :offset
             '''
     # Parameter untuk query
     params = {
         'q': f"%{q}%",
-        'sort' : sort,
         'limit': limit,
         'offset': offset,
     }
@@ -321,7 +325,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
             "name": row[1],
             "title": row[2],
             "image": row[3],
-            "dataset_count":[4]
+            "dataset_count":row[4]
         }
         for row in result
     ]
