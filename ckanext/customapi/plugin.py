@@ -392,9 +392,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                if request_id:
+                if org_id:
                     org_id = org_id
-                if request_name:
+                if org_name:
                     org_id = org_name
 
                 params = {'id': org_id}
