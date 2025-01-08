@@ -340,8 +340,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_organization_list():
             try:
                 payload = request.get_json()
-                request_id = payload.get('id')
-                request_name = payload.get('name')
                 rows = int(payload.get('rows', 10))
                 start = int(payload.get('start', 0))
                 sort = payload.get('sort', '')
@@ -371,11 +369,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-
-                if request_id:
-                    organisasi_id = request_id
-                if request_name:
-                    organisasi_id = request_name
 
                 # params = {'id': organisasi_id}
 
