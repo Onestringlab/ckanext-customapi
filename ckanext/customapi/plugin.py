@@ -357,9 +357,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     "all_fields": all_fields
                 }
 
-                if not request_id and not request_name:
-                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
-
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
                 token = request.headers.get("Authorization")
