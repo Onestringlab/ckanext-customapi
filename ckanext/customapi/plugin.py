@@ -43,7 +43,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 6.4!"
+            message = "Welcome to the Virtual World 6.5!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
