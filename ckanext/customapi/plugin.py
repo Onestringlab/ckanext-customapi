@@ -367,12 +367,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                # params = {'id': organisasi_id}
+                context = {'ignore_auth': True}
 
-                # context = {'ignore_auth': True}
-
-                # response = get_action('organization_activity_list')(context, params)
-                response = "Asdfsdf"
+                response = get_action('organization_activity_list')(context, params)
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
