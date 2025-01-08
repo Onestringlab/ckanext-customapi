@@ -304,33 +304,35 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-stream-organisasi', methods=['POST'])
         def get_stream_organisasi():
             try:
-                payload = request.get_json()
-                request_id = payload.get('id')
-                request_name = payload.get('name')
+                # payload = request.get_json()
+                # request_id = payload.get('id')
+                # request_name = payload.get('name')
 
-                if not request_id and not request_name:
-                    return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
+                # if not request_id and not request_name:
+                #     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
 
-                email = "anonymous@somedomain.com"
-                username = "anonymous"
-                token = request.headers.get("Authorization")
-                if token:
-                    if not token.startswith("Bearer "):
-                        return jsonify({"error": "Invalid authorization format"}), 400
-                    token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
-                    username = email.split('@')[0]
+                # email = "anonymous@somedomain.com"
+                # username = "anonymous"
+                # token = request.headers.get("Authorization")
+                # if token:
+                #     if not token.startswith("Bearer "):
+                #         return jsonify({"error": "Invalid authorization format"}), 400
+                #     token_value = token.split(" ", 1)[1]
+                #     _, email = get_username(token_value)
+                #     username = email.split('@')[0]
 
-                if request_id:
-                    organisasi_id = request_id
-                if request_name:
-                    organisasi_id = request_name
+                # if request_id:
+                #     organisasi_id = request_id
+                # if request_name:
+                #     organisasi_id = request_name
 
-                params = {'id': organisasi_id}
+                # params = {'id': organisasi_id}
 
-                context = {'ignore_auth': True}
+                # context = {'ignore_auth': True}
 
-                response = get_action('organization_activity_list')(context, params)
+                # response = get_action('organization_activity_list')(context, params)
+
+                response = "oakoko"
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
