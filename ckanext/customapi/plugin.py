@@ -337,7 +337,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"error": f"{str(e)}"}), 400
 
         @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
-        def get_organization_list():
+        def get_organizations_list():
             try:
                 payload = request.get_json()
                 rows = int(payload.get('rows', 10))
