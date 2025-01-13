@@ -298,8 +298,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                 SELECT g.id, 
                     g.name, 
                     g.title, 
-                    g.image_url, 
-                    10 AS dataset_count
+                    g.image_url
                 FROM public.group g
                 WHERE g.is_organization = true
                 AND g.state = 'active'
