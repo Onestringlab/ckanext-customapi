@@ -194,7 +194,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     'include_private': include_private
                 }
 
-                context = {'user': username,'ignore_auth': True}
+                context = {'ignore_auth': True}
 
                 response = get_action('package_search')(context, params)
 
