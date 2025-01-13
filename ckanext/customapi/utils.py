@@ -346,4 +346,4 @@ def get_count_dataset_organization(owr_org):
 
     response = get_action('package_search')(context, params)
 
-    return response
+    return response['count']
