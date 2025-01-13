@@ -338,7 +338,8 @@ def get_count_dataset_organization(owr_org):
             'wt': 'json',
             'rows': 1,
             'start': 0,
-            'include_private': True
+            'include_private': True,
+            'facet_limit': 0,
     }
     
     context = {'ignore_auth': True}
