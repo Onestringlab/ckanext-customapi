@@ -344,7 +344,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 offset = int(payload.get('offset', 0))
                 sort = payload.get('sort', '')
                 include_extras = payload.get('include_extras', True)
-                include_extras = bool(include_private) if isinstance(include_extras, bool) else str(include_extras).lower() == 'true'
+                include_extras = bool(include_extras) if isinstance(include_extras, bool) else str(include_extras).lower() == 'true'
                 all_fields = payload.get('all_fields', True)
                 all_fields = bool(all_fields) if isinstance(all_fields, bool) else str(all_fields).lower() == 'true'
 
