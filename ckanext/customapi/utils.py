@@ -299,15 +299,12 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                     g.name, 
                     g.title, 
                     g.image_url, 
-                    COUNT(p.id) AS dataset_count
+                    10 AS dataset_count
                 FROM public.group g
-                LEFT JOIN public.package p ON g.id = p.owner_org
                 WHERE g.is_organization = true
                 AND g.approval_status = 'approved'
                 AND g.title LIKE :q
                 AND p.state = 'active'
-                AND p.type ='dataset'
-                GROUP BY g.id, g.name, g.title, g.image_url
                 ORDER BY g.title {sort}
                 LIMIT :limit
                 OFFSET :offset
