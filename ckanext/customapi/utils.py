@@ -279,7 +279,10 @@ def list_organizations():
         ]
     total_kk = result_kk.count()
 
+    total_org = total_kl + total_pv + total_kk
+
     return {
+        "total_org": total_org,
         "total_kl": total_kl,
         "data_kl": data_kl,
         "total_pv": total_pv,
