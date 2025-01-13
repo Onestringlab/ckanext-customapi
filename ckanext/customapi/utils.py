@@ -323,8 +323,26 @@ def get_organizations_query(q, sort,limit=10, offset=0):
             "name": row[1],
             "title": row[2],
             "image": row[3],
-            "dataset_count":row[4]
+            "dataset_count":get_count_dataset_organization(row[1])
         }
         for row in result
     ]
     return data
+
+def get_count_dataset_organization(owr_org):
+    query = '*:*'
+    query += f" AND organization:{owr_org}"
+    
+    params = {
+            'q': query,
+            'wt': 'json',
+            'rows': 1,
+            'start': 0,
+            'include_private': include_private
+    }
+    
+    context = {'ignore_auth': True}
+
+    response = get_action('package_search')(context, params)
+
+    return response
