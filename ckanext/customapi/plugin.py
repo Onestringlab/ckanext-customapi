@@ -336,77 +336,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
-        @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
-        def get_organizations_list():
-            try:
-                payload = request.get_json()
-                limit = int(payload.get('limit', 10))
-                offset = int(payload.get('offset', 0))
-                sort = payload.get('sort', '')
-                include_extras = payload.get('include_extras', True)
-                include_extras = bool(include_extras) if isinstance(include_extras, bool) else str(include_extras).lower() == 'true'
-                all_fields = payload.get('all_fields', True)
-                all_fields = bool(all_fields) if isinstance(all_fields, bool) else str(all_fields).lower() == 'true'
-
-                params = {
-                    'wt': 'json',
-                    'limit': limit,
-                    'offset': offset,
-                    'sort': sort,
-                    'include_extras': include_extras,
-                    "all_fields": all_fields
-                }
-
-                email = "anonymous@somedomain.com"
-                username = "anonymous"
-                token = request.headers.get("Authorization")
-                if token:
-                    if not token.startswith("Bearer "):
-                        return jsonify({"error": "Invalid authorization format"}), 400
-                    token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
-                    username = email.split('@')[0]
-
-                context = {'ignore_auth': True}
-
-                response = get_action('organization_list')(context, params)
-
-                return jsonify({"success": True, "email": email, "data": response})
-            except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
-
-        @blueprint_customapi.route('/get-organization-show', methods=['POST'])
-        def get_organization_show():
-            try:
-                payload = request.get_json()
-                org_id = payload.get('org_id')
-                org_name = payload.get('org_name')
-
-                email = "anonymous@somedomain.com"
-                username = "anonymous"
-                token = request.headers.get("Authorization")
-                if token:
-                    if not token.startswith("Bearer "):
-                        return jsonify({"error": "Invalid authorization format"}), 400
-                    token_value = token.split(" ", 1)[1]
-                    _, email = get_username(token_value)
-                    username = email.split('@')[0]
-
-                if org_id:
-                    org_id = org_id
-                if org_name:
-                    org_id = org_name
-
-                params = {'id': org_id}
-
-                context = {'ignore_auth': True}
-
-                response = get_action('organization_show')(context, params)
-
-                return jsonify({"success": True, "email": email, "data": response})
-            except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
-
         @blueprint_customapi.route('/get-organizations', methods=['POST'])
         def get_organization():
             try:
@@ -433,6 +362,78 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"error": f"{str(e)}"}), 400
 
         return blueprint_customapi
+        
+        # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
+        # def get_organizations_list():
+        #     try:
+        #         payload = request.get_json()
+        #         limit = int(payload.get('limit', 10))
+        #         offset = int(payload.get('offset', 0))
+        #         sort = payload.get('sort', '')
+        #         include_extras = payload.get('include_extras', True)
+        #         include_extras = bool(include_extras) if isinstance(include_extras, bool) else str(include_extras).lower() == 'true'
+        #         all_fields = payload.get('all_fields', True)
+        #         all_fields = bool(all_fields) if isinstance(all_fields, bool) else str(all_fields).lower() == 'true'
+
+        #         params = {
+        #             'wt': 'json',
+        #             'limit': limit,
+        #             'offset': offset,
+        #             'sort': sort,
+        #             'include_extras': include_extras,
+        #             "all_fields": all_fields
+        #         }
+
+        #         email = "anonymous@somedomain.com"
+        #         username = "anonymous"
+        #         token = request.headers.get("Authorization")
+        #         if token:
+        #             if not token.startswith("Bearer "):
+        #                 return jsonify({"error": "Invalid authorization format"}), 400
+        #             token_value = token.split(" ", 1)[1]
+        #             _, email = get_username(token_value)
+        #             username = email.split('@')[0]
+
+        #         context = {'ignore_auth': True}
+
+        #         response = get_action('organization_list')(context, params)
+
+        #         return jsonify({"success": True, "email": email, "data": response})
+        #     except Exception as e:
+        #         return jsonify({"error": f"{str(e)}"}), 400
+
+        # @blueprint_customapi.route('/get-organization-show', methods=['POST'])
+        # def get_organization_show():
+        #     try:
+        #         payload = request.get_json()
+        #         org_id = payload.get('org_id')
+        #         org_name = payload.get('org_name')
+
+        #         email = "anonymous@somedomain.com"
+        #         username = "anonymous"
+        #         token = request.headers.get("Authorization")
+        #         if token:
+        #             if not token.startswith("Bearer "):
+        #                 return jsonify({"error": "Invalid authorization format"}), 400
+        #             token_value = token.split(" ", 1)[1]
+        #             _, email = get_username(token_value)
+        #             username = email.split('@')[0]
+
+        #         if org_id:
+        #             org_id = org_id
+        #         if org_name:
+        #             org_id = org_name
+
+        #         params = {'id': org_id}
+
+        #         context = {'ignore_auth': True}
+
+        #         response = get_action('organization_show')(context, params)
+
+        #         return jsonify({"success": True, "email": email, "data": response})
+        #     except Exception as e:
+        #         return jsonify({"error": f"{str(e)}"}), 400
+
     
 def hello_api_action(context, data_dict):
     """
