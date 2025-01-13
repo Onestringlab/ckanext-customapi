@@ -336,7 +336,7 @@ def get_count_dataset_organization(owr_org):
     params = {
             'q': query,
             'wt': 'json',
-            'rows': 1,
+            'rows': 0,
             'start': 0,
             'include_private': True,
             'facet.limit': 0
