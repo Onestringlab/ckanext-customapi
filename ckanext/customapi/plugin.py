@@ -390,8 +390,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 dataset_organization = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
+                response.update {"dataset_organization": dataset_organization}
 
-                return jsonify({"success": True, "email": email, "data": response,"dataset_organization": dataset_organization})
+                return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
