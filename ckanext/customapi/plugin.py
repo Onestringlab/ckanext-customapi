@@ -44,7 +44,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 14.4!"
+            message = "Welcome to the Virtual World 15.1!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -294,7 +294,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 params = {'id': dataset_id}
 
-                context = {'ignore_auth': False}
+                context = {'ignore_auth': True}
 
                 response = get_action('package_activity_list')(context, params)
                 for activity in response:
