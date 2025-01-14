@@ -294,7 +294,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 params = {'id': dataset_id}
 
-                context = {'ignore_auth': True}
+                context = {'ignore_auth': False}
 
                 response = get_action('package_activity_list')(context, params)
                 for activity in response:
