@@ -387,7 +387,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': org_id}
 
                 context = {'ignore_auth': True}
-                dataset_include_private = get_count_dataset_organization(response[org_id])
+                dataset_include_private = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
 
