@@ -299,8 +299,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_activity_list')(context, params)
                 for activity in response:
                     user_id = activity.get("user_id")
-                    user_profile = get_profile_by_id(user_id)
-                    response.update({"user_profile": user_profile})
+                    if user_id:
+                        user_profile = get_profile_by_id(user_id)
+                        activity["user_profile"] = user_profile
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
