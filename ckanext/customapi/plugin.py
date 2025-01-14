@@ -301,7 +301,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     user_id = activity.get("user_id")
                     if user_id:
                         user_profile = get_profile_by_id(user_id)
-                        activity["user_profile"] = user_profile
+                        activity["user_profile"] = user_profile 
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
