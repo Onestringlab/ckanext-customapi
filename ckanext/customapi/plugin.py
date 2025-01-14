@@ -356,9 +356,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
 
                 response = get_organizations_query(q,sort,limit,offset)
-                dataset_include_private = get_count_dataset_organization(response['id'])
 
-                return jsonify({"success": True, "email": email, "data": response, "dataset_include_private": dataset_include_private})
+                return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
@@ -387,11 +386,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': org_id}
 
                 context = {'ignore_auth': True}
-                
-
+                dataset_include_private = get_count_dataset_organization(response[org_id])
+    
                 response = get_action('organization_show')(context, params)
 
-                return jsonify({"success": True, "email": email, "data": response})
+                return jsonify({"success": True, "email": email, "data": response,"dataset_include_private": dataset_include_private})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
