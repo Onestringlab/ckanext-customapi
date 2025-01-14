@@ -299,7 +299,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('package_activity_list')(context, params)
                 # user_profile = get_profile_by_id(response['user_id'])
 
-                return jsonify({"success": True, "email": email, "data": response, "user_profile": response['user_id']})
+                return jsonify({"success": True, "email": email, "data": response,})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
