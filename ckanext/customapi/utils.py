@@ -331,7 +331,10 @@ def get_organizations_query(q, sort,limit=10, offset=0):
             "name": row[1],
             "title": row[2],
             "image": row[3],
-            "dataset_count":get_count_dataset_organization(row[1])
+            "department_type": row[4],
+            "notes": row[5],
+            "department_id": row[6],
+            "dataset_count": get_count_dataset_organization(row[1])
         }
         for row in result
     ]
