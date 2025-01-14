@@ -302,6 +302,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                     g.name, 
                     g.title, 
                     g.image_url,
+                    g.description,
                     MAX(CASE WHEN ge.key = 'department_type' THEN ge.value ELSE NULL END) AS department_type,
                     MAX(CASE WHEN ge.key = 'notes' THEN ge.value ELSE NULL END) AS notes,
                     MAX(CASE WHEN ge.key = 'department_id' THEN ge.value ELSE NULL END) AS department_id
@@ -334,6 +335,7 @@ def get_organizations_query(q, sort,limit=10, offset=0):
             "department_type": row[4],
             "notes": row[5],
             "department_id": row[6],
+            "description": row[7],
             "dataset_count": get_count_dataset_organization(row[1])
         }
         for row in result
