@@ -358,7 +358,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_organizations_query(q,sort,limit,offset)
                 dataset_include_private = get_count_dataset_organization(response['id'])
 
-                return jsonify({"success": True, "email": email, "data": response})
+                return jsonify({"success": True, "email": email, "data": response, "dataset_include_private": dataset_include_private})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
