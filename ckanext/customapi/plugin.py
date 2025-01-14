@@ -301,7 +301,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     user_id = activity.get("user_id")
                     if user_id:
                         user_profile = get_action('user_show')(context,{"id":user_id})
-                        # user_profile = get_profile_by_id(user_id)
                         activity["user_profile"] = user_profile
 
                 return jsonify({"success": True, "email": email, "data": response})
