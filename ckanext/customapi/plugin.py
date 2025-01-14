@@ -387,11 +387,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': org_id}
 
                 context = {'ignore_auth': True}
-                dataset_include_private = get_count_dataset_organization(org_id)
+                dataset_organization = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
 
-                return jsonify({"success": True, "email": email, "data": response,"dataset_include_private": dataset_include_private})
+                return jsonify({"success": True, "email": email, "data": response,"dataset_organization": dataset_organization})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
