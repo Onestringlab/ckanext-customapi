@@ -76,8 +76,8 @@ def get_profile_by_username(username):
 
 def get_profile_by_id(user_id):
     query = '''
-                SELECT id, name, apikey, fullname, email, reset_key, sysadmin, 
-                    activity_streams_email_notifications, state, plugin_extras, image_url 
+                SELECT id, about, name, activity_streams_email_notifications, 
+                    apikey, created, fullname, email, sysadmin, state, image_url 
                 FROM public.user 
                 WHERE id = :user_id
             '''
@@ -87,15 +87,15 @@ def get_profile_by_id(user_id):
     data = [
         {
             "id": row[0],
-            "name": row[1],
-            "apikey": row[2],
-            "fullname": row[3],
-            "email": row[4],
-            "reset_key": row[5],
-            "sysadmin": row[6],
-            "activity_streams_email_notifications": row[7],
-            "state": row[8],
-            "plugin_extras": row[9],
+            "about": row[1],
+            "name": row[2],
+            "activity_streams_email_notifications": row[3],
+            "apikey": row[4],
+            "created": row[5],
+            "fullname": row[6],
+            "email": row[7],
+            "sysadmin": row[8],
+            "state": row[9],
             "image_url": row[10]
         }
         for row in result
