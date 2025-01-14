@@ -12,6 +12,7 @@ from flask import Blueprint, jsonify, request, make_response
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
+from ckanext.customapi.utils import get_count_dataset_organization
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
