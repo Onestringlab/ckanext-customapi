@@ -301,12 +301,17 @@ def get_organizations_query(q, sort,limit=10, offset=0):
                 SELECT g.id, 
                     g.name, 
                     g.title, 
-                    g.image_url
+                    g.image_url,
+                    MAX(CASE WHEN ge.key = 'department_type' THEN ge.value ELSE NULL END) AS department_type,
+                    MAX(CASE WHEN ge.key = 'notes' THEN ge.value ELSE NULL END) AS notes,
+                    MAX(CASE WHEN ge.key = 'department_id' THEN ge.value ELSE NULL END) AS department_id
                 FROM public.group g
+                LEFT JOIN public.group_extra ge ON g.id = ge.group_id
                 WHERE g.is_organization = true
-                AND g.state = 'active'
-                AND g.approval_status = 'approved'
-                AND g.title ILIKE :q
+                    AND g.state = 'active'
+                    AND g.approval_status = 'approved'
+                    AND g.title ILIKE :q
+                GROUP BY g.id, g.name, g.title, g.image_url
                 ORDER BY g.title {sort}
                 LIMIT :limit
                 OFFSET :offset
