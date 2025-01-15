@@ -403,7 +403,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     
                 response = get_action('organization_show')(context, params)
                 response.update({"dataset_organization": dataset_organization})
+                response.update({"creator": get_profile_by_id(response('creator_user_id'))})
                 response.update({"sysadmin": get_sysadmin()})
+                
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
