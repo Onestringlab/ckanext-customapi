@@ -236,6 +236,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {'ignore_auth': True}
 
                 response = get_action('package_show')(context, params)
+                response.update({"sysadmin": get_sysadmin()})
 
                 return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
 
@@ -402,10 +403,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 dataset_organization = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
-                response.update({"dataset_organization": dataset_organization})
-                response.update({"creator": get_profile_by_id(response('creator_user_id'))})
-                response.update({"sysadmin": get_sysadmin()})
-                
+                response.update({"dataset_organization": dataset_organization})               
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
