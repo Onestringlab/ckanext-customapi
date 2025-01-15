@@ -29,6 +29,10 @@ def get_user_object(username):
         return user
     return None
 
+def get_sysadmin():
+    sysadmin = User.filter(User.sysadmin == True).all()
+    return sysadmin
+
 def get_username(jwt_token):
     try:
         # Dekode JWT tanpa memvalidasi signature dan expiration

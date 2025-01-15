@@ -12,7 +12,7 @@ from flask import Blueprint, jsonify, request, make_response
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
-from ckanext.customapi.utils import get_count_dataset_organization
+from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -396,13 +396,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if org_name:
                     org_id = org_name
 
-                params = {'id': org_id, 'include_users': True}
+                params = {'id': org_id}
 
                 context = {'ignore_auth': True}
                 dataset_organization = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
                 response.update({"dataset_organization": dataset_organization})
+                response.update({"sysadmin": get_sysadmin()})
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
