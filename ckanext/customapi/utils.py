@@ -31,7 +31,7 @@ def get_user_object(username):
 
 def get_sysadmin():
     session = meta.Session
-    sysadmin_users = session.query(User).filter(User.sysadmin == True).all()
+    sysadmin_users = session.query(User).filter(User.sysadmin == True, User.email != None).all()
     result = []
     for user in sysadmin_users:
         result.append({
