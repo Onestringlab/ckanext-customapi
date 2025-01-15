@@ -365,7 +365,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 total_item = len(organizations)
                 response = get_organizations_query(q,sort,limit,offset)
 
-                return jsonify({"success": True, "email": email, "data": response, "total_item": total_item})
+                return jsonify({"success": True, "email": email, "data": response, "total_item": total_item, "offset": offset})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
