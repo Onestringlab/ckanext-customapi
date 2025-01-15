@@ -339,7 +339,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('organization_activity_list')(context, params)
                 for activity in response:
                     user_id = activity["user_id"]
-                    log.info(f'{activity}')
                     if user_id:
                         user_profile = get_profile_by_id(user_id)
                         activity["user_profile"] = user_profile 
