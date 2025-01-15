@@ -30,7 +30,8 @@ def get_user_object(username):
     return None
 
 def get_sysadmin():
-    sysadmin = User.filter(User.sysadmin == True).all()
+    session = meta.Session
+    sysadmin = session.query(User).filter(User.sysadmin == True).all()
     return sysadmin
 
 def get_username(jwt_token):
