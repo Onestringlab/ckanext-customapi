@@ -31,8 +31,19 @@ def get_user_object(username):
 
 def get_sysadmin():
     session = meta.Session
-    sysadmin = session.query(User).filter(User.sysadmin == True).all()
-    return sysadmin
+    sysadmin_users = session.query(User).filter(User.sysadmin == True).all()
+    result = []
+    for user in sysadmin_users:
+        result.append({
+            "id": user.id,
+            "username": user.name,
+            "email": user.email,
+            "fullname": user.fullname,
+            "created": user.created.isoformat() if user.created else None,
+            "state": user.state,
+            "sysadmin": user.sysadmin,
+        })
+    return result
 
 def get_username(jwt_token):
     try:
