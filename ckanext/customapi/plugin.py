@@ -337,6 +337,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {'ignore_auth': True}
 
                 response = get_action('organization_activity_list')(context, params)
+                for activity in response:
+                    user_id = activity["user_id"]
+                    if user_id:
+                        user_profile = get_profile_by_id(user_id)
+                        activity["user_profile"] = user_profile 
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
