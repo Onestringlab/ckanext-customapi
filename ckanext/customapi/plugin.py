@@ -360,10 +360,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
-
+                
+                organizations = get_organizations_query(q,sort,1000,offset)
+                total_item = len(organizations)
                 response = get_organizations_query(q,sort,limit,offset)
 
-                return jsonify({"success": True, "email": email, "data": response})
+                return jsonify({"success": True, "email": email, "data": response, "total_item": total_item})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
