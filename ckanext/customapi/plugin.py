@@ -396,7 +396,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if org_name:
                     org_id = org_name
 
-                params = {'id': org_id, 'include_users': true}
+                params = {'id': org_id, 'include_users': True}
 
                 context = {'ignore_auth': True}
                 dataset_organization = get_count_dataset_organization(org_id)
