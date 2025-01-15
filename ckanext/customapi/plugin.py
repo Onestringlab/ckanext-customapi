@@ -44,7 +44,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 15.3!"
+            message = "Welcome to the Virtual World 15.4!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -396,7 +396,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if org_name:
                     org_id = org_name
 
-                params = {'id': org_id}
+                params = {'id': org_id, 'include_users': true}
 
                 context = {'ignore_auth': True}
                 dataset_organization = get_count_dataset_organization(org_id)
