@@ -101,17 +101,17 @@ def get_profile_by_id(user_id):
 
     # Konversi hasil query menjadi daftar dictionary
     data ={
-            "id": row[0],
-            "about": row[1],
-            "name": row[2],
-            "activity_streams_email_notifications": row[3],
-            "apikey": row[4],
-            "created": row[5],
-            "fullname": row[6],
-            "email": row[7],
-            "sysadmin": row[8],
-            "state": row[9],
-            "image_url": row[10]
+            "id": result[0],
+            "about": result[1],
+            "name": result[2],
+            "activity_streams_email_notifications": result[3],
+            "apikey": result[4],
+            "created": result[5],
+            "fullname": result[6],
+            "email": result[7],
+            "sysadmin": result[8],
+            "state": result[9],
+            "image_url": result[10]
         }
     return data
 
