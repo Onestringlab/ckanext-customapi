@@ -99,6 +99,7 @@ def get_profile_by_id(user_id):
                 LIMIT 1
             '''
     result = query_custom(query, {'user_id': user_id})
+    print(result)
 
     if not result:
         return None
