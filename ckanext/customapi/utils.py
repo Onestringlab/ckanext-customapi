@@ -96,6 +96,7 @@ def get_profile_by_id(user_id):
                     apikey, created, fullname, email, sysadmin, state, image_url 
                 FROM public.user 
                 WHERE id = :user_id
+                LIMIT 1
             '''
     result = query_custom(query, {'user_id': user_id})
 
