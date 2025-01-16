@@ -102,8 +102,7 @@ def get_profile_by_id(user_id):
     row = result[0]
 
     # Konversi hasil query menjadi daftar dictionary
-    data = [
-        {
+    data ={
             "id": row[0],
             "about": row[1],
             "name": row[2],
@@ -116,8 +115,6 @@ def get_profile_by_id(user_id):
             "state": row[9],
             "image_url": row[10]
         }
-        for row in result
-    ]
     return data
 
 def get_username_capacity(username, group_id=None):
