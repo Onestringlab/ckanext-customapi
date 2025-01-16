@@ -237,7 +237,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 response = get_action('package_show')(context, params)
                 response.update({"sysadmin": get_sysadmin()})
-                response.update({"creator": get_profile_by_id(response["creator_user_id"])})
+                response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
 
                 return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
 
