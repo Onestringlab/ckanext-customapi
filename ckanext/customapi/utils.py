@@ -99,6 +99,9 @@ def get_profile_by_id(user_id):
             '''
     result = query_custom(query, {'user_id': user_id})
 
+    if not result:
+        return None
+
     # Konversi hasil query menjadi daftar dictionary
     data ={
             "id": result[0],
