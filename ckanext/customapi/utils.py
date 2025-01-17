@@ -363,13 +363,12 @@ def get_organizations_query_count(q, sort):
         sort = "asc" 
 
     query = f'''
-                SELECT count(*)
+                SELECT COUNT(*)
                 FROM public.group g
-                WHERE g.is_organization = true
-                    AND g.state = 'active'
+                WHERE g.is_organization = TRUE
+                AND g.state = 'active'
                 AND g.approval_status = 'approved'
-                    AND g.title ILIKE :q
-                ORDER BY g.title {sort}
+                AND g.title ILIKE :q
             '''
     # Parameter untuk query
     params = {
