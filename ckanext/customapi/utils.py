@@ -375,8 +375,11 @@ def get_organizations_query_count(q, sort):
         'q': f"%{q}%"
     }
     result = query_custom(query, params)
+    
+    row = result[0]
+    data = {"total": row[0]}
 
-    return result
+    return data
 
 def get_count_dataset_organization(owr_org):
     query = '*:*'
