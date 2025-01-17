@@ -356,6 +356,44 @@ def get_organizations_query(q, sort,limit=10, offset=0):
     ]
     return data
 
+def get_organizations_query_count(q, sort):
+
+    valid_sorts = ["asc", "desc"]
+    if sort.lower() not in valid_sorts:
+        sort = "asc" 
+
+    query = f'''
+                SELECT count(*)
+                FROM public.group g
+                WHERE g.is_organization = true
+                    AND g.state = 'active'
+                AND g.approval_status = 'approved'
+                    AND g.title ILIKE :q
+                ORDER BY g.title {sort}
+            '''
+    # Parameter untuk query
+    params = {
+        'q': f"%{q}%"
+    }
+    result = query_custom(query, params)
+
+    # Konversi hasil query menjadi daftar dictionary
+    data = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "title": row[2],
+            "image": row[3],
+            "description": row[4],
+            "department_type": row[5],
+            "notes": row[6],
+            "department_id": row[7],
+            "dataset_count": get_count_dataset_organization(row[1])
+        }
+        for row in result
+    ]
+    return data
+
 def get_count_dataset_organization(owr_org):
     query = '*:*'
     query += f" AND organization:{owr_org}"

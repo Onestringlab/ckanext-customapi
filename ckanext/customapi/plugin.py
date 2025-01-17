@@ -12,7 +12,7 @@ from flask import Blueprint, jsonify, request, make_response
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
-from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin
+from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -368,11 +368,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
-                organizations = list_organizations(q,sort,1000,0)
-                total_item = len(organizations)
+                organizations = get_organizations_query_count(q,sort)
+                # total_item = len(organizations)
                 response = get_organizations_query(q,sort,limit,offset)
 
-                return jsonify({"success": True, "email": email, "data": response, "total_item": total_item, "offset": offset})
+                return jsonify({"success": True, "email": email, "data": response, "total_item": organizations, "offset": offset})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
