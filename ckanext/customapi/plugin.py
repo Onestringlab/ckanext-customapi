@@ -369,7 +369,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
                 
                 organizations = get_organizations_query_count(q,sort)
-                total_item = organizations("total")
+                total_item = organizations["total"]
                 response = get_organizations_query(q,sort,limit,offset)
 
                 return jsonify({"success": True, "email": email, "data": response, "total_item": total_item, "offset": offset})
