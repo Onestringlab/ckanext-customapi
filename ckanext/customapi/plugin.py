@@ -368,7 +368,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
-                organizations = list_organizations()
+                organizations = list_organizations(q,sort,1000,0)
                 total_item = len(organizations)
                 response = get_organizations_query(q,sort,limit,offset)
 
