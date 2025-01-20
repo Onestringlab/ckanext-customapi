@@ -315,6 +315,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 payload = request.get_json()
                 request_id = payload.get('id')
                 request_name = payload.get('name')
+                limit = int(payload.get('limit', 10))
+                offset = int(payload.get('offset', 0))
 
                 if not request_id and not request_name:
                     return jsonify({"success": False, "error": "Either 'id' or 'name' parameter is required"}), 400
@@ -334,7 +336,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if request_name:
                     organisasi_id = request_name
 
-                params = {'id': organisasi_id}
+                params = {'id': organisasi_id, 'limit': limit,'offset': offset,}
+
 
                 context = {'ignore_auth': True}
 
