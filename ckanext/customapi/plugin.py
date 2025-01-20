@@ -443,11 +443,19 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 data = response.json()
                 docs = data.get("response", {}).get("docs", [])
                 print(docs)
+                datasets = [
+                    {
+                        "id": doc.get("id"),
+                        "name": doc.get("name"),
+                        "title": doc.get("title")
+                    }
+                    for doc in docs
+                ]
                 # if "response" in data and "docs" in data["response"]:
                 #     return data["response"]["docs"]
                 # else:
                 #     return []  # Jika tidak ada hasil ditemukan
-                return data
+                return datasets
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
