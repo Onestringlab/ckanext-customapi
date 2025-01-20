@@ -419,9 +419,39 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
         def get_similar_datasets():
-            ##
-            return solr_url
+            payload = request.get_json()
+            dataset_id = payload.get('dataset_id')
+            mlt_fl = payload.get('match_field','title')
+            mlt_match_include = payload.get('mlt_match_include', False)
+            mlt_match_include = bool(mlt_match_include) if isinstance(mlt_match_include, bool) else str(mlt_match_include).lower() == 'true'
+            mlt_mintf = int(payload.get('mlt_mintf',1))
+            rows = int(payload.get('rows', 3))
+
+            params = {
+                "mlt.fl": match_field,
+                "mlt.match.include": mlt_match_include,
+                "mlt.mintf": mlt_mintf,
+                "q": f"id:{dataset_id}",
+                "rows": rows
+            }
             
+            solr_url = solr_url + '/solr/ckan/mlt'
+            try:
+                # Mengirim permintaan ke Solr
+                response = requests.get(solr_url, params=params)
+                response.raise_for_status()
+
+                # Parsing data dari respon JSON
+                data = response.json()
+                if "response" in data and "docs" in data["response"]:
+                    return data["response"]["docs"]
+                else:
+                    return []  # Jika tidak ada hasil ditemukan
+
+            except requests.RequestException as e:
+                print(f"Error fetching similar datasets: {e}")
+                return []
+
         return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
