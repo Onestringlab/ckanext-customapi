@@ -416,12 +416,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
-    @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
-    def get_similar_datasets():
-        ##
-        return solr_url
+        @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
+        def get_similar_datasets():
+            ##
+            return solr_url
 
-    return blueprint_customapi
+        return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
         # def get_organizations_list():
