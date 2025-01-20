@@ -434,6 +434,17 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             }
             
             solr_url = solr_url + '/solr/ckan/mlt'
+
+            email = "anonymous@somedomain.com"
+            username = "anonymous"
+            token = request.headers.get("Authorization")
+            if token:
+                if not token.startswith("Bearer "):
+                    return jsonify({"error": "Invalid authorization format"}), 400
+                token_value = token.split(" ", 1)[1]
+                _, email = get_username(token_value)
+                username = email.split('@')[0]
+                
             try:
                 # Mengirim permintaan ke Solr
                 response = requests.get(solr_url, params=params)
