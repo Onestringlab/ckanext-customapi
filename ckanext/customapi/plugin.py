@@ -445,9 +445,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 print(docs)
                 datasets = [
                     {
-                        "id": doc.get("id"),
-                        "name": doc.get("name"),
-                        "title": doc.get("title")
+                        "id": doc[0],
+                        "name": doc[1],
+                        "title": doc[2]
                     }
                     for doc in docs
                 ]
