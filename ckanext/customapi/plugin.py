@@ -451,15 +451,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     for doc in docs
                 ]
                 print(datasets)
-                # if "response" in data and "docs" in data["response"]:
-                #     return data["response"]["docs"]
-                # else:
-                #     return []  # Jika tidak ada hasil ditemukan
-                return data
+                return jsonify({"success": True, "datasets": datasets})
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
-                return []
+                return jsonify({"success": False})
 
         return blueprint_customapi
         
