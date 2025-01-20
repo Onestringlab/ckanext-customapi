@@ -421,7 +421,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         ##
         return solr_url
 
-        return blueprint_customapi
+    return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
         # def get_organizations_list():

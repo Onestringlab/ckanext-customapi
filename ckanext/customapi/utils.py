@@ -1,5 +1,5 @@
 import jwt
-import reques
+import requests
 
 from os import environ
 from flask import jsonify
