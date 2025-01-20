@@ -444,7 +444,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 token_value = token.split(" ", 1)[1]
                 _, email = get_username(token_value)
                 username = email.split('@')[0]
-                
+
             try:
                 # Mengirim permintaan ke Solr
                 response = requests.get(solr_url, params=params)
