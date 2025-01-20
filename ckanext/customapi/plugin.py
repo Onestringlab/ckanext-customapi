@@ -441,12 +441,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parsing data dari respon JSON
                 data = response.json()
-                print(data)
+                # print(data)
                 # if "response" in data and "docs" in data["response"]:
                 #     return data["response"]["docs"]
                 # else:
                 #     return []  # Jika tidak ada hasil ditemukan
-                return "oke"
+                return "data"
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
