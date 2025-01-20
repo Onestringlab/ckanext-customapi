@@ -442,7 +442,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Parsing data dari respon JSON
                 data = response.json()
                 docs = data.get("response", {}).get("docs", [])
-                print(docs)
                 datasets = [
                     {
                         "id": doc[0],
@@ -451,11 +450,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     }
                     for doc in docs
                 ]
+                print(datasets)
                 # if "response" in data and "docs" in data["response"]:
                 #     return data["response"]["docs"]
                 # else:
                 #     return []  # Jika tidak ada hasil ditemukan
-                return datasets
+                return docs
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
