@@ -336,7 +336,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 if request_name:
                     organisasi_id = request_name
 
-                params = {'id': organisasi_id, 'limit': limit,'offset': offset,}
+                params = {'id': organisasi_id, 'limit': limit,'offset': offset}
 
 
                 context = {'ignore_auth': True}
