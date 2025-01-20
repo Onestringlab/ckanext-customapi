@@ -447,7 +447,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 #     return data["response"]["docs"]
                 # else:
                 #     return []  # Jika tidak ada hasil ditemukan
-                return data
+                return docs
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
