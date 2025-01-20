@@ -421,14 +421,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_similar_datasets():
             payload = request.get_json()
             dataset_id = payload.get('dataset_id')
-            mlt_fl = payload.get('match_field','title')
+            mlt_fl = payload.get('mlt_fl','title')
             mlt_match_include = payload.get('mlt_match_include', False)
             mlt_match_include = bool(mlt_match_include) if isinstance(mlt_match_include, bool) else str(mlt_match_include).lower() == 'true'
             mlt_mintf = int(payload.get('mlt_mintf',1))
             rows = int(payload.get('rows', 3))
 
             params = {
-                "mlt.fl": match_field,
+                "mlt.fl": mlt_fl,
                 "mlt.match.include": mlt_match_include,
                 "mlt.mintf": mlt_mintf,
                 "q": f"id:{dataset_id}",
