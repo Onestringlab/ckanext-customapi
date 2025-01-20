@@ -7,12 +7,15 @@ import ckan.plugins.toolkit as toolkit
 
 from ckan.common import config
 from ckan.logic import get_action
+from ckan.plugins import toolkit as tk
 from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import query_custom, get_username, has_package_access
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
 from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
+
+solr_url = tk.config.get('ckanext.customapi.solr_url', environ.get('CKANEXT__CUSTOMAPI__SOLR_URL'))
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -413,6 +416,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
+    @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
+    def get_similar_datasets():
+
+        return solr_url
 
         return blueprint_customapi
         
