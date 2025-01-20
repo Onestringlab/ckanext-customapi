@@ -446,7 +446,14 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     {
                         "id": doc.get("id"),
                         "name": doc.get("name"),
-                        "title": doc.get("title")
+                        "title": doc.get("title"),
+                        "url": doc.get("url"),
+                        "notes": doc.get("notes"),
+                        "license_id": doc.get("license_id"),
+                        "metadata_created": doc.get("metadata_created"),
+                        "metadata_modified": doc.get("metadata_modified"),
+                        "state": doc.get("state"),
+                        "organization": doc.get("organization")
                     }
                     for doc in docs
                 ]
