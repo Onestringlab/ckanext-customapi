@@ -421,7 +421,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             payload = request.get_json()
             dataset_id = payload.get('dataset_id')
             mlt_fl = payload.get('mlt_fl','title')
-            mlt_match_include = payload.get('mlt_match_include', "False")
+            mlt_match_include = payload.get('mlt_match_include', "false")
             mlt_mintf = int(payload.get('mlt_mintf',1))
             rows = int(payload.get('rows', 3))
 
