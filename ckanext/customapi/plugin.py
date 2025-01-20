@@ -441,6 +441,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # Parsing data dari respon JSON
                 data = response.json()
+                docs = data.get("response", {}).get("docs", [])
                 # print(data)
                 # if "response" in data and "docs" in data["response"]:
                 #     return data["response"]["docs"]
