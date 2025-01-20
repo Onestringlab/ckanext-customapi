@@ -420,8 +420,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
         def get_similar_datasets():
             ##
-            return "solr_url"
-
+            return solr_url
+            
         return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
