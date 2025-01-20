@@ -440,6 +440,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.raise_for_status()
 
                 # Parsing data dari respon JSON
+                data = response.json()
                 docs = response_json.get("response", {}).get("docs", [])
                 # print(data)
                 # if "response" in data and "docs" in data["response"]:
