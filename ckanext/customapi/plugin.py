@@ -440,13 +440,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.raise_for_status()
 
                 # Parsing data dari respon JSON
-                data = response.json()
+                docs = response_json.get("response", {}).get("docs", [])
                 # print(data)
                 # if "response" in data and "docs" in data["response"]:
                 #     return data["response"]["docs"]
                 # else:
                 #     return []  # Jika tidak ada hasil ditemukan
-                return data
+                return docs
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
