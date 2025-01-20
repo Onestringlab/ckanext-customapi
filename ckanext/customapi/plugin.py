@@ -468,7 +468,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     }
                     for doc in docs
                 ]
-                print(datasets)
                 return jsonify({"success": True, "datasets": datasets})
 
             except requests.RequestException as e:
