@@ -16,8 +16,6 @@ from ckanext.customapi.utils import get_profile_by_username, get_username_capaci
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
 from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
 
-solr_url = tk.config.get('ckanext.customapi.solr_url', environ.get('CKANEXT__CUSTOMAPI__SOLR_URL'))
-
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IActions)
@@ -419,6 +417,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
         def get_similar_datasets():
+            solr_url = tk.config.get('ckanext.customapi.solr_url', environ.get('CKANEXT__CUSTOMAPI__SOLR_URL'))
             payload = request.get_json()
             dataset_id = payload.get('dataset_id')
             mlt_fl = payload.get('mlt_fl','title')
