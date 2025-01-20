@@ -1,6 +1,7 @@
 import jwt
-import requests
+import reques
 
+from os import environ
 from flask import jsonify
 from sqlalchemy import or_
 from ckan.logic import get_action
