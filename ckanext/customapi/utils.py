@@ -564,4 +564,48 @@ def delete_package_collaborator(package_id, user_id):
     else:
         raise Exception(f"No collaborator found with package_id {package_id} and user_id {user_id}.")
 
+def update_package_collaborator(package_id, user_id, capacity):
+    """
+    Memperbarui kolaborator pada dataset.
 
+    :param package_id: ID dataset tempat kolaborator akan diperbarui.
+    :param user_id: ID pengguna yang kolaborasinya akan diperbarui.
+    :param capacity: Peran baru kolaborator (misalnya, 'editor', 'member').
+    :return: Dictionary yang merepresentasikan kolaborator yang diperbarui.
+    """
+
+    # Validasi input
+    allowed_capacities = ['editor', 'member']
+    if capacity not in allowed_capacities:
+        raise ValueError(f"Invalid capacity. Must be one of {', '.join(allowed_capacities)}")
+
+    # Query untuk memperbarui kolaborator
+    query = '''
+        UPDATE package_member
+        SET capacity = :capacity, modified = :modified
+        WHERE package_id = :package_id AND user_id = :user_id
+        RETURNING user_id, capacity, package_id, modified
+    '''
+
+    # Parameter untuk query
+    params = {
+        'user_id': user_id,
+        'capacity': capacity,
+        'package_id': package_id,
+        'modified': datetime.datetime.utcnow()
+    }
+
+    # Eksekusi query dan ambil hasil
+    result = query_custom(query, params)
+
+    # Format hasil menjadi dictionary
+    if result:
+        row = result[0]
+        return {
+            "user_id": row[0],
+            "capacity": row[1],
+            "package_id": row[2],
+            "modified": row[3].isoformat()  # Konversi datetime ke format ISO 8601
+        }
+    else:
+        raise Exception(f"No collaborator found with package_id {package_id} and user_id {user_id}.")

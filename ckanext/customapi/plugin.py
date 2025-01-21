@@ -523,6 +523,30 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"Success": True, "data": data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
+        
+        @blueprint_customapi.route('/set-update-package-collaborator', methods=['POST'])
+        def set_update_package_collaborator():
+            try:
+                payload = request.get_json()
+                package_id = payload.get('package_id')
+                user_id = payload.get('user_id')
+                capacity = payload.get('capacity','member')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                data = update_package_collaborator(package_id, user_id, capacity)
+
+                return jsonify({"Success": True, "data": data})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
 
         @blueprint_customapi.route('/set-delete-package-collaborator', methods=['POST'])
         def set_delete_package_collaborator():
