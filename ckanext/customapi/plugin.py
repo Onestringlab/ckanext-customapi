@@ -17,7 +17,7 @@ from ckanext.customapi.utils import query_custom, get_username, has_package_acce
 from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
-from ckanext.customapi.utils import update_package_collaborator, delete_package_collaborator
+from ckanext.customapi.utils import update_package_collaborator, delete_package_collaborator,search_username
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
