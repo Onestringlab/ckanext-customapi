@@ -477,6 +477,37 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": False})
 
         return blueprint_customapi
+
+        @blueprint_customapi.route('/get-package-collaborator-org-list', methods=['POST'])
+        def get_package_collaborator_org_list():
+            try:
+                payload = request.get_json()
+                dataset_id = payload.get('dataset_id')
+                dataset_name = payload.get('dataset_name')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                if dataset_id:
+                    dataset_id = dataset_id
+                if dataset_name:
+                    dataset_id = dataset_name
+
+                params = {'id': dataset_id}
+
+                context = {'ignore_auth': True}   
+                response = get_action('package_collaborator_org_list')(context, params)
+
+                return jsonify({"Success": True, "data": response})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
         # def get_organizations_list():
