@@ -234,7 +234,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': dataset_id}
 
                 has_access = has_package_access(username, dataset_id)
-                has_stream = has_stream_access(username, dataset_id)
 
                 context = {'ignore_auth': True}
 
@@ -242,7 +241,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
 
-                return jsonify({"success": True, "email": email, "has_access": has_access, "has_stream":has_stream ,"data": response})
+                return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
@@ -411,7 +410,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('organization_show')(context, params)
                 response.update({"dataset_organization": dataset_organization})               
 
-                return jsonify({"success": True, "email": email, "data": response})
+                has_stream = get_username_capacity(username, org_id)
+
+                return jsonify({"success": True, "email": email, "data": response, "has_stream": has_stream})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 

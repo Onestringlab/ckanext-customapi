@@ -198,7 +198,7 @@ def has_package_access(user_id, dataset_id):
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return package_access
 
-def has_stream_access(user_id, dataset_id):
+def has_stream_access(user_id, ord_id):
     # Mendapatkan pengguna berdasarkan user_id
     user = User.get(user_id)
     dataset = Package.get(dataset_id)
