@@ -625,7 +625,7 @@ def search_username(username):
         WHERE
         state = 'active' 
         AND name ILIKE :username
-        ORDER BY name asd
+        ORDER BY name asc
         limit 10
     '''
 
