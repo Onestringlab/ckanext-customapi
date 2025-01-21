@@ -18,8 +18,8 @@ def query_custom(query, params=None):
     session = meta.Session
     try:
         # Eksekusi query dengan parameter
-        log.info(f"Executing query: {query}")
-        log.info(f"With parameters: {params}")
+        print(f"Executing query: {query}")
+        print(f"With parameters: {params}")
         result = session.execute(query, params or {})
         session.commit()
         return result.fetchall()
