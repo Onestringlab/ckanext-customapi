@@ -410,7 +410,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('organization_show')(context, params)
                 response.update({"dataset_organization": dataset_organization})               
 
-                has_stream = get_username_capacity(username, "77e8c9a5-5649-4cf7-a535-3c5f2adee315")
+                has_stream = get_username_capacity(username, response['id'])
 
                 return jsonify({"success": True, "email": email, "data": response, "has_stream": has_stream})
             except Exception as e:
