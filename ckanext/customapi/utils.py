@@ -509,8 +509,7 @@ def add_package_collaborator(dataset_id, user_id, capacity):
         return {
             "user_id": row[0],
             "capacity": row[1],
-            "package_id": row[2],
-            "modified": row[3].isoformat()
+            "package_id": row[2]
         }
     else:
         raise Exception("Failed to add collaborator.")
