@@ -482,11 +482,11 @@ def package_collaborator_org_list(dataset_id):
 
     return data
 
-def add_package_collaborator(dataset_id, user_id, capacity):
+def add_package_collaborator(package_id, user_id, capacity):
     """
     Menambahkan kolaborator ke dataset.
 
-    :param dataset_id: ID dataset tempat kolaborator akan ditambahkan.
+    :param package_id: ID dataset tempat kolaborator akan ditambahkan.
     :param user_id: ID pengguna yang akan ditambahkan sebagai kolaborator.
     :param capacity: Peran kolaborator (misalnya, 'editor', 'member').
     :return: Dictionary yang merepresentasikan kolaborator baru.
@@ -508,7 +508,7 @@ def add_package_collaborator(dataset_id, user_id, capacity):
     params = {
         'user_id': user_id,
         'capacity': capacity,
-        'package_id': dataset_id,
+        'package_id': package_id,
         'modified': datetime.datetime.utcnow()
     }
 

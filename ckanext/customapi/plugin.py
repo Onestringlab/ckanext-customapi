@@ -504,8 +504,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def set_add_package_collaborator():
             try:
                 payload = request.get_json()
-                dataset_id = payload.get('dataset_id','')
-                user_id = payload.get('user_id','')
+                package_id = payload.get('package_id')
+                user_id = payload.get('user_id')
                 capacity = payload.get('capacity','member')
 
                 email = "anonymous@somedomain.com"
@@ -518,7 +518,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                data = add_package_collaborator(dataset_id, user_id, capacity)
+                data = add_package_collaborator(package_id, user_id, capacity)
 
                 return jsonify({"Success": True, "data": data})
             except Exception as e:
