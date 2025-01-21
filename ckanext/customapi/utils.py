@@ -1,4 +1,5 @@
 import jwt
+import datetime
 import requests
 
 from flask import jsonify
@@ -9,10 +10,23 @@ from ckan.model import Package, User, Group, Member, meta
 def query_custom(query, params=None):
     """
     Helper function untuk menjalankan query ke database CKAN.
+
+    :param query: Query SQL yang akan dijalankan.
+    :param params: Parameter untuk query (dictionary).
+    :return: Hasil query dalam bentuk list of rows.
     """
     session = meta.Session
-    result = session.execute(query, params or {})
-    return result.fetchall()
+    try:
+        # Eksekusi query dengan parameter
+        result = session.execute(query, params or {})
+        return result.fetchall()
+    except Exception as e:
+        # Tangani error dengan logging atau raise exception
+        session.rollback()
+        raise Exception(f"Error executing query: {e}")
+    finally:
+        # Pastikan session tidak bocor
+        session.close()
 
 def query_solr(params):
     """
@@ -467,8 +481,6 @@ def package_collaborator_org_list(dataset_id):
     ]
 
     return data
-
-import datetime
 
 def add_package_collaborator(dataset_id, user_id, capacity):
     """
