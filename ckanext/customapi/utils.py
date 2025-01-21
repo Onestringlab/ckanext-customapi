@@ -487,17 +487,16 @@ def add_package_collaborator(dataset_id, user_id, capacity):
 
     # Query untuk menambahkan kolaborator
     query = '''
-        INSERT INTO package_member (user_id, capacity, package_id, modified)
-        VALUES (:user_id, :capacity, :package_id, :modified)
-        RETURNING user_id, capacity, package_id, modified
+        INSERT INTO package_member (user_id, capacity, package_id)
+        VALUES (:user_id, :capacity, :package_id)
+        RETURNING user_id, capacity, package_id
     '''
 
     # Parameter untuk query
     params = {
         'user_id': user_id,
         'capacity': capacity,
-        'package_id': dataset_id,
-        'modified': datetime.datetime.utcnow()
+        'package_id': dataset_id
     }
 
     # Eksekusi query dan ambil hasil
@@ -509,8 +508,7 @@ def add_package_collaborator(dataset_id, user_id, capacity):
         return {
             "user_id": row[0],
             "capacity": row[1],
-            "package_id": row[2],
-            "modified": row[3].isoformat()
+            "package_id": row[2]
         }
     else:
         raise Exception("Failed to add collaborator.")
