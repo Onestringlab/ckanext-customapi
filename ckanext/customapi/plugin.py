@@ -520,7 +520,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 data = add_package_collaborator(dataset_id, user_id, capacity)
 
-                return jsonify({"Success": True, "data": "data"})
+                return jsonify({"Success": True, "data": data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
