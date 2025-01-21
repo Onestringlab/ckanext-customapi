@@ -411,8 +411,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.update({"dataset_organization": dataset_organization})               
 
                 has_stream = get_username_capacity(username, response['id'])
-
-                return jsonify({"success": True, "email": email, "data": response, "has_stream": has_stream})
+                is_not_empty = bool(has_stream)
+                
+                return jsonify({"success": True, "email": email, "data": response, "has_stream": is_not_empty})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
