@@ -4,7 +4,7 @@ import requests
 from flask import jsonify
 from sqlalchemy import or_
 from ckan.logic import get_action
-from ckan.model import Package, User, Group, Member, meta, package_member
+from ckan.model import Package, User, Group, Member, meta
 
 def query_custom(query, params=None):
     """
@@ -437,3 +437,30 @@ def get_count_dataset_organization(owr_org):
     response = get_action('package_search')(context, params)
 
     return response['count']
+
+def package_collaborator_org_list(dataset_id):
+    query = f'''
+                SELECT pm.user_id, u.name AS username, pm.capacity, pm.state, pm.created
+                FROM package_member pm
+                JOIN "user" u ON pm.user_id = u.id
+                WHERE pm.package_id = :dataset_id
+            '''
+    # Parameter untuk query
+    params = {
+        'dataset_id': dataset_id
+    }
+
+    result = query_custom(query, params)
+
+    data = [
+        {
+            "user_id": row[0],
+            "name": row[1],
+            "capacity": row[2],
+            "state": row[3],
+            "created": row[4]
+        }
+        for row in result
+    ]
+
+    return data
