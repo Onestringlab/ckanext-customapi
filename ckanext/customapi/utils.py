@@ -198,6 +198,44 @@ def has_package_access(user_id, dataset_id):
     # Jika tidak ada kondisi yang terpenuhi, akses ditolak
     return package_access
 
+def has_stream_access(user_id, dataset_id):
+    # Mendapatkan pengguna berdasarkan user_id
+    user = User.get(user_id)
+    dataset = Package.get(dataset_id)
+    stream_access = False
+
+    if not user:
+        stream_access = False
+    
+    if not dataset:
+        raise ValueError(f"Dataset dengan ID {dataset_id} tidak ditemukan.")
+    
+    # Jika pengguna adalah sysadmin, beri akses
+    if user:
+        if user.sysadmin:
+            stream_access = True
+    
+    # Jika pengguna adalah creator dari dataset, beri akses
+        if user.id == dataset.creator_user_id:
+            stream_access = True
+    
+        # Jika dataset private, cek kapasitas user di organisasi terkait
+        if dataset.private:
+            # Ambil grup dari dataset
+            groups = dataset.get_groups()
+            for group in groups:
+                # Ambil grup terkait dengan dataset
+                print(user.id, user.name ,group.id, group.name)
+                capacities = get_username_capacity(user.name, group.id)
+                print(capacities)
+                if capacities:
+                    capacity = capacities[0].get('capacity', None)
+                    if capacity in ['admin', 'editor', 'member']:
+                        stream_access = True
+
+    # Jika tidak ada kondisi yang terpenuhi, akses ditolak
+    return stream_access
+
 def list_organizations():
     session = meta.Session
 
