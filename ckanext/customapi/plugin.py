@@ -482,8 +482,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_package_collaborator_org_list():
             try:
                 payload = request.get_json()
-                dataset_id = payload.get('dataset_id')
-                dataset_name = payload.get('dataset_name')
+                dataset_id = payload.get('dataset_id','')
+                dataset_name = payload.get('dataset_name','')
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
