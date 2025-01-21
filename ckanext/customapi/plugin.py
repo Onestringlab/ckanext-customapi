@@ -518,7 +518,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                data = add_package_collaborator(dataset_id,user_id,capacity)
+                data = add_package_collaborator(dataset_id, user_id, capacity)
 
                 return jsonify({"Success": True, "data": data, "id": id})
             except Exception as e:

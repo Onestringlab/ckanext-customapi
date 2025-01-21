@@ -479,7 +479,7 @@ def add_package_collaborator(dataset_id, user_id, capacity):
     :param capacity: Peran kolaborator (misalnya, 'editor', 'member').
     :return: Dictionary yang merepresentasikan kolaborator baru.
     """
-    
+
     # Validasi input
     allowed_capacities = ['editor', 'member']
     if capacity not in allowed_capacities:
@@ -510,7 +510,7 @@ def add_package_collaborator(dataset_id, user_id, capacity):
             "user_id": row[0],
             "capacity": row[1],
             "package_id": row[2],
-            "modified": row[3]
+            "modified": row[3].isoformat()
         }
     else:
         raise Exception("Failed to add collaborator.")
