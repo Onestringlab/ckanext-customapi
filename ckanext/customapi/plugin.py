@@ -506,7 +506,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 payload = request.get_json()
                 dataset_id = payload.get('dataset_id','')
                 user_id = payload.get('user_id','')
-                capacity = payload.get('user_id','member')
+                capacity = payload.get('capacity','member')
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
