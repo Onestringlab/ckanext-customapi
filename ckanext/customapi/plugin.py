@@ -113,6 +113,30 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 })
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
+        
+        @blueprint_customapi.route('/get-search-username', methods=['POST'])
+        def get_search_username():
+            try:
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                payload = request.get_json()
+                username = payload.get('username', '').strip()
+                data = search_username(username)
+
+                return jsonify({
+                    "data": data,
+                    "success": True
+                })
+            except Exception as e:
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-capacity-by-username', methods=['POST'])
         def get_capacity_by_username():

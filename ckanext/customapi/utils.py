@@ -609,3 +609,45 @@ def update_package_collaborator(package_id, user_id, capacity):
         }
     else:
         raise Exception(f"No collaborator found with package_id {package_id} and user_id {user_id}.")
+
+def search_username(username):
+    """
+    Mencari pengguna berdasarkan username menggunakan LIKE.
+
+    :param username: String pencarian untuk username (partial match).
+    :return: List dictionary pengguna yang ditemukan.
+    """
+
+    # Query SQL untuk pencarian username
+    query = '''
+        SELECT id, name, fullname, email, created, sysadmin
+        FROM "user"
+        WHERE
+        state = 'active' 
+        AND name ILIKE :username
+        limit 10
+    '''
+
+    # Parameter untuk query (LIKE dengan wildcard)
+    params = {
+        'username': f'%{username}%'
+    }
+
+    # Eksekusi query
+    result = query_custom(query, params)
+
+    # Format hasil menjadi list of dictionaries
+    users = [
+        {
+            "id": row[0],
+            "name": row[1],
+            "fullname": row[2],
+            "email": row[3],
+            "created": row[4],
+            "sysadmin": row[5]
+        }
+        for row in result
+    ]
+
+    return users
+
