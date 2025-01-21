@@ -4,7 +4,7 @@ import requests
 from flask import jsonify
 from sqlalchemy import or_
 from ckan.logic import get_action
-from ckan.model import Package, User, Group, Member, meta
+from ckan.model import Package, User, Group, Member, meta, Package_Member
 
 def query_custom(query, params=None):
     """
