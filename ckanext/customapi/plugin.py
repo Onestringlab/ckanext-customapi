@@ -476,8 +476,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 print(f"Error fetching similar datasets: {e}")
                 return jsonify({"success": False})
 
-        return blueprint_customapi
-
         @blueprint_customapi.route('/get-package-collaborator-org-list', methods=['POST'])
         def get_package_collaborator_org_list():
             try:
@@ -508,6 +506,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"Success": True, "data": "response"})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
+
+        return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
         # def get_organizations_list():
