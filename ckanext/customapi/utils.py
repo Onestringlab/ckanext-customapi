@@ -527,3 +527,41 @@ def add_package_collaborator(package_id, user_id, capacity):
     else:
         raise Exception("Failed to add collaborator.")
 
+
+def delete_package_collaborator(package_id, user_id):
+    """
+    Menghapus kolaborator dari dataset.
+
+    :param package_id: ID dataset tempat kolaborator akan dihapus.
+    :param user_id: ID pengguna yang akan dihapus sebagai kolaborator.
+    :return: Pesan sukses atau error.
+    """
+
+    # Query untuk menghapus kolaborator
+    query = '''
+        DELETE FROM package_member
+        WHERE package_id = :package_id AND user_id = :user_id
+        RETURNING user_id, package_id
+    '''
+
+    # Parameter untuk query
+    params = {
+        'package_id': package_id,
+        'user_id': user_id
+    }
+
+    # Eksekusi query dan ambil hasil
+    result = query_custom(query, params)
+
+    # Periksa apakah data berhasil dihapus
+    if result:
+        row = result[0]
+        return {
+            "message": "Collaborator deleted successfully.",
+            "user_id": row[0],
+            "package_id": row[1]
+        }
+    else:
+        raise Exception(f"No collaborator found with package_id {package_id} and user_id {user_id}.")
+
+
