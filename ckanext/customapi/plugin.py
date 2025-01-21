@@ -494,8 +494,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 params = {'id': id}
 
-                context = {'ignore_auth': True}   
-                response = get_action('package_collaborator_org_lista')(context, params)
+                context = {'user': username, 'ignore_auth': True}   
+                response = get_action('package_collaborator_org_list')(context, params)
 
                 return jsonify({"Success": True, "data": response, "id": id})
             except Exception as e:
