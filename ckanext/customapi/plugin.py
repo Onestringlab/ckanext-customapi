@@ -480,8 +480,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_package_collaborator_org_list():
             try:
                 payload = request.get_json()
-                dataset_id = payload.get('dataset_id','')
-                dataset_name = payload.get('dataset_name','')
+                id = payload.get('id','')
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
@@ -493,17 +492,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                if dataset_id:
-                    dataset_id = dataset_id
-                if dataset_name:
-                    dataset_id = dataset_name
-
-                params = {'id': dataset_id}
+                params = {'id': id}
 
                 context = {'ignore_auth': True}   
                 response = get_action('package_collaborator_org_list')(context, params)
 
-                return jsonify({"Success": True, "data": response})
+                return jsonify({"Success": True, "data": response, "id": id})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
