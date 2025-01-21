@@ -440,7 +440,9 @@ def get_count_dataset_organization(owr_org):
 
 def package_collaborator_org_list(dataset_id):
     query = f'''
-                SELECT pm.user_id, u.name AS username, pm.capacity, pm.state, pm.created
+                SELECT pm.user_id, u.name AS username, 
+                pm.capacity, 
+                pm.modified
                 FROM package_member pm
                 JOIN "user" u ON pm.user_id = u.id
                 WHERE pm.package_id = :dataset_id
@@ -457,8 +459,7 @@ def package_collaborator_org_list(dataset_id):
             "user_id": row[0],
             "name": row[1],
             "capacity": row[2],
-            "state": row[3],
-            "created": row[4]
+            "modified": row[3]
         }
         for row in result
     ]
