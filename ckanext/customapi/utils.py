@@ -467,3 +467,51 @@ def package_collaborator_org_list(dataset_id):
     ]
 
     return data
+
+import datetime
+
+def add_package_collaborator(dataset_id, user_id, capacity):
+    """
+    Menambahkan kolaborator ke dataset.
+
+    :param dataset_id: ID dataset tempat kolaborator akan ditambahkan.
+    :param user_id: ID pengguna yang akan ditambahkan sebagai kolaborator.
+    :param capacity: Peran kolaborator (misalnya, 'editor', 'member').
+    :return: Dictionary yang merepresentasikan kolaborator baru.
+    """
+    
+    # Validasi input
+    allowed_capacities = ['editor', 'member']
+    if capacity not in allowed_capacities:
+        raise ValueError(f"Invalid capacity. Must be one of {', '.join(allowed_capacities)}")
+
+    # Query untuk menambahkan kolaborator
+    query = '''
+        INSERT INTO package_member (user_id, capacity, package_id, modified)
+        VALUES (:user_id, :capacity, :package_id, :modified)
+        RETURNING user_id, capacity, package_id, modified
+    '''
+
+    # Parameter untuk query
+    params = {
+        'user_id': user_id,
+        'capacity': capacity,
+        'package_id': dataset_id,
+        'modified': datetime.datetime.utcnow()
+    }
+
+    # Eksekusi query dan ambil hasil
+    result = query_custom(query, params)
+
+    # Format hasil menjadi dictionary
+    if result:
+        row = result[0]
+        return {
+            "user_id": row[0],
+            "capacity": row[1],
+            "package_id": row[2],
+            "modified": row[3]
+        }
+    else:
+        raise Exception("Failed to add collaborator.")
+

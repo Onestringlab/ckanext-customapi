@@ -493,10 +493,32 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                params = {'id': id}
-
                 context = {'user': username, 'ignore_auth': True}   
                 data = package_collaborator_org_list(id)
+
+                return jsonify({"Success": True, "data": data, "id": id})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
+        @blueprint_customapi.route('/set-add-package-collaborator', methods=['POST'])
+        def set_add_package_collaborator():
+            try:
+                payload = request.get_json()
+                dataset_id = payload.get('dataset_id','')
+                user_id = payload.get('user_id','')
+                capacity = payload.get('user_id','member')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                data = add_package_collaborator(dataset_id,user_id,capacity)
 
                 return jsonify({"Success": True, "data": data, "id": id})
             except Exception as e:
