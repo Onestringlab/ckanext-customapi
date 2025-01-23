@@ -187,17 +187,12 @@ def has_package_access(user_id, dataset_id):
     if not dataset.private:
         package_access = True
     
-    # Jika pengguna adalah sysadmin, beri akses
     if user:
+        # Jika pengguna adalah sysadmin, beri akses
         if user.sysadmin:
             package_access = True
     
-    # Jika pengguna adalah collaborator
-    print(has_package_collaborator(dataset_id, user_id))
-    # if has_package_collaborator(dataset_id, user_id):
-    #     package_access = True
-    
-    # Jika pengguna adalah creator dari dataset, beri akses
+        # Jika pengguna adalah creator dari dataset, beri akses
         if user.id == dataset.creator_user_id:
             package_access = True
     
@@ -235,7 +230,7 @@ def has_stream_access(user_id, ord_id):
         if user.sysadmin:
             stream_access = True
     
-    # Jika pengguna adalah creator dari dataset, beri akses
+        # Jika pengguna adalah creator dari dataset, beri akses
         if user.id == dataset.creator_user_id:
             stream_access = True
     
@@ -253,7 +248,8 @@ def has_stream_access(user_id, ord_id):
                     if capacity in ['admin', 'editor', 'member']:
                         stream_access = True
 
-    # Jika tidak ada kondisi yang terpenuhi, akses ditolak
+    print(has_package_collaborator(package_id, user_id))
+
     return stream_access
 
 def list_organizations():
