@@ -511,7 +511,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_package_collaborator_org_list():
             try:
                 payload = request.get_json()
-                id = payload.get('id','')
+                package_id = payload.get('package_id','')
 
                 email = "anonymous@somedomain.com"
                 username = "anonymous"
@@ -524,9 +524,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
 
                 context = {'user': username, 'ignore_auth': True}   
-                data = package_collaborator_org_list(id)
+                data = package_collaborator_org_list(package_id)
 
-                return jsonify({"Success": True, "data": data, "id": id})
+                return jsonify({"Success": True, "data": data, "package_id": package_id})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
