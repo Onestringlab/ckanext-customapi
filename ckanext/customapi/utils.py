@@ -495,7 +495,7 @@ def has_package_collaborator(package_id, user_id):
                 pm.modified
                 FROM package_member pm
                 JOIN "user" u ON pm.user_id = u.id
-                WHERE pm.package_id = :dataset_id
+                WHERE pm.package_id = :package_id
                 AND pm.user_id = :user_id
             '''
     # Parameter untuk query
