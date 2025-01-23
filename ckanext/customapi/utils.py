@@ -208,7 +208,8 @@ def has_package_access(user_id, dataset_id):
                     if capacity in ['admin', 'editor', 'member']:
                         package_access = True
 
-    print(has_package_collaborator(dataset_id, user_id), dataset_id, user_id)
+    if len(has_package_collaborator(dataset_id, user_id)) > 0:
+        package_access = True
     
     return package_access
 
@@ -481,7 +482,7 @@ def package_collaborator_org_list(dataset_id):
 
     return data
 
-def has_package_collaborator(package_id, user_id):
+def has_package_collaborator(package_name, username):
     query = f'''
                 SELECT pm.user_id, 
                     u.name AS username, 
@@ -491,12 +492,12 @@ def has_package_collaborator(package_id, user_id):
                 FROM package_member pm
                 JOIN "user" u ON pm.user_id = u.id
                 JOIN "package" p ON p.id = pm.package_id
-                WHERE p.name = :package_id
-                AND u.name = :user_id
+                WHERE p.name = :package_name
+                AND u.name = :username
             '''
     # Parameter untuk query
     params = {
-        'package_id': package_id, 'user_id': user_id
+        'package_name': package_name, 'username': username
     }
 
     result = query_custom(query, params)
