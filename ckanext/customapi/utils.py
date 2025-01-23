@@ -492,7 +492,7 @@ def has_package_collaborator(package_id, user_id):
                 JOIN "user" u ON pm.user_id = u.id
                 JOIN "package" p ON p.id = pm.package_id
                 WHERE p.name = :package_id
-                AND pm.user_id = :user_id
+                AND u.name = :user_id
             '''
     # Parameter untuk query
     params = {
