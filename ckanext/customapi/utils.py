@@ -210,7 +210,8 @@ def has_package_access(user_id, dataset_id):
                     if capacity in ['admin', 'editor', 'member']:
                         package_access = True
 
-    # Jika tidak ada kondisi yang terpenuhi, akses ditolak
+    print(has_package_collaborator(package_id, user_id))
+    
     return package_access
 
 def has_stream_access(user_id, ord_id):
@@ -247,8 +248,6 @@ def has_stream_access(user_id, ord_id):
                     capacity = capacities[0].get('capacity', None)
                     if capacity in ['admin', 'editor', 'member']:
                         stream_access = True
-
-    print(has_package_collaborator(package_id, user_id))
 
     return stream_access
 
