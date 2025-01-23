@@ -18,6 +18,7 @@ from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
 from ckanext.customapi.utils import update_package_collaborator, delete_package_collaborator,search_username
+from ckanext.customapi.utils import has_package_admin
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
