@@ -192,6 +192,10 @@ def has_package_access(user_id, dataset_id):
         if user.sysadmin:
             package_access = True
     
+    # Jika pengguna adalah collaborator
+    if len(has_package_collaborator(dataset_id, user_id)) < 0:
+        package_access = True
+    
     # Jika pengguna adalah creator dari dataset, beri akses
         if user.id == dataset.creator_user_id:
             package_access = True
@@ -482,6 +486,37 @@ def package_collaborator_org_list(dataset_id):
     ]
 
     return data
+
+def has_package_collaborator(package_id, user_id):
+    query = f'''
+                SELECT pm.user_id, u.name AS username, 
+                pm.capacity,
+                pm.package_id, 
+                pm.modified
+                FROM package_member pm
+                JOIN "user" u ON pm.user_id = u.id
+                WHERE pm.package_id = :dataset_id
+                AND pm.user_id = : user_id
+            '''
+    # Parameter untuk query
+    params = {
+        'package_id': package_id, 'user_id': user_id
+    }
+
+    result = query_custom(query, params)
+    row = result [0]
+    data = {}
+    if row:
+        data = {
+                "user_id": row[0],
+                "name": row[1],
+                "capacity": row[2],
+                "package_id": row[3],
+                "modified": row[4]
+            }
+
+    return data
+
 
 def add_package_collaborator(package_id, user_id, capacity):
     """
