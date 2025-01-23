@@ -193,8 +193,8 @@ def has_package_access(user_id, dataset_id):
             package_access = True
     
     # Jika pengguna adalah collaborator
-    if len(has_package_collaborator(dataset_id, user_id)) < 0:
-        package_access = True
+    # if has_package_collaborator(dataset_id, user_id):
+    #     package_access = True
     
     # Jika pengguna adalah creator dari dataset, beri akses
         if user.id == dataset.creator_user_id:
@@ -514,7 +514,7 @@ def has_package_collaborator(package_id, user_id):
                 "modified": row[4]
             }
         ]
-
+    print(data)
     return data
 
 
