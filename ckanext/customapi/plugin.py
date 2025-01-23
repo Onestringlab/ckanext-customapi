@@ -261,6 +261,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': dataset_id}
 
                 has_access = has_package_access(username, dataset_id)
+                has_admin = has_package_admin(username, dataset_id)
 
                 context = {'ignore_auth': True}
 
@@ -268,7 +269,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
 
-                return jsonify({"success": True, "email": email, "has_access": has_access, "data": response})
+                return jsonify({"success": True, "email": email, "has_access": has_access, 
+                                    "data": response, "has_admin": has_admin})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500
