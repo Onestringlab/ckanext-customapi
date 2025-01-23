@@ -500,16 +500,16 @@ def has_package_collaborator(package_id, user_id):
     }
 
     result = query_custom(query, params)
-    row = result[0]
     data = [
         {
-                "user_id": row[0],
-                "name": row[1],
-                "capacity": row[2],
-                "package_id": row[3],
-                "modified": row[4]
-            }
-        ]
+            "user_id": row[0],
+            "name": row[1],
+            "capacity": row[2],
+            "package_id": row[3],
+            "modified": row[4]
+        }
+        for row in result
+    ]
     return data
 
 
