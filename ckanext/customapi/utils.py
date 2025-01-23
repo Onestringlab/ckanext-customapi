@@ -202,9 +202,7 @@ def has_package_access(user_id, dataset_id):
             groups = dataset.get_groups()
             for group in groups:
                 # Ambil grup terkait dengan dataset
-                print(user.id, user.name ,group.id, group.name)
                 capacities = get_username_capacity(user.name, group.id)
-                print(capacities)
                 if capacities:
                     capacity = capacities[0].get('capacity', None)
                     if capacity in ['admin', 'editor', 'member']:
