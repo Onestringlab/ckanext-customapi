@@ -18,7 +18,7 @@ from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
 from ckanext.customapi.utils import update_package_collaborator, delete_package_collaborator,search_username
-from ckanext.customapi.utils import has_package_admin
+from ckanext.customapi.utils import has_package_admin, has_package_stream
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -263,6 +263,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 has_access = has_package_access(username, dataset_id)
                 has_admin = has_package_admin(username, dataset_id)
+                has_stream = has_package_stream(username, dataset_id)
 
                 context = {'ignore_auth': True}
 
@@ -271,7 +272,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
 
                 return jsonify({"success": True, "email": email, "has_access": has_access, 
-                                    "data": response, "has_admin": has_admin})
+                                    "data": response, "has_admin": has_admin,'has_stream': has_stream})
 
             except Exception as e:
                 return jsonify({"success": False, "error": str(e)}), 500

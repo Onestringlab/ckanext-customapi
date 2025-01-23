@@ -213,6 +213,33 @@ def has_package_access(user_id, dataset_id):
     
     return package_access
 
+def has_package_stream(user_id, dataset_id):
+    # Mendapatkan pengguna berdasarkan user_id
+    user = User.get(user_id)
+    dataset = Package.get(dataset_id)
+    package_stream = False
+
+    if user:
+        # Jika pengguna adalah sysadmin, beri akses
+        if user.sysadmin:
+            package_stream = True
+    
+        # Jika pengguna adalah creator dari dataset, beri akses
+        if user.id == dataset.creator_user_id:
+            package_stream = True
+    
+        # Jika user admin organisasi dari dataset
+        groups = dataset.get_groups()
+        for group in groups:
+            # Ambil grup terkait dengan dataset
+            capacities = get_username_capacity(user.name, group.id)
+            if capacities:
+                capacity = capacities[0].get('capacity', None)
+                if capacity in ['admin', 'editor', 'member']:
+                    package_stream = True
+
+    return package_stream
+
 def has_package_admin(user_id, dataset_id):
     # Mendapatkan pengguna berdasarkan user_id
     user = User.get(user_id)
@@ -237,7 +264,6 @@ def has_package_admin(user_id, dataset_id):
                 capacity = capacities[0].get('capacity', None)
                 if capacity == 'admin':
                     package_admin = True
-
     return package_admin
 
 def has_stream_access(user_id, ord_id):
