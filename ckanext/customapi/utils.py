@@ -485,13 +485,15 @@ def package_collaborator_org_list(dataset_id):
 
 def has_package_collaborator(package_id, user_id):
     query = f'''
-                SELECT pm.user_id, u.name AS username, 
-                pm.capacity,
-                pm.package_id, 
-                pm.modified
+                SELECT pm.user_id, 
+                    u.name AS username, 
+                    pm.capacity, 
+                    pm.package_id, 
+                    pm.modified
                 FROM package_member pm
                 JOIN "user" u ON pm.user_id = u.id
-                WHERE pm.package_id = :package_id
+                JOIN "package" p ON p.id = pm.package_id
+                WHERE p.name = :package_id
                 AND pm.user_id = :user_id
             '''
     # Parameter untuk query
