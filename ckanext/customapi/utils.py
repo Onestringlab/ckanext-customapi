@@ -193,6 +193,7 @@ def has_package_access(user_id, dataset_id):
             package_access = True
     
     # Jika pengguna adalah collaborator
+    print(has_package_collaborator(dataset_id, user_id))
     # if has_package_collaborator(dataset_id, user_id):
     #     package_access = True
     
@@ -514,7 +515,6 @@ def has_package_collaborator(package_id, user_id):
                 "modified": row[4]
             }
         ]
-    print(data)
     return data
 
 
