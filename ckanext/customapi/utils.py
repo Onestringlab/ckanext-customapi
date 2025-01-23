@@ -208,7 +208,7 @@ def has_package_access(user_id, dataset_id):
                     if capacity in ['admin', 'editor', 'member']:
                         package_access = True
 
-    print(has_package_collaborator(dataset_id, user_id))
+    print(has_package_collaborator(dataset_id, user_id), dataset_id, user_id)
     
     return package_access
 
