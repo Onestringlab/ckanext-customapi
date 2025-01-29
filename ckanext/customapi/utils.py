@@ -712,8 +712,7 @@ def search_username(username):
         ORDER BY name asc
         limit 10
     '''
-
-    # Parameter untuk query (LIKE dengan wildcard)
+    
     params = {
         'username': f'%{username}%'
     }
