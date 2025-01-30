@@ -671,7 +671,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
-        
         @blueprint_customapi.route('/set-update-member', methods=['POST'])
         def set_update_member():
             try:
