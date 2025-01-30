@@ -50,7 +50,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 29.1!"
+            message = "Welcome to the Virtual World 30.1!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -507,6 +507,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 print(f"Error fetching similar datasets: {e}")
                 return jsonify({"success": False})
 
+
+        #------------------------------------------------ collaborator ------------------------------------------------#
         @blueprint_customapi.route('/get-package-collaborator-org-list', methods=['POST'])
         def get_package_collaborator_org_list():
             try:
@@ -600,6 +602,33 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"Success": True, "data": data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
+
+        #------------------------------------ organization member ------------------------------------#
+        blueprint_customapi.route('/get-member-list', methods=['POST'])
+        def get_member_list():
+            try:
+                payload = request.get_json()
+                org_id = payload.get('org_id','')
+                object_type = payload.get('object_type','user')
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                context = {'user': username, 'ignore_auth': True}
+                params = {'id': org_id, 'object_type':object_type}   
+                response = get_action('member_list')(context, params)
+
+                return jsonify({"Success": True, "data": data, "package_id": package_id})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
 
 
         return blueprint_customapi
