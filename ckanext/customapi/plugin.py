@@ -624,8 +624,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object_type':object_type}   
                 members = get_action('member_list')(context, params)
+                
+                enriched_data = []
                 for member in members:
-                    enriched_data = []
                     user_id, object_type, capacity = member
                     user_profile = get_profile_by_id(user_id)
                     if user_profile:
