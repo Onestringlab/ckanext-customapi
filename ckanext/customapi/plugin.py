@@ -632,7 +632,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                         enriched_data.append({
                             "id": user_profile["id"],
                             "name": user_profile["name"],
-                            "display_name": user_profile["display_name"],
+                            "fullname": user_profile["fullname"],
                             "email": user_profile["email"],
                             "created": user_profile["created"],
                             "state": user_profile["state"],
