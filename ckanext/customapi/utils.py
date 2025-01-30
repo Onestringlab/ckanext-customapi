@@ -131,7 +131,7 @@ def get_profile_by_id(user_id):
         }
     return data
 
-def get_username_capacity(username, group_id=None):
+def get_username_capacity(username, group_id=None, capacity=None):
     # Query menggunakan parameterized query untuk keamanan
     query = '''
         SELECT 
@@ -155,6 +155,9 @@ def get_username_capacity(username, group_id=None):
     if group_id:
         query += ' AND g.id = :group_id'
         result = query_custom(query, {'username': username,'group_id': group_id})
+    
+    if capacity:
+        query += ' AND  m.capacity = \'admin\''
 
     # Konversi hasil query menjadi daftar dictionary
     data = [

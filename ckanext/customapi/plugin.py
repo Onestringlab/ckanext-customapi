@@ -50,7 +50,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 30.1!"
+            message = "Welcome to the Virtual World 30.2!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -442,9 +442,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response.update({"dataset_organization": dataset_organization})               
 
                 has_stream = get_username_capacity(username, response['id'])
-                is_not_empty = bool(has_stream)
+                has_admin = get_username_capacity(username, response['id'], True)
+                is_stream = bool(has_stream)
+                is_admin = bool(has_admin)
                 
-                return jsonify({"success": True, "email": email, "data": response, "has_stream": is_not_empty})
+                return jsonify({"success": True, "email": email, "data": response, "has_stream": is_stream, "has_admin": is_admin})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
@@ -704,7 +706,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 payload = request.get_json()
                 id = payload.get('id','')
                 user_id = payload.get('user_id','')
-                capacity = payload.get('capacity','member')
                 object_type = 'user'
 
                 email = "anonymous@somedomain.com"
