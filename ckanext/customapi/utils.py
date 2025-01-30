@@ -158,8 +158,6 @@ def get_username_capacity(username, group_id=None, capacity=None):
             query += ' AND  m.capacity = \'admin\''
         result = query_custom(query, {'username': username,'group_id': group_id})
     
-   
-
     # Konversi hasil query menjadi daftar dictionary
     data = [
         {
