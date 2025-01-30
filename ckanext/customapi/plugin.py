@@ -625,7 +625,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 params = {'id': org_id, 'object_type':object_type}   
                 response = get_action('member_list')(context, params)
 
-                return jsonify({"Success": True, "data": data, "package_id": package_id})
+                return jsonify({"Success": True, "data": response})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
