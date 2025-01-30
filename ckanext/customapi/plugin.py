@@ -672,14 +672,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"error": f"{str(e)}"}), 400
 
         
-                context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                response = get_action('member_create')(context, params)
-
-                return jsonify({"Success": True, "data": params})
-            except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
-        
         @blueprint_customapi.route('/set-update-member', methods=['POST'])
         def set_update_member():
             try:
@@ -699,15 +691,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
-                context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                response = get_action('member_create')(context, params)
-
-                return jsonify({"Success": True, "data": params})
-            except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
-
-        
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
                 response = get_action('member_create')(context, params)
