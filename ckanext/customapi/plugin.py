@@ -698,6 +698,33 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
+        @blueprint_customapi.route('/set-delete-member', methods=['POST'])
+        def set_delete_member():
+            try:
+                payload = request.get_json()
+                id = payload.get('id','')
+                user_id = payload.get('user_id','')
+                capacity = payload.get('capacity','member')
+                object_type = 'user'
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+                
+                context = {'user': username, 'ignore_auth': True}
+                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
+                response = get_action('member_delete')(context, params)
+
+                return jsonify({"Success": True, "data": params})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
         return blueprint_customapi
         
         # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
