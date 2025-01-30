@@ -604,7 +604,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"error": f"{str(e)}"}), 400
 
         #------------------------------------ organization member ------------------------------------#
-        blueprint_customapi.route('/get-member-list', methods=['POST'])
+        @blueprint_customapi.route('/get-member-list', methods=['POST'])
         def get_member_list():
             try:
                 payload = request.get_json()
