@@ -608,7 +608,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
         def get_member_list():
             try:
                 payload = request.get_json()
-                org_id = payload.get('org_id','')
+                id = payload.get('id','')
                 object_type = payload.get('object_type','user')
 
                 email = "anonymous@somedomain.com"
