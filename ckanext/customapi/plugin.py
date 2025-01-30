@@ -663,11 +663,11 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
-                # context = {'user': username, 'ignore_auth': True}
-                # params = {'id': id, object: user_id, 'object_type':object_type, 'capacity': capacity}   
+                context = {'user': username, 'ignore_auth': True}
+                params = {'id': id, object: user_id, 'object_type':object_type, 'capacity': capacity}   
                 # response = get_action('member_create')(context, params)
 
-                return jsonify({"Success": True, "data": "response"})
+                return jsonify({"Success": True, "data": params})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
