@@ -623,9 +623,23 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object_type':object_type}   
-                response = get_action('member_list')(context, params)
+                members = get_action('member_list')(context, params)
+                for member in members:
+                    enriched_data = []
+                    user_id, object_type, capacity = member
+                    user_profile = get_profile_by_id(user_id)
+                    if user_profile:
+                        enriched_data.append({
+                            "id": user_profile["id"],
+                            "name": user_profile["name"],
+                            "display_name": user_profile["display_name"],
+                            "email": user_profile["email"],
+                            "created": user_profile["created"],
+                            "state": user_profile["state"],
+                            "capacity": capacity
+                        })
 
-                return jsonify({"Success": True, "data": response})
+                return jsonify({"Success": True, "data": enriched_data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
