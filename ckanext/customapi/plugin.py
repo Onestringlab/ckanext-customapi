@@ -664,7 +664,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
                 
                 context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, object: user_id, 'object_type':object_type, 'capacity': capacity}   
+                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
                 # response = get_action('member_create')(context, params)
 
                 return jsonify({"Success": True, "data": params})
