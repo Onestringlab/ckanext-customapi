@@ -728,7 +728,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         return blueprint_customapi
         
-        # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])
+        # @blueprint_customapi.route('/get-organizations-list', methods=['POST'])#
         # def get_organizations_list():
         #     try:
         #         payload = request.get_json()
