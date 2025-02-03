@@ -665,13 +665,18 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
+                params = {'id': id}
+
+                context = {'ignore_auth': True}  
+                response = get_action('organization_show')(context, params)
+
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                has_admin = get_username_capacity(username, id, True)
+                has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
                 response = get_action('member_create')(context, params)
 
-                return jsonify({"Success": True, "data": params, "has_admin": has_admin, 'username': username,'id':id})
+                return jsonify({"Success": True, "data": params, "has_admin": has_admin, 'username': username,'id':response['id']})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
