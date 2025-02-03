@@ -667,7 +667,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                has_admin = get_username_capacity(user_id, id, True)
+                has_admin = get_username_capacity(username, id, True)
                 is_admin = bool(has_admin)
                 response = get_action('member_create')(context, params)
 
