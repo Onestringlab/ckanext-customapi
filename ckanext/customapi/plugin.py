@@ -671,7 +671,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 is_admin = bool(has_admin)
                 response = get_action('member_create')(context, params)
 
-                return jsonify({"Success": True, "data": params, "is_admin": is_admin})
+                return jsonify({"Success": True, "data": params, "has_admin": has_admin})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
