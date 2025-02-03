@@ -434,17 +434,17 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     org_id = org_name
 
                 params = {'id': org_id}
-
                 context = {'ignore_auth': True}
                 dataset_organization = get_count_dataset_organization(org_id)
     
                 response = get_action('organization_show')(context, params)
                 response.update({"dataset_organization": dataset_organization})               
 
-                has_stream = get_username_capacity(username, response['id'])
                 has_admin = get_username_capacity(username, response['id'], True)
-                is_stream = bool(has_stream)
+                has_stream = get_username_capacity(username, response['id'])
+
                 is_admin = bool(has_admin)
+                is_stream = bool(has_stream)
                 
                 return jsonify({"success": True, "email": email, "data": response, "has_stream": is_stream, "has_admin": is_admin})
             except Exception as e:
@@ -666,14 +666,13 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
                 
                 params = {'id': id}
-
                 context = {'ignore_auth': True}  
                 response = get_action('organization_show')(context, params)
+                has_admin = get_username_capacity(username, response['id'], True)
+                is_admin = bool(has_admin)
 
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                has_admin = get_username_capacity(username, response['id'], True)
-                is_admin = bool(has_admin)
                 if is_admin:
                     response = get_action('member_create')(context, params)
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
@@ -699,11 +698,19 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
                 
+                params = {'id': id}
+                context = {'ignore_auth': True}  
+                response = get_action('organization_show')(context, params)
+                has_admin = get_username_capacity(username, response['id'], True)
+                is_admin = bool(has_admin)
+                
                 context = {'user': username, 'ignore_auth': True}
                 params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-                response = get_action('member_create')(context, params)
 
-                return jsonify({"Success": True, "data": params})
+                if is_admin:
+                    response = get_action('member_create')(context, params)
+
+                return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
@@ -724,12 +731,20 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
+
+                params = {'id': id}
+                context = {'ignore_auth': True}  
+                response = get_action('organization_show')(context, params)
+                has_admin = get_username_capacity(username, response['id'], True)
+                is_admin = bool(has_admin)
                 
                 context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type}   
-                response = get_action('member_delete')(context, params)
+                params = {'id': id, 'object': user_id, 'object_type':object_type}  
+                
+                if is_admin: 
+                    response = get_action('member_delete')(context, params)
 
-                return jsonify({"Success": True, "data": params})
+                return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
