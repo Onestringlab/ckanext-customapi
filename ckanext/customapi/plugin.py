@@ -446,7 +446,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 is_stream = bool(has_stream)
                 is_admin = bool(has_admin)
                 
-                return jsonify({"success": True, "email": email, "data": response, "has_stream": is_stream, "has_admin": is_admin})
+                return jsonify({"success": True, "email": email, "data": response, "has_stream": is_stream, "has_admin": is_admin,'username': username, 'has_admin':has_admin, 'response':response['id']})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
@@ -671,7 +671,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 is_admin = bool(has_admin)
                 response = get_action('member_create')(context, params)
 
-                return jsonify({"Success": True, "data": params, "has_admin": has_admin, 'username': username})
+                return jsonify({"Success": True, "data": params, "has_admin": has_admin, 'username': username,'id':id})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
