@@ -669,7 +669,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('organization_show')(context, params)
                 has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
-                                
+
+                member = {}                
                 if is_admin: 
                     context = {'user': username, 'ignore_auth': True}
                     params = {'id': id, 'object': user_id, 'object_type':object_type}  
