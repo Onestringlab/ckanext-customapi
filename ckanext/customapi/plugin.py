@@ -646,6 +646,39 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
+        @blueprint_customapi.route('/get-member-show', methods=['POST'])
+        def get_member_show():
+            try:
+                payload = request.get_json()
+                id = payload.get('id','')
+                user_id = payload.get('user_id','')
+                object_type = 'user'
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
+                params = {'id': id}
+                context = {'ignore_auth': True}  
+                response = get_action('organization_show')(context, params)
+                has_admin = get_username_capacity(username, response['id'], True)
+                is_admin = bool(has_admin)
+                                
+                if is_admin: 
+                    context = {'user': username, 'ignore_auth': True}
+                    params = {'id': id, 'object': user_id, 'object_type':object_type}  
+                    member = get_action('member_show')(context, params)
+
+                return jsonify({"Success": is_admin, "data": member, "has_admin": is_admin})
+            except Exception as e:
+                return jsonify({"error": f"{str(e)}"}), 400
+
         @blueprint_customapi.route('/set-add-member', methods=['POST'])
         def set_add_member():
             try:
@@ -671,9 +704,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
 
-                context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
                 if is_admin:
+                    context = {'user': username, 'ignore_auth': True}
+                    params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
                     response = get_action('member_create')(context, params)
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
@@ -704,10 +737,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
                 
-                context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
-
                 if is_admin:
+                    context = {'user': username, 'ignore_auth': True}
+                    params = {'id': id, 'object': user_id, 'object_type':object_type, 'capacity': capacity}   
                     response = get_action('member_create')(context, params)
 
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
@@ -737,11 +769,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action('organization_show')(context, params)
                 has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
-                
-                context = {'user': username, 'ignore_auth': True}
-                params = {'id': id, 'object': user_id, 'object_type':object_type}  
-                
+
                 if is_admin: 
+                    context = {'user': username, 'ignore_auth': True}
+                    params = {'id': id, 'object': user_id, 'object_type':object_type}  
                     response = get_action('member_delete')(context, params)
 
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
