@@ -680,7 +680,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                             break
                     
                     member = {
-                        "success": True,
+                        "success": is_admin,
                         "id": id,
                         "user_id": user_id,
                         "capacity": user_capacity
