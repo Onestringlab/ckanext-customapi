@@ -670,11 +670,21 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 has_admin = get_username_capacity(username, response['id'], True)
                 is_admin = bool(has_admin)
 
-                member = {}                
-                if is_admin: 
-                    context = {'user': username, 'ignore_auth': True}
-                    params = {'id': id, 'object': user_id, 'object_type':object_type}  
-                    member = get_action('member_show')(context, params)
+                member = {}
+                if is_admin:
+                    members = get_action('member_list')(context, params)
+                    user_capacity = None
+                    for member in members:
+                        if member[0] == user_id and member[1] == 'user':
+                            user_capacity = member[2]
+                            break
+                    
+                    member = {
+                        "success": True,
+                        "id": id,
+                        "user_id": user_id,
+                        "capacity": user_capacity
+                    }
 
                 return jsonify({"Success": is_admin, "data": member, "has_admin": is_admin})
             except Exception as e:
