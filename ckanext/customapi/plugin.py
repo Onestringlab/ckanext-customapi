@@ -529,6 +529,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 # context = {'user': username, 'ignore_auth': True}
                 has_admin = has_package_admin(username, package_id)
+                data = ''
                 if has_admin:   
                     data = package_collaborator_org_list(package_id)
 
