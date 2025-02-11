@@ -584,12 +584,9 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     username = email.split('@')[0]
 
                 has_admin = has_package_admin(username, package_id)
-                data = []
-                if has_admin:   
-                    data = update_package_collaborator(package_id, user_id, capacity)
-                    return jsonify({"Success": True, "data": data})
-                else:
-                    return jsonify({"Success": False})
+                data = update_package_collaborator(package_id, user_id, capacity)
+                    
+                return jsonify({"Success": True, "data": data})
             
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
@@ -610,15 +607,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     token_value = token.split(" ", 1)[1]
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
+    
+                data = delete_package_collaborator(package_id, user_id)
 
-                has_admin = has_package_admin(username, package_id)
-                data = []
-                if has_admin:   
-                    data = delete_package_collaborator(package_id, user_id)
-                    return jsonify({"Success": True, "data": data})
-                else:
-                    return jsonify({"Success": False})
-
+                return jsonify({"Success": True, "data": data})
             except Exception as e:
                 return jsonify({"error": f"{str(e)}"}), 400
 
