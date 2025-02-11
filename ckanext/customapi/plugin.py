@@ -527,8 +527,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                context = {'user': username, 'ignore_auth': True}   
-                data = package_collaborator_org_list(package_id)
+                # context = {'user': username, 'ignore_auth': True}
+                has_admin = has_package_admin(username, package_id)
+                if has_admin:   
+                    data = package_collaborator_org_list(package_id)
 
                 return jsonify({"Success": True, "data": data, "package_id": package_id})
             except Exception as e:
