@@ -527,9 +527,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                # context = {'user': username, 'ignore_auth': True}
                 has_admin = has_package_admin(username, package_id)
-                data = ''
+                data = []
                 if has_admin:   
                     data = package_collaborator_org_list(package_id)
 
@@ -555,7 +554,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     _, email = get_username(token_value)
                     username = email.split('@')[0]
 
-                data = add_package_collaborator(package_id, user_id, capacity)
+                has_admin = has_package_admin(username, package_id)
+                data = []
+                if has_admin:   
+                    data = add_package_collaborator(package_id, user_id, capacity)
 
                 return jsonify({"Success": True, "data": data})
             except Exception as e:
