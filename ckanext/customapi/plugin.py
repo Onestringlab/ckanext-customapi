@@ -13,7 +13,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
-from ckanext.customapi.utils import get_username, has_package_access
+from ckanext.customapi.utils import get_username, has_package_access, get_admin_organization
 from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
@@ -50,7 +50,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Virtual World 11.1!"
+            message = "Welcome to the Virtual World 13.1!"
             log.info(f'message:{message}')
 
             # Buat respons JSON
@@ -270,7 +270,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action("package_show")(context, params)
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
-                print(response["organization"]["name"])
+                response.update({"admin_organization": get_admin_organization(response["organization"]["name"])})
 
                 return jsonify({"success": True, "email": email, "has_access": has_access, 
                                     "data": response, "has_admin": has_admin,'has_stream': has_stream})

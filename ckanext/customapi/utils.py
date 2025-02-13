@@ -172,7 +172,7 @@ def get_username_capacity(username, group_id=None, capacity=None):
     ]
 
     return data
-def get_organization_admin(org_id):
+def get_admin_organization(org_name):
     # Query menggunakan parameterized query untuk keamanan
     query = '''
         SELECT 
@@ -188,9 +188,9 @@ def get_organization_admin(org_id):
             m.state = 'active' 
             AND m.capacity = 'admin'
             AND g.type = 'organization'
-            AND g.name = :org_id
+            AND g.name = :org_name
     '''
-    result = query_custom(query, {'org_id': org_id})
+    result = query_custom(query, {'org_name': org_name})
 
     # Konversi hasil query menjadi daftar dictionary
     data = [
