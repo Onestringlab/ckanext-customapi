@@ -13,7 +13,7 @@ from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
-from ckanext.customapi.utils import query_custom, get_username, has_package_access,has_stream_access
+from ckanext.customapi.utils import get_username, has_package_access
 from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin, get_organizations_query_count
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
@@ -267,9 +267,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 context = {'ignore_auth': True}
 
-                response = get_action('package_show')(context, params)
+                response = get_action("package_show")(context, params)
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
+                print(response["organization"]["name"])
 
                 return jsonify({"success": True, "email": email, "has_access": has_access, 
                                     "data": response, "has_admin": has_admin,'has_stream': has_stream})

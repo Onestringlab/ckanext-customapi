@@ -172,6 +172,39 @@ def get_username_capacity(username, group_id=None, capacity=None):
     ]
 
     return data
+def get_organization_admin(org_id):
+    # Query menggunakan parameterized query untuk keamanan
+    query = '''
+        SELECT 
+            u.name AS user_name, 
+            u.id AS user_id,
+            u.email AS email,
+            g.name AS organization_name, 
+            m.capacity
+        FROM "member" m
+        JOIN "user" u ON m.table_id = u.id
+        JOIN "group" g ON m.group_id = g.id
+        WHERE 
+            m.state = 'active' 
+            AND m.capacity = 'admin'
+            AND g.type = 'organization'
+            AND g.name = :org_id
+    '''
+    result = query_custom(query, {'org_id': org_id})
+
+    # Konversi hasil query menjadi daftar dictionary
+    data = [
+        {
+            "user_id": row[1],
+            "user_name": row[0],
+            "email": row[2],
+            "organization_name": row[3],
+            "capacity": row[4]
+        }
+        for row in result
+    ]
+
+    return data
 
 def has_package_access(user_id, dataset_id):
     # Mendapatkan pengguna berdasarkan user_id
@@ -267,43 +300,6 @@ def has_package_admin(user_id, dataset_id):
                 if capacity == 'admin':
                     package_admin = True
     return package_admin
-
-def has_stream_access(user_id, ord_id):
-    # Mendapatkan pengguna berdasarkan user_id
-    user = User.get(user_id)
-    dataset = Package.get(dataset_id)
-    stream_access = False
-
-    if not user:
-        stream_access = False
-    
-    if not dataset:
-        raise ValueError(f"Dataset dengan ID {dataset_id} tidak ditemukan.")
-    
-    # Jika pengguna adalah sysadmin, beri akses
-    if user:
-        if user.sysadmin:
-            stream_access = True
-    
-        # Jika pengguna adalah creator dari dataset, beri akses
-        if user.id == dataset.creator_user_id:
-            stream_access = True
-    
-        # Jika dataset private, cek kapasitas user di organisasi terkait
-        if dataset.private:
-            # Ambil grup dari dataset
-            groups = dataset.get_groups()
-            for group in groups:
-                # Ambil grup terkait dengan dataset
-                print(user.id, user.name ,group.id, group.name)
-                capacities = get_username_capacity(user.name, group.id)
-                print(capacities)
-                if capacities:
-                    capacity = capacities[0].get('capacity', None)
-                    if capacity in ['admin', 'editor', 'member']:
-                        stream_access = True
-
-    return stream_access
 
 def list_organizations():
     session = meta.Session
