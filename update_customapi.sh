@@ -12,7 +12,7 @@ REPO_URL="https://repo.tech-dev.id/sdi/ckan/ckanext-customapi.git"
 CONTAINER_NAME="ckan"
 
 # Path ke direktori ekstensi di dalam container
-EXT_PATH="/srv/app/ext_2024/ckanext-customapi"
+EXT_PATH="/srv/app/ckanext-customapi"
 
 # Pengecekan dan clone di dalam container, serta pembaruan
 docker exec "$CONTAINER_NAME" bash -c "

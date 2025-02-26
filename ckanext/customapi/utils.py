@@ -198,7 +198,7 @@ def get_admin_organization(org_name):
             "user_id": row[1],
             "user_name": row[0],
             "email": row[2],
-            "organization_name": row[3],
+            "org_name": row[3],
             "capacity": row[4]
         }
         for row in result
