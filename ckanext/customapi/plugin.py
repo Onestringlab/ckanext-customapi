@@ -485,6 +485,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Mengirim permintaan ke Solr
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
+                print(solr_url)
 
                 # Parsing data dari respon JSON
                 data = response.json()
