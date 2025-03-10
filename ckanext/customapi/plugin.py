@@ -485,7 +485,6 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 # Mengirim permintaan ke Solr
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
-                print(solr_url)
 
                 # Parsing data dari respon JSON
                 data = response.json()
@@ -507,8 +506,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 ]
                 return jsonify({"success": True, "datasets": datasets})
 
-            except requests.RequestException as e:
-                print(f"Error fetching similar datasets: {e}")
+            except Exception as e:
                 return jsonify({"success": False, "error": f"{str(e)}"})
 
 
