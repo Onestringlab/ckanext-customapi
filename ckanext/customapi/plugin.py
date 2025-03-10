@@ -507,7 +507,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "datasets": datasets})
 
             except Exception as e:
-                return jsonify({"success": False, "error": str(e)})
+                return jsonify({"success": False, "error": str(e)}), 500
 
 
         #------------------------------------------------ collaborator ------------------------------------------------#
