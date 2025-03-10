@@ -293,7 +293,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 
                 return jsonify({"success": True, "data": result})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-data-organizations', methods=['POST'])
         def get_data_organizations():
@@ -301,7 +301,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 data = list_organizations()
                 return jsonify({"success": True, "data": data})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-stream-dataset', methods=['POST'])
         def get_stream_dataset():
@@ -341,7 +341,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-stream-organizations', methods=['POST'])
         def get_stream_organizations():
@@ -383,7 +383,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"success": True, "email": email, "data": response})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-organizations', methods=['POST'])
         def get_organization():
@@ -410,7 +410,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"success": True, "email": email, "data": response, "total_item": total_item, "offset": offset})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-organization-show', methods=['POST'])
         def get_organization_show():
@@ -449,7 +449,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 
                 return jsonify({"success": True, "email": email, "data": response, "has_stream": is_stream, "has_admin": is_admin})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
         def get_similar_datasets():
@@ -507,7 +507,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 return jsonify({"success": True, "datasets": datasets})
 
             except Exception as e:
-                return jsonify({"success": False, "error": f"{str(e)}"})
+                return jsonify({"success": False, "error": str(e)}), 500
 
 
         #------------------------------------------------ collaborator ------------------------------------------------#
@@ -534,7 +534,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"Success": True, "data": data, "package_id": package_id})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/set-add-package-collaborator', methods=['POST'])
         def set_add_package_collaborator():
@@ -563,7 +563,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"Success": False})
                 
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
         
         @blueprint_customapi.route('/set-update-package-collaborator', methods=['POST'])
         def set_update_package_collaborator():
@@ -591,7 +591,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"Success": False})
             
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/set-delete-package-collaborator', methods=['POST'])
         def set_delete_package_collaborator():
@@ -618,7 +618,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     return jsonify({"Success": False})
 
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         #------------------------------------ organization member ------------------------------------#
         @blueprint_customapi.route('/get-member-list', methods=['POST'])
@@ -659,7 +659,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"Success": True, "data": enriched_data})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/get-member-show', methods=['POST'])
         def get_member_show():
@@ -703,7 +703,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"Success": is_admin, "data": member, "has_admin": is_admin})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/set-add-member', methods=['POST'])
         def set_add_member():
@@ -736,7 +736,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     response = get_action('member_create')(context, params)
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/set-update-member', methods=['POST'])
         def set_update_member():
@@ -770,7 +770,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         @blueprint_customapi.route('/set-delete-member', methods=['POST'])
         def set_delete_member():
@@ -803,7 +803,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                 return jsonify({"Success": is_admin, "data": params, "has_admin": is_admin})
             except Exception as e:
-                return jsonify({"error": f"{str(e)}"}), 400
+                return jsonify({"success": False, "error": str(e)}), 500
 
         return blueprint_customapi
         
@@ -844,7 +844,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         #         return jsonify({"success": True, "email": email, "data": response})
         #     except Exception as e:
-        #         return jsonify({"error": f"{str(e)}"}), 400
+        #         return jsonify({"success": False, "error": str(e)}), 500
 
        
     
