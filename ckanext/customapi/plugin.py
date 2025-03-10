@@ -42,7 +42,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     def get_blueprint(self):
         log = logging.getLogger(__name__)
 
-        # Method untuk mendaftarkan Blueprint. aa
+        # Method untuk mendaftarkan Blueprint.
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
         @blueprint_customapi.route('/welcome-api', methods=['GET'])
@@ -453,35 +453,35 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
         @blueprint_customapi.route('/get-similar-datasets', methods=['POST'])
         def get_similar_datasets():
-            solr_url = tk.config.get('ckanext.customapi.solr_url', environ.get('CKANEXT__CUSTOMAPI__SOLR_URL'))
-            payload = request.get_json()
-            dataset_id = payload.get('dataset_id')
-            mlt_fl = payload.get('mlt_fl','title')
-            mlt_match_include = payload.get('mlt_match_include', "false")
-            mlt_mintf = int(payload.get('mlt_mintf',1))
-            rows = int(payload.get('rows', 3))
-
-            params = {
-                "mlt.fl": mlt_fl,
-                "mlt.match.include": mlt_match_include,
-                "mlt.mintf": mlt_mintf,
-                "q": f"id:{dataset_id}",
-                "rows": rows
-            }
-            
-            solr_url = solr_url + '/solr/ckan/mlt'
-
-            email = "anonymous@somedomain.com"
-            username = "anonymous"
-            token = request.headers.get("Authorization")
-            if token:
-                if not token.startswith("Bearer "):
-                    return jsonify({"error": "Invalid authorization format"}), 400
-                token_value = token.split(" ", 1)[1]
-                _, email = get_username(token_value)
-                username = email.split('@')[0]
-
             try:
+                solr_url = tk.config.get('ckanext.customapi.solr_url', environ.get('CKANEXT__CUSTOMAPI__SOLR_URL'))
+                payload = request.get_json()
+                dataset_id = payload.get('dataset_id')
+                mlt_fl = payload.get('mlt_fl','title')
+                mlt_match_include = payload.get('mlt_match_include', "false")
+                mlt_mintf = int(payload.get('mlt_mintf',1))
+                rows = int(payload.get('rows', 3))
+
+                params = {
+                    "mlt.fl": mlt_fl,
+                    "mlt.match.include": mlt_match_include,
+                    "mlt.mintf": mlt_mintf,
+                    "q": f"id:{dataset_id}",
+                    "rows": rows
+                }
+                
+                solr_url = solr_url + '/solr/ckan/mlt'
+
+                email = "anonymous@somedomain.com"
+                username = "anonymous"
+                token = request.headers.get("Authorization")
+                if token:
+                    if not token.startswith("Bearer "):
+                        return jsonify({"error": "Invalid authorization format"}), 400
+                    token_value = token.split(" ", 1)[1]
+                    _, email = get_username(token_value)
+                    username = email.split('@')[0]
+
                 # Mengirim permintaan ke Solr
                 response = requests.get(solr_url, params=params)
                 response.raise_for_status()
@@ -509,7 +509,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
             except requests.RequestException as e:
                 print(f"Error fetching similar datasets: {e}")
-                return jsonify({"success": False})
+                return jsonify({"success": False, "error": f"{str(e)}"})
 
 
         #------------------------------------------------ collaborator ------------------------------------------------#
