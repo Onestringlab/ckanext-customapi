@@ -42,7 +42,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
     def get_blueprint(self):
         log = logging.getLogger(__name__)
 
-        # Method untuk mendaftarkan Blueprint.
+        # Method untuk mendaftarkan Blueprint. aa
         blueprint_customapi = Blueprint('customapi', __name__,url_prefix='/api/1/custom')
 
         @blueprint_customapi.route('/welcome-api', methods=['GET'])
