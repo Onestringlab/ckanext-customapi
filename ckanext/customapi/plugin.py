@@ -270,7 +270,12 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action("package_show")(context, params)
                 
                 for resource in response.get("resources", []):
-                    resource["download"] = resource["url"]
+                    s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
+                    s3_hostname = tk.config.get('ckanext.s3filestore.host_name', environ.get('CKANEXT__S3FILESTORE__HOST_NAME'))
+                    if(resource["url"].startwith(s3_hostname)):
+                        resource["download"] = s3_hostname
+                    else:
+                        resource["download"] = resource["url"]
 
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
