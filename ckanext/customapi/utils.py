@@ -2,9 +2,13 @@ import jwt
 import datetime
 import requests
 
+from os import environ
+from urllib.parse import urlparse
+
 from flask import jsonify
 from sqlalchemy import or_
 from ckan.logic import get_action
+from ckan.plugins import toolkit as tk
 from ckan.model import Package, User, Group, Member, meta
 
 def query_custom(query, params=None):
@@ -732,4 +736,23 @@ def search_username(username):
     ]
 
     return users
+
+def get_download(resource_url, resource_id):
+    url = resource_url.strip()
+    parsed_url = urlparse(url)
+    s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
+    s3_host_name = tk.config.get('ckanext.s3filestore.host_name', environ.get('CKANEXT__S3FILESTORE__HOST_NAME'))
+    s3_host_ckan = tk.config.get('ckanext.s3filestore.host_ckan', environ.get('CKANEXT__S3FILESTORE__HOST_CKAN'))
+    s3_aws_bucket_name = tk.config.get('ckanext.s3filestore.aws_bucket_name', environ.get('CKANEXT__S3FILESTORE__AWS_BUCKET_NAME'))
+    s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
+
+    if parsed_url.netloc in [urlparse(s3_host_ckan).netloc, "katalog.data.go.id"]:
+        filename = resource_url.split("/")[-1]
+        download = f"{s3_host_name}/{s3_aws_bucket_name}/{s3_aws_storage_path}/resources/{resource_id}/{filename}"
+    else:
+        download = resource_url
+    
+    return download
+
+
 

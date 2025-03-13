@@ -9,7 +9,6 @@ from os import environ
 from ckan.common import config
 from ckan.logic import get_action
 from ckan.plugins import toolkit as tk
-from urllib.parse import urlparse
 from flask import Blueprint, jsonify, request, make_response
 
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
@@ -19,7 +18,7 @@ from ckanext.customapi.utils import get_count_dataset_organization, get_sysadmin
 
 from ckanext.customapi.utils import package_collaborator_org_list, add_package_collaborator
 from ckanext.customapi.utils import update_package_collaborator, delete_package_collaborator,search_username
-from ckanext.customapi.utils import has_package_admin, has_package_stream
+from ckanext.customapi.utils import has_package_admin, has_package_stream, get_download
 
 class CustomapiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
@@ -271,20 +270,8 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action("package_show")(context, params)
                 
                 for resource in response.get("resources", []):
-                    s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
-                    s3_host_name = tk.config.get('ckanext.s3filestore.host_name', environ.get('CKANEXT__S3FILESTORE__HOST_NAME'))
-                    s3_host_ckan = tk.config.get('ckanext.s3filestore.host_ckan', environ.get('CKANEXT__S3FILESTORE__HOST_CKAN'))
-                    s3_aws_bucket_name = tk.config.get('ckanext.s3filestore.aws_bucket_name', environ.get('CKANEXT__S3FILESTORE__AWS_BUCKET_NAME'))
-                    s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
-
-                    url = resource["url"].strip()
-                    parsed_url = urlparse(url)
-                    if parsed_url.netloc in [urlparse(s3_host_ckan).netloc, "katalog.data.go.id"]:
-                        filename = resource["url"].split("/")[-1]
-                        resource["download"] = f"{s3_host_name}/{s3_aws_bucket_name}/{s3_aws_storage_path}/resources/{resource['id']}/{filename}"
-                    else:
-                        resource["download"] = resource["url"]
-
+                    resource["download"] =  get_download(resource["url"], resource["id"])
+            
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
                 response.update({"admin_organization": get_admin_organization(response["organization"]["name"])})
