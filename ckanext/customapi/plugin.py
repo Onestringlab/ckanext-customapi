@@ -268,7 +268,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 context = {'ignore_auth': True}
 
                 response = get_action("package_show")(context, params)
-                print(response)
+                
+                for resource in response.get("resources", []):
+                    resource["download"] = resource["url"]
+
                 response.update({"sysadmin": get_sysadmin()})
                 response.update({"creator_profile": get_profile_by_id(response["creator_user_id"])})
                 response.update({"admin_organization": get_admin_organization(response["organization"]["name"])})
