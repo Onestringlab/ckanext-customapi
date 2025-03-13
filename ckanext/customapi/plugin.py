@@ -278,8 +278,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
 
                     if(resource["url"].startswith(s3_host_ckan)):
                         filename = resource["url"].split("/")[-1]
-                        resource["download"] = s3_host_name + '/'+ s3_aws_bucket_name + '/'+s3_aws_storage_path + '/resources/' + resource["id"]
-                        resource["download"] += '/' + filename
+                        resource["download"] = f"{s3_host_name}/{s3_aws_bucket_name}/{s3_aws_storage_path}/resources/{resource['id']}/{filename}"
                     else:
                         resource["download"] = resource["url"]
 
