@@ -277,7 +277,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                     s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
 
                     if(resource["url"].startswith(s3_host_ckan)):
-                        resource["download"] = s3_host_name + '/'+ s3_aws_bucket_name + '/'+s3_aws_storage_path
+                        resource["download"] = s3_host_name + '/'+ s3_aws_bucket_name + '/'+s3_aws_storage_path + '/resources/' + resource["id"]
                     else:
                         resource["download"] = resource["url"]
 
