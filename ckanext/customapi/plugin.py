@@ -270,9 +270,10 @@ class CustomapiPlugin(plugins.SingletonPlugin):
                 response = get_action("package_show")(context, params)
                 
                 for resource in response.get("resources", []):
+                    # s3_host_ckan = tk.config.get('ckanext.s3filestore.host_ckan', environ.get('CKANEXT__S3FILESTORE__HOST_CKAN'))
+                    s3_host_ckan = tk.request.host_url.rstrip('/')
                     s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
                     s3_host_name = tk.config.get('ckanext.s3filestore.host_name', environ.get('CKANEXT__S3FILESTORE__HOST_NAME'))
-                    s3_host_ckan = tk.config.get('ckanext.s3filestore.host_ckan', environ.get('CKANEXT__S3FILESTORE__HOST_CKAN'))
                     s3_aws_bucket_name = tk.config.get('ckanext.s3filestore.aws_bucket_name', environ.get('CKANEXT__S3FILESTORE__AWS_BUCKET_NAME'))
                     s3_aws_storage_path = tk.config.get('ckanext.s3filestore.aws_storage_path', environ.get('CKANEXT__S3FILESTORE__AWS_STORAGE_PATH'))
 
