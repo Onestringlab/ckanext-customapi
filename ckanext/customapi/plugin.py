@@ -1,15 +1,13 @@
 import jwt
 import logging
 import requests
-from datetime import datetime
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
 from os import environ
-from ckan.common import config
 from ckan.logic import get_action
 from ckan.plugins import toolkit as tk
-from flask import Blueprint, jsonify, request, make_response
+from flask import Blueprint, jsonify, request
 
 from ckanext.customapi.utils import get_profile_by_username, get_username_capacity
 from ckanext.customapi.utils import list_organizations, get_profile_by_id, get_organizations_query
