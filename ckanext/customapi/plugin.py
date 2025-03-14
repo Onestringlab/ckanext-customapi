@@ -48,7 +48,7 @@ class CustomapiPlugin(plugins.SingletonPlugin):
             """
             Route untuk /welcome_api
             """
-            message = "Welcome to the Custom API 14.01-03!"
+            message = "Welcome to the Custom API 14.02-03!"
             log.info(f'message:{message}')
 
             # Buat respons JSON

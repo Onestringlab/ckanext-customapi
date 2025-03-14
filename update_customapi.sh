@@ -5,8 +5,10 @@ git add .
 git commit -m "$COMMIT_MESSAGE"
 git push -u origin master
 
+sleep 30
+
 # URL repository
-REPO_URL="https://repo.tech-dev.id/sdi/ckan/ckanext-customapi.git"
+REPO_URL="https://gitlab.data.go.id/sdi-2024/ckanext-custom-api.git"
 
 # Nama container Docker
 CONTAINER_NAME="ckan"
